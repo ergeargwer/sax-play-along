@@ -1,10 +1,11 @@
 /* style.css -- 中音薩克斯風演奏練習程式 現代化與譜面樣式 */
 
 :root {
-  --primary-color: #2b5876;
-  --secondary-color: #4e4376;
+  --primary-color: #1e3c72;
+  --secondary-color: #2a5298;
   --accent-color: #e67e22;
-  --bg-gradient: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
+  --success-color: #27ae60;
+  --danger-color: #e74c3c;
   --card-bg: rgba(255, 255, 255, 0.95);
   --text-dark: #2c3e50;
   --border-radius: 12px;
@@ -136,8 +137,38 @@ body {
   color: #1e3c72;
 }
 
+/* 預備拍大字倒數 Overlay */
+.countin-overlay {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  background: rgba(30, 60, 114, 0.85);
+  color: #ffffff;
+  padding: 2rem 4rem;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  animation: popIn 0.2s ease;
+}
+
+.countin-number {
+  font-size: 5rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 2px;
+}
+
+@keyframes popIn {
+  from { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
 /* VexFlow 譜面容器 */
-#score-container {
+.score-wrapper {
+  position: relative;
   background: #ffffff;
   border-radius: var(--border-radius);
   padding: 1.2rem;
@@ -150,6 +181,109 @@ body {
 #score-container svg {
   display: block;
   margin: 0 auto;
+}
+
+/* VexFlow 音符高亮樣式 */
+.vf-stavenote.note-highlight path,
+.vf-stavenote.note-highlight rect,
+.vf-stavenote.note-highlight text {
+  fill: #e67e22 !important;
+  stroke: #d35400 !important;
+  stroke-width: 1px !important;
+  filter: drop-shadow(0px 2px 5px rgba(230, 126, 34, 0.7));
+}
+
+/* 控制面板 */
+.controls-panel {
+  background: #ffffff;
+  border-radius: var(--border-radius);
+  padding: 1.2rem;
+  margin-top: 1.2rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.buttons-group {
+  gap: 0.6rem;
+}
+
+.btn-control {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-control:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-play {
+  background: linear-gradient(90deg, #27ae60 0%, #2ecc71 100%);
+  color: #fff;
+}
+
+.btn-play:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.btn-pause {
+  background: linear-gradient(90deg, #f39c12 0%, #f1c40f 100%);
+  color: #fff;
+}
+
+.btn-pause:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.btn-stop {
+  background: linear-gradient(90deg, #c0392b 0%, #e74c3c 100%);
+  color: #fff;
+}
+
+.btn-stop:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.tempo-group {
+  font-size: 0.95rem;
+}
+
+.tempo-group input[type="range"] {
+  width: 130px;
+  cursor: pointer;
+}
+
+.loop-group {
+  font-size: 0.95rem;
+}
+
+.loop-group select {
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
 }
 
 #app-footer {

@@ -1,12 +1,10 @@
 /**
- * score.js -- VexFlow 譜面繪製與音符標記
+ * score.js -- VexFlow 譜面繪製、音符座標定位與高亮顯示
  *
- * 階段 2 實作:
- * 1. 使用 static/vendor/vexflow.js 本地副本（無 CDN 依賴）
- * 2. 高音譜號,依寫定調顯示調號與拍號,按小節排列,寬度隨容器自適應
- * 3. 譜面音符下方加註寫定音名與簡譜（如 "A4 / 1"）
- * 4. 休止符在譜面上正確顯示 ("R / 0")
- * 5. 視窗 resize 時重繪譜面（使用 debounce 防止頻繁重繪）
+ * 階段 3 擴充:
+ * 1. 繪製音符時紀錄 SVG 節點與座標資訊
+ * 2. 提供 highlightNoteByIndex(noteIndex) 高亮特定音符/休止符並移動游標
+ * 3. 提供 clearHighlights() 清除高亮與游標
  */
 
 import {
@@ -28,6 +26,11 @@ let resizeTimer = null;
 /** 視窗 resize 監聽器是否已綁定 */
 let resizeListenerBound = false;
 
+/** 快取繪製完成的音符 SVG 節點與座標資訊 */
+let renderedNotesCache = [];
+/** 當前高亮之音符索引 */
+let currentHighlightedIndex = -1;
+
 /**
  * 防抖動函式 (Debounce)
  * @param {Function} fn - 欲執行的函式
@@ -42,21 +45,22 @@ function debounce(fn, delay = 200) {
 }
 
 /**
- * 將旋律音符按小節分組。
+ * 將旋律音符按小節分組，同時保留原始全域索引
  *
  * @param {Array} melody - 曲目的旋律陣列 [{ start, dur, midi }, ...]
  * @param {number} totalMeasures - 總小節數
  * @param {number} beatsPerMeasure - 每小節拍數
- * @returns {Array<Array>} 每小節的音符陣列
+ * @returns {Array<Array>} 每小節的音符陣列 (含 globalIndex)
  */
 function groupNotesByMeasure(melody, totalMeasures, beatsPerMeasure) {
   const measures = Array.from({ length: totalMeasures }, () => []);
 
   if (Array.isArray(melody)) {
-    for (const note of melody) {
+    for (let i = 0; i < melody.length; i++) {
+      const note = melody[i];
       const mIdx = Math.floor(note.start / beatsPerMeasure);
       if (mIdx >= 0 && mIdx < totalMeasures) {
-        measures[mIdx].push(note);
+        measures[mIdx].push({ ...note, globalIndex: i });
       }
     }
   }
@@ -68,6 +72,7 @@ function groupNotesByMeasure(melody, totalMeasures, beatsPerMeasure) {
         start: i * beatsPerMeasure,
         dur: beatsPerMeasure,
         midi: 0,
+        globalIndex: -1,
       });
     }
   }
@@ -78,7 +83,7 @@ function groupNotesByMeasure(melody, totalMeasures, beatsPerMeasure) {
 /**
  * 繪製樂譜 (VexFlow)
  *
- * @param {Object} song - 階段 1 資料結構的曲目物件
+ * @param {Object} song - 曲目物件
  * @param {string | HTMLElement} [containerTarget='score-container'] - 放置譜面的 DOM 元素或 ID
  */
 export function renderScore(song, containerTarget = 'score-container') {
@@ -88,6 +93,8 @@ export function renderScore(song, containerTarget = 'score-container') {
 
   currentSongData = song;
   currentContainerTarget = containerTarget;
+  renderedNotesCache = [];
+  currentHighlightedIndex = -1;
 
   // 取得 DOM 容器
   const container = typeof containerTarget === 'string'
@@ -134,7 +141,6 @@ export function renderScore(song, containerTarget = 'score-container') {
 
   // 容器寬度計算
   const containerWidth = Math.max(340, container.clientWidth - 16);
-  // 每小節最小寬度 200px
   const minMeasureWidth = 210;
   const measuresPerLine = Math.max(1, Math.floor(containerWidth / minMeasureWidth));
 
@@ -151,8 +157,27 @@ export function renderScore(song, containerTarget = 'score-container') {
   const renderer = new VF.Renderer(container, VF.Renderer.Backends.SVG);
   renderer.resize(containerWidth, totalHeight);
   const context = renderer.getContext();
+  const svgSvg = container.querySelector('svg');
 
-  // 逐步繪製各行與小節
+  // 建立垂直播放游標線
+  let cursorLine = null;
+  if (svgSvg) {
+    cursorLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    cursorLine.setAttribute('id', 'score-cursor');
+    cursorLine.setAttribute('class', 'score-cursor');
+    cursorLine.setAttribute('x1', '0');
+    cursorLine.setAttribute('y1', '0');
+    cursorLine.setAttribute('x2', '0');
+    cursorLine.setAttribute('y2', '0');
+    cursorLine.style.display = 'none';
+    cursorLine.style.stroke = '#e67e22';
+    cursorLine.style.strokeWidth = '3px';
+    cursorLine.style.strokeLinecap = 'round';
+    cursorLine.style.opacity = '0.95';
+    cursorLine.style.pointerEvents = 'none';
+    svgSvg.appendChild(cursorLine);
+  }
+
   let globalMeasureIndex = 0;
 
   rows.forEach((lineMeasures, rowIndex) => {
@@ -169,7 +194,6 @@ export function renderScore(song, containerTarget = 'score-container') {
       if (colIndex === 0) {
         stave.addClef('treble');
         stave.addKeySignature(vexKeySig);
-        // 第一行第一個小節加註拍號
         if (rowIndex === 0) {
           stave.addTimeSignature(`${beatsPerMeasure}/${beatValue}`);
         }
@@ -177,7 +201,6 @@ export function renderScore(song, containerTarget = 'score-container') {
 
       stave.setContext(context).draw();
 
-      // 建立該小節的 VexFlow StaveNote 列表
       const vfNotes = [];
 
       for (const item of measureNotes) {
@@ -197,12 +220,10 @@ export function renderScore(song, containerTarget = 'score-container') {
           duration: durStr,
         });
 
-        // 若為附點音符,加上 Dot 裝飾
         if (durStr.includes('d')) {
           VF.Dot.buildAndAttach([staveNote]);
         }
 
-        // 音符下方加註寫定音名與簡譜
         let annotationText = '';
         if (isRest) {
           annotationText = 'R / 0';
@@ -220,7 +241,6 @@ export function renderScore(song, containerTarget = 'score-container') {
         vfNotes.push(staveNote);
       }
 
-      // 建立 Voice 與 Formatter
       try {
         const voice = new VF.Voice({
           num_beats: beatsPerMeasure,
@@ -229,7 +249,6 @@ export function renderScore(song, containerTarget = 'score-container') {
         voice.setStrict(false);
         voice.addTickables(vfNotes);
 
-        // 自動對齊音符與升降記號
         VF.Accidental.applyAccidentals([voice], vexKeySig);
 
         const formatter = new VF.Formatter();
@@ -238,6 +257,26 @@ export function renderScore(song, containerTarget = 'score-container') {
         formatter.joinByTicks([voice]).format([voice], availableWidth);
 
         voice.draw(context, stave);
+
+        // 紀錄音符 SVG 節點與座標資訊
+        vfNotes.forEach((staveNote, idx) => {
+          const noteItem = measureNotes[idx];
+          if (noteItem && noteItem.globalIndex >= 0) {
+            const svgElem = staveNote.getSVGElement ? staveNote.getSVGElement() : null;
+            const x = staveNote.getAbsoluteX();
+            const yTop = stave.getYForLine(0) - 20;
+            const yBottom = stave.getYForLine(4) + 30;
+
+            renderedNotesCache[noteItem.globalIndex] = {
+              noteIndex: noteItem.globalIndex,
+              svgElement: svgElem,
+              x,
+              yTop,
+              yBottom,
+              measureIndex: globalMeasureIndex,
+            };
+          }
+        });
       } catch (err) {
         console.error(`小節 ${globalMeasureIndex + 1} 繪製失敗:`, err);
       }
@@ -245,4 +284,58 @@ export function renderScore(song, containerTarget = 'score-container') {
       globalMeasureIndex++;
     });
   });
+}
+
+/**
+ * 清除所有音符高亮與游標
+ */
+export function clearHighlights() {
+  renderedNotesCache.forEach((item) => {
+    if (item && item.svgElement) {
+      item.svgElement.classList.remove('note-highlight');
+    }
+  });
+
+  const cursorLine = document.getElementById('score-cursor');
+  if (cursorLine) {
+    cursorLine.style.display = 'none';
+  }
+
+  currentHighlightedIndex = -1;
+}
+
+/**
+ * 高亮特定音符並將游標移動至該位置
+ *
+ * @param {number} noteIndex - 旋律中的音符全域索引
+ */
+export function highlightNoteByIndex(noteIndex) {
+  if (noteIndex === currentHighlightedIndex) {
+    return;
+  }
+
+  // 先清除舊高亮
+  clearHighlights();
+
+  const item = renderedNotesCache[noteIndex];
+  if (!item) {
+    return;
+  }
+
+  currentHighlightedIndex = noteIndex;
+
+  // 加上高亮 Class (CSS 定義樣式)
+  if (item.svgElement) {
+    item.svgElement.classList.add('note-highlight');
+  }
+
+  // 更新 SVG 游標位置
+  const cursorLine = document.getElementById('score-cursor');
+  if (cursorLine) {
+    cursorLine.setAttribute('x1', item.x.toString());
+    cursorLine.setAttribute('x2', item.x.toString());
+    cursorLine.setAttribute('y1', item.yTop.toString());
+    cursorLine.setAttribute('y2', item.yBottom.toString());
+    cursorLine.style.display = 'block';
+  }
 }
