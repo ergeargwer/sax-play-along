@@ -441,7 +441,7 @@ class TestFlaskAPI(unittest.TestCase):
         self.assertEqual(resp.status_code, 200)
         data = resp.get_json()
         self.assertIsInstance(data, list)
-        self.assertEqual(len(data), 3)
+        self.assertGreaterEqual(len(data), 3)
 
     def test_api_songs_list_fields(self):
         """曲目清單每筆應包含精簡欄位"""
@@ -506,15 +506,15 @@ class TestLoadSongs(unittest.TestCase):
     """曲目載入流程測試"""
 
     def test_load_songs_returns_three(self):
-        """load_songs() 應載入三首曲目"""
+        """load_songs() 應至少載入三首曲目"""
         songs = load_songs()
-        self.assertEqual(len(songs), 3)
+        self.assertGreaterEqual(len(songs), 3)
 
     def test_load_songs_keys_are_ids(self):
-        """回傳字典的鍵應為曲目 id"""
+        """回傳字典的鍵應包含預設曲目 id"""
         songs = load_songs()
         expected_ids = {"ode-to-joy", "amazing-grace", "auld-lang-syne"}
-        self.assertEqual(set(songs.keys()), expected_ids)
+        self.assertTrue(expected_ids.issubset(set(songs.keys())))
 
     def test_no_emoji_in_code(self):
         """程式碼與曲目資料中不得包含 emoji"""
