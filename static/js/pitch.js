@@ -269,12 +269,8 @@ export function midiToJianpu(midi, key) {
     throw new Error(`無法取得調性 '${key}' 的 pitch class`);
   }
 
-  // 基準主音 MIDI:選擇 C4(60) 附近的主音
-  // 若 pitchClass > 5（如 A=9,B=11）,放在八度 3 較自然
-  // 否則放在八度 4
-  const referenceTonic = tonicPitchClass > 5
-    ? 48 + tonicPitchClass   // 八度 3（如 A3=57）
-    : 60 + tonicPitchClass;  // 八度 4（如 C4=60, D4=62）
+  // 基準主音 MIDI: 寫定調第 4 八度的主音（60 + tonicPitchClass）
+  const referenceTonic = 60 + tonicPitchClass;
 
   // 計算與基準主音的間距
   const interval = midi - referenceTonic;
