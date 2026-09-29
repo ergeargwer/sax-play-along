@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="中音薩克斯風演奏練習程式 - 含譜面顯示、節奏引導與多音軌伴奏">
+  <title>中音薩克斯風演奏練習</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <header id="app-header">
+    <h1>中音薩克斯風演奏練習</h1>
+  </header>
+
+  <main id="app-main">
+    <!-- 曲目清單區 -->
+    <section id="song-list-section">
+      <h2>曲目清單</h2>
+      <div id="song-list" class="song-list">
+        <!-- 由 JavaScript 動態產生 -->
+      </div>
+    </section>
+
+    <!-- 練習頁區(預設隱藏) -->
+    <section id="practice-section" style="display: none;">
+      <div id="practice-header">
+        <button id="btn-back" type="button">返回清單</button>
+        <h2 id="practice-title"></h2>
+      </div>
+      <div id="score-container">
+        <!-- VexFlow 譜面繪製區 -->
+      </div>
+      <div id="controls">
+        <!-- 播放控制列 -->
+      </div>
+      <div id="track-panel">
+        <!-- 軌道面板 -->
+      </div>
+    </section>
+  </main>
+
+  <footer id="app-footer">
+    <p>sax-play-along -- 階段 1 骨架</p>
+  </footer>
+
+  <script src="/static/vendor/vexflow.js"></script>
+  <script type="module" src="/static/js/main.js"></script>
+</body>
+</html>
