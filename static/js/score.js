@@ -228,8 +228,10 @@ export function renderScore(song, containerTarget = 'score-container') {
           duration: durStr,
         });
 
-        if (durStr.includes('d')) {
-          VF.Dot.buildAndAttach([staveNote]);
+        if (durStr.includes('d') && (typeof staveNote.getModifiers !== 'function' || staveNote.getModifiers().length === 0)) {
+          if (typeof VF.Dot?.buildAndAttach === 'function') {
+            VF.Dot.buildAndAttach([staveNote]);
+          }
         }
 
         let annotationText = '';
@@ -262,7 +264,12 @@ export function renderScore(song, containerTarget = 'score-container') {
         const formatter = new VF.Formatter();
         const minPadding = stave.getNoteStartX() - stave.getX();
         const availableWidth = lineMeasureWidth - minPadding - 10;
-        formatter.joinByTicks([voice]).format([voice], availableWidth);
+        if (typeof formatter.joinVoices === 'function') {
+          formatter.joinVoices([voice]);
+        } else if (typeof formatter.joinByTicks === 'function') {
+          formatter.joinByTicks([voice]);
+        }
+        formatter.format([voice], availableWidth);
 
         voice.draw(context, stave);
 
