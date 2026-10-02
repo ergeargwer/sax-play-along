@@ -286,6 +286,158 @@ body {
   cursor: pointer;
 }
 
+/* 多音軌控制面板 (階段 4) */
+#track-panel {
+  background: #ffffff;
+  border-radius: var(--border-radius);
+  padding: 1.2rem;
+  margin-top: 1.2rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid #e2e8f0;
+}
+
+.track-panel-title {
+  font-size: 1.15rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #edf2f7;
+  padding-bottom: 0.4rem;
+}
+
+.track-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.track-card {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 0.9rem;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.track-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.track-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.track-title-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.track-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-dark);
+}
+
+.track-status {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-weight: 600;
+  display: inline-block;
+  align-self: flex-start;
+}
+
+.status-active {
+  background: #e6fffa;
+  color: #234e52;
+  border: 1px solid #b2f5ea;
+}
+
+.status-muted {
+  background: #fff5f5;
+  color: #9b2c2c;
+  border: 1px solid #feb2b2;
+}
+
+.status-solo {
+  background: #fffff0;
+  color: #975a16;
+  border: 1px solid #fefcbf;
+}
+
+.status-dimmed {
+  background: #edf2f7;
+  color: #718096;
+  border: 1px solid #e2e8f0;
+}
+
+.track-btn-group {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.btn-track-toggle {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #64748b;
+  font-weight: 800;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-track-toggle:hover {
+  background: #f1f5f9;
+}
+
+.btn-mute.active {
+  background: var(--danger-color);
+  color: #ffffff;
+  border-color: var(--danger-color);
+  box-shadow: 0 2px 6px rgba(231, 76, 60, 0.4);
+}
+
+.btn-solo.active {
+  background: #f39c12;
+  color: #ffffff;
+  border-color: #f39c12;
+  box-shadow: 0 2px 6px rgba(243, 156, 18, 0.4);
+}
+
+.track-volume-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.track-vol-slider {
+  flex: 1;
+  accent-color: var(--secondary-color);
+  cursor: pointer;
+}
+
+.vol-value-text {
+  font-weight: 600;
+  width: 36px;
+  text-align: right;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
 #app-footer {
   text-align: center;
   padding: 1.2rem;

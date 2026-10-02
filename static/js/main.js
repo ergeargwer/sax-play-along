@@ -1,5 +1,5 @@
 /**
- * main.js -- 主進入點與事件綁定 (階段 3 節奏引導與排程器整合)
+ * main.js -- 主進入點與事件綁定 (階段 4 多音軌合成與控制面板整合)
  */
 
 import { fetchSongsList, fetchSongDetail } from './songLoader.js';
@@ -11,6 +11,7 @@ import {
   updatePlaybackButtons,
   updateCountInOverlay,
   updateTempoDisplay,
+  renderTrackPanel,
 } from './ui.js';
 
 import { renderScore } from './score.js';
@@ -114,8 +115,10 @@ async function initApp() {
         renderScore(currentSong, 'score-container');
         setupLoopSelects(currentSong.measures || 8);
 
-        // 初始化 Scheduler
+        // 初始化 Scheduler 與 TrackManager
         scheduler.init(currentSong);
+        renderTrackPanel(scheduler.trackManager, 'track-panel');
+
         updateTempoDisplay(1.0, currentSong.tempo || 120);
         updatePlaybackButtons(scheduler.state);
       } catch (err) {

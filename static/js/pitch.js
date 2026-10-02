@@ -322,24 +322,36 @@ export function getVexFlowKeySignature(key) {
  * @throws {Error} 無法對應的時值
  */
 export function durationToVexFlow(dur) {
-  // 常見時值對照
-  const map = {
-    4:    'w',     // 全音符
-    3:    'hd',    // 附點二分音符
-    2:    'h',     // 二分音符
-    1.5:  'qd',    // 附點四分音符
-    1:    'q',     // 四分音符
-    0.75: '8d',    // 附點八分音符
-    0.5:  '8',     // 八分音符
-    0.25: '16',    // 十六分音符
-  };
+  if (typeof dur !== 'number' || dur <= 0) {
+    throw new Error(`無法將 ${dur} 拍轉換為 VexFlow 時值`);
+  }
+  const map = [
+    { beats: 4.0,    vfDur: 'w'  },   // 全音符
+    { beats: 3.0,    vfDur: 'hd' },   // 附點二分音符
+    { beats: 2.0,    vfDur: 'h'  },   // 二分音符
+    { beats: 1.5,    vfDur: 'qd' },   // 附點四分音符
+    { beats: 1.0,    vfDur: 'q'  },   // 四分音符
+    { beats: 0.75,   vfDur: '8d' },   // 附點八分音符
+    { beats: 0.6667, vfDur: 'q'  },   // 三連音四分音符 (2/3 拍)
+    { beats: 0.5,    vfDur: '8'  },   // 八分音符
+    { beats: 0.3333, vfDur: '8'  },   // 三連音八分音符 (1/3 拍)
+    { beats: 0.25,   vfDur: '16' },   // 十六分音符
+    { beats: 0.1667, vfDur: '16' },   // 三連音十六分音符 (1/6 拍)
+    { beats: 0.125,  vfDur: '32' },   // 三十二分音符
+  ];
 
-  // 使用接近的時值（浮點容差）
-  for (const [beats, vfDur] of Object.entries(map)) {
-    if (Math.abs(dur - parseFloat(beats)) < 0.001) {
-      return vfDur;
+  for (const item of map) {
+    if (Math.abs(dur - item.beats) < 0.02) {
+      return item.vfDur;
     }
   }
 
-  throw new Error(`無法將 ${dur} 拍轉換為 VexFlow 時值`);
+  // 容錯判斷: 避免稍微不符時值直接崩潰
+  if (dur >= 3.5) return 'w';
+  if (dur >= 2.5) return 'hd';
+  if (dur >= 1.8) return 'h';
+  if (dur >= 1.3) return 'qd';
+  if (dur >= 0.8) return 'q';
+  if (dur >= 0.3) return '8';
+  return '16';
 }

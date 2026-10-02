@@ -1,5 +1,5 @@
 /**
- * ui.js -- UI 視圖切換、控制項維護與預備拍 Overlay
+ * ui.js -- UI 視圖切換、控制項維護、預備拍 Overlay 與音軌控制面板
  */
 
 import { PlaybackState } from './scheduler.js';
@@ -177,4 +177,156 @@ export function updateTempoDisplay(ratio, baseBpm) {
   const currentBpm = Math.round(baseBpm * ratio);
   const percent = Math.round(ratio * 100);
   display.textContent = `${percent}% (${currentBpm} BPM)`;
+}
+
+/**
+ * 渲染多音軌伴奏控制面板 (階段 4)
+ *
+ * @param {Object} trackManager - TrackManager 實體
+ * @param {string} [containerId='track-panel'] - 容器 DOM ID
+ */
+export function renderTrackPanel(trackManager, containerId = 'track-panel') {
+  const container = document.getElementById(containerId);
+  if (!container || !trackManager) return;
+
+  container.innerHTML = '';
+
+  const header = document.createElement('h3');
+  header.className = 'track-panel-title';
+  header.textContent = '音軌伴奏控制';
+  container.appendChild(header);
+
+  const grid = document.createElement('div');
+  grid.className = 'track-grid';
+
+  const tracks = trackManager.getAllTracks();
+
+  const updateTrackCardUI = () => {
+    const allTracks = trackManager.getAllTracks();
+    const anySoloed = allTracks.some((t) => t.isSolo && !t.isMuted);
+
+    tracks.forEach((t) => {
+      const card = grid.querySelector(`[data-track-id="${t.id}"]`);
+      if (!card) return;
+
+      const btnMute = card.querySelector('.btn-mute');
+      const btnSolo = card.querySelector('.btn-solo');
+      const statusBadge = card.querySelector('.track-status');
+
+      if (btnMute) {
+        btnMute.classList.toggle('active', t.isMuted);
+      }
+      if (btnSolo) {
+        btnSolo.classList.toggle('active', t.isSolo);
+      }
+
+      if (statusBadge) {
+        if (t.isMuted) {
+          statusBadge.textContent = '靜音';
+          statusBadge.className = 'track-status status-muted';
+        } else if (anySoloed && !t.isSolo) {
+          statusBadge.textContent = '被被動靜音';
+          statusBadge.className = 'track-status status-dimmed';
+        } else if (t.isSolo) {
+          statusBadge.textContent = '獨奏中';
+          statusBadge.className = 'track-status status-solo';
+        } else {
+          statusBadge.textContent = '播放中';
+          statusBadge.className = 'track-status status-active';
+        }
+      }
+    });
+  };
+
+  tracks.forEach((track) => {
+    const card = document.createElement('div');
+    card.className = 'track-card';
+    card.setAttribute('data-track-id', track.id);
+
+    // 卡片頂部資訊
+    const topRow = document.createElement('div');
+    topRow.className = 'track-card-header';
+
+    const titleContainer = document.createElement('div');
+    titleContainer.className = 'track-title-container';
+
+    const title = document.createElement('span');
+    title.className = 'track-name';
+    title.textContent = track.name;
+
+    const statusBadge = document.createElement('span');
+    statusBadge.className = 'track-status status-active';
+    statusBadge.textContent = '播放中';
+
+    titleContainer.appendChild(title);
+    titleContainer.appendChild(statusBadge);
+
+    // Mute / Solo 按鈕組
+    const btnGroup = document.createElement('div');
+    btnGroup.className = 'track-btn-group';
+
+    const btnMute = document.createElement('button');
+    btnMute.className = `btn-track-toggle btn-mute ${track.isMuted ? 'active' : ''}`;
+    btnMute.type = 'button';
+    btnMute.textContent = 'M';
+    btnMute.title = '靜音 (Mute)';
+    btnMute.addEventListener('click', () => {
+      trackManager.setMute(track.id);
+      updateTrackCardUI();
+    });
+
+    const btnSolo = document.createElement('button');
+    btnSolo.className = `btn-track-toggle btn-solo ${track.isSolo ? 'active' : ''}`;
+    btnSolo.type = 'button';
+    btnSolo.textContent = 'S';
+    btnSolo.title = '獨奏 (Solo)';
+    btnSolo.addEventListener('click', () => {
+      trackManager.setSolo(track.id);
+      updateTrackCardUI();
+    });
+
+    btnGroup.appendChild(btnMute);
+    btnGroup.appendChild(btnSolo);
+
+    topRow.appendChild(titleContainer);
+    topRow.appendChild(btnGroup);
+
+    // 音量控制列
+    const volRow = document.createElement('div');
+    volRow.className = 'track-volume-row';
+
+    const volLabel = document.createElement('label');
+    volLabel.textContent = '音量:';
+
+    const volSlider = document.createElement('input');
+    volSlider.type = 'range';
+    volSlider.className = 'track-vol-slider';
+    volSlider.min = '0.0';
+    volSlider.max = '1.0';
+    volSlider.step = '0.05';
+    volSlider.value = track.volume.toString();
+
+    const volVal = document.createElement('span');
+    volVal.className = 'vol-value-text';
+    volVal.textContent = `${Math.round(track.volume * 100)}%`;
+
+    volSlider.addEventListener('input', () => {
+      const val = parseFloat(volSlider.value);
+      trackManager.setVolume(track.id, val);
+      volVal.textContent = `${Math.round(val * 100)}%`;
+      updateTrackCardUI();
+    });
+
+    volRow.appendChild(volLabel);
+    volRow.appendChild(volSlider);
+    volRow.appendChild(volVal);
+
+    card.appendChild(topRow);
+    card.appendChild(volRow);
+
+    grid.appendChild(card);
+  });
+
+  container.appendChild(grid);
+  updateTrackCardUI();
 }

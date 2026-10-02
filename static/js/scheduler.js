@@ -1,12 +1,13 @@
 /**
- * scheduler.js -- Web Audio Lookahead 節拍排程器與跟譜控制
+ * scheduler.js -- Web Audio Lookahead 節拍排程器與跟譜控制 (階段 4 整合多音軌合成)
  *
  * 說明:
  * 1. 以 AudioContext.currentTime 為唯一時間基準
- * 2. 採 Lookahead 模式: 約 25 ms 定時檢查未來約 100 ms 內拍點事先排入 Web Audio
+ * 2. 採 Lookahead 模式: 約 25 ms 定時檢查未來約 100 ms 內拍點與伴奏音符事先排入 Web Audio
  * 3. 預備拍 (Count-in): 一小節大字倒數與短促點擊音
  * 4. 游標與音符高亮: requestAnimationFrame + 扣除音訊延遲 (outputLatency / baseLatency)
  * 5. 動態變速與小節循環: 變速時錨點重算保持拍位連續
+ * 6. 多音軌控制: 整合 TrackManager (旋律導奏、和弦、貝斯、節拍)
  */
 
 import {
@@ -20,6 +21,7 @@ import {
 } from './schedulerMath.js';
 
 import { highlightNoteByIndex, clearHighlights } from './score.js';
+import { TrackManager, getEventsInBeatWindow } from './tracks.js';
 
 export const PlaybackState = {
   IDLE: 'IDLE',
@@ -36,6 +38,9 @@ export class Scheduler {
   constructor(options = {}) {
     this.audioCtx = null;
     this.getAudioTimeOverride = options.getAudioTime || null;
+
+    // 音軌管理器
+    this.trackManager = new TrackManager();
 
     // 狀態
     this.state = PlaybackState.IDLE;
@@ -63,6 +68,7 @@ export class Scheduler {
 
     this.scheduledBeatEvents = [];
     this.nextBeatIndex = 0;
+    this.scheduledNoteKeys = new Set();
 
     // 回呼函式
     this.countInCallback = null;
@@ -105,6 +111,10 @@ export class Scheduler {
     this.loopStartMeasure = 1;
     this.loopEndMeasure = this.totalMeasures;
     this.hasCountedIn = false;
+    this.scheduledNoteKeys.clear();
+
+    // 初始化音軌
+    this.trackManager.init(song);
   }
 
   /**
@@ -122,6 +132,8 @@ export class Scheduler {
     if (this.audioCtx.state === 'suspended') {
       await this.audioCtx.resume();
     }
+
+    this.trackManager.setAudioContext(this.audioCtx);
   }
 
   /**
@@ -133,6 +145,9 @@ export class Scheduler {
   playClick(time, isAccent) {
     if (!this.audioCtx) return;
 
+    const gainVal = this.trackManager.getEffectiveGain('metronome');
+    if (gainVal <= 0.001) return;
+
     try {
       const osc = this.audioCtx.createOscillator();
       const gain = this.audioCtx.createGain();
@@ -141,8 +156,9 @@ export class Scheduler {
       osc.frequency.setValueAtTime(isAccent ? 1200 : 800, time);
 
       // 短包絡線 0.03 秒
+      const peakGain = (isAccent ? 0.4 : 0.25) * gainVal;
       gain.gain.setValueAtTime(0.001, time);
-      gain.gain.exponentialRampToValueAtTime(isAccent ? 0.4 : 0.25, time + 0.002);
+      gain.gain.exponentialRampToValueAtTime(Math.max(0.001, peakGain), time + 0.002);
       gain.gain.exponentialRampToValueAtTime(0.001, time + 0.03);
 
       osc.connect(gain);
@@ -205,10 +221,10 @@ export class Scheduler {
       }
 
       this.nextBeatIndex = 0;
+      this.scheduledNoteKeys.clear();
     } else if (this.state === PlaybackState.PAUSED) {
-      // 從暫停處繼續：重新設定基準時間為當前時間，拍數保持原位置
+      // 從暫停處繼續
       this.anchorTime = now;
-      // anchorBeat 保持不變
       this.setState(PlaybackState.PLAYING);
     }
 
@@ -222,7 +238,6 @@ export class Scheduler {
    */
   pause() {
     if (this.state === PlaybackState.PLAYING || this.state === PlaybackState.COUNT_IN) {
-      // 計算暫停時的精確拍數並存入 anchorBeat
       const now = this.getCurrentAudioTime();
       const currentBeat = calculateBeatFromAudioTime(now, this.anchorTime, this.anchorBeat, this.baseBpm, this.tempoRatio);
       this.anchorBeat = Math.max(0, currentBeat);
@@ -246,6 +261,7 @@ export class Scheduler {
     this.anchorBeat = 0.0;
     this.nextBeatIndex = 0;
     this.hasCountedIn = false;
+    this.scheduledNoteKeys.clear();
 
     clearHighlights();
 
@@ -256,8 +272,7 @@ export class Scheduler {
 
   /**
    * 動態調整速度 (50% ~ 120%)
-   *
-   * @param {number} ratio - 速度比例 (如 0.5 ~ 1.2)
+   * @param {number} ratio
    */
   setTempoRatio(ratio) {
     const newRatio = Math.max(0.5, Math.min(1.2, ratio));
@@ -266,9 +281,7 @@ export class Scheduler {
     const now = this.getCurrentAudioTime();
 
     if (this.state === PlaybackState.PLAYING || this.state === PlaybackState.COUNT_IN) {
-      // 算出現在的精確拍數
       const currentBeat = calculateBeatFromAudioTime(now, this.anchorTime, this.anchorBeat, this.baseBpm, this.tempoRatio);
-      // 更新錨點時間與拍數
       const newAnchor = updateTempoAnchor(now, currentBeat, newRatio);
       this.anchorTime = newAnchor.anchorTime;
       this.anchorBeat = newAnchor.anchorBeat;
@@ -279,10 +292,6 @@ export class Scheduler {
 
   /**
    * 設定小節循環範圍
-   *
-   * @param {number} startMeasure - 起始小節 (1-based)
-   * @param {number} endMeasure - 結束小節 (1-based)
-   * @param {boolean} enabled - 是否啟用循環
    */
   setLoopRange(startMeasure, endMeasure, enabled) {
     this.loopStartMeasure = Math.max(1, startMeasure);
@@ -309,6 +318,47 @@ export class Scheduler {
   }
 
   /**
+   * 排程目前時間視窗內的音軌伴奏音符 (melody-guide, chords, bass)
+   */
+  scheduleTrackNotesInWindow(now, windowEnd) {
+    if (this.state !== PlaybackState.PLAYING) return;
+    if (!this.trackManager) return;
+
+    const windowStartBeat = calculateBeatFromAudioTime(now - 0.05, this.anchorTime, this.anchorBeat, this.baseBpm, this.tempoRatio);
+    const windowEndBeat = calculateBeatFromAudioTime(windowEnd, this.anchorTime, this.anchorBeat, this.baseBpm, this.tempoRatio);
+
+    const tracks = this.trackManager.getAllTracks();
+    const songMelody = this.song ? this.song.melody : [];
+
+    for (const track of tracks) {
+      if (track.type === 'click') continue;
+
+      const events = getEventsInBeatWindow(track, songMelody, windowStartBeat, windowEndBeat);
+
+      for (const ev of events) {
+        const key = `${track.id}_${ev.start}_${ev.midi.join(',')}`;
+        if (this.scheduledNoteKeys.has(key)) continue;
+
+        const scheduledTime = calculateAudioTimeForBeat(
+          ev.start,
+          this.anchorTime,
+          this.anchorBeat,
+          this.baseBpm,
+          this.tempoRatio
+        );
+
+        if (scheduledTime >= now - 0.05 && scheduledTime < windowEnd) {
+          const beatDurSec = bpmToBeatDuration(this.baseBpm * this.tempoRatio);
+          const noteDurSec = (ev.dur || 1) * beatDurSec;
+
+          this.trackManager.playNote(track.id, ev.midi, scheduledTime, noteDurSec);
+          this.scheduledNoteKeys.add(key);
+        }
+      }
+    }
+  }
+
+  /**
    * Lookahead 核心輪詢點 (每 ~25 ms 觸發一次)
    */
   schedulerTick() {
@@ -319,9 +369,9 @@ export class Scheduler {
     const now = this.getCurrentAudioTime();
     const windowEnd = now + this.scheduleAheadTime;
 
+    // 1. 處理 節拍點擊音與預備拍
     while (this.nextBeatIndex < this.scheduledBeatEvents.length) {
       const event = this.scheduledBeatEvents[this.nextBeatIndex];
-      // 計算該拍點的預期音訊時間
       const scheduledTime = calculateAudioTimeForBeat(
         event.beatIndex,
         this.anchorTime,
@@ -330,13 +380,10 @@ export class Scheduler {
         this.tempoRatio
       );
 
-      // 若在預排視窗內 [now, windowEnd)
       if (scheduledTime < windowEnd) {
         if (scheduledTime >= now - 0.05) {
-          // 排入點擊音
           this.playClick(scheduledTime, event.isAccent);
 
-          // 若為預備拍,設定計時發送大字倒數
           if (event.isCountIn && typeof this.countInCallback === 'function') {
             const countdownNumber = this.beatsPerMeasure - event.beatInMeasure + 1;
             const delayMs = Math.max(0, (scheduledTime - now) * 1000);
@@ -349,9 +396,12 @@ export class Scheduler {
         }
         this.nextBeatIndex++;
       } else {
-        break; // 超出 100 ms 預排視窗,等待下次輪詢
+        break;
       }
     }
+
+    // 2. 處理 伴奏音軌音符發聲
+    this.scheduleTrackNotesInWindow(now, windowEnd);
   }
 
   /**
@@ -379,14 +429,13 @@ export class Scheduler {
   }
 
   /**
-   * 每幀更新：音訊時間 $\rightarrow$ 拍位 $\rightarrow$ 音符高亮
+   * 每幀更新：音訊時間 -> 拍位 -> 音符高亮
    */
   updateCursorAndHighlight() {
     const rawAudioTime = this.getCurrentAudioTime();
     const latency = this.getAudioLatency();
     const effectiveAudioTime = Math.max(0, rawAudioTime - latency);
 
-    // 依音訊時間換算目前拍數
     const rawBeat = calculateBeatFromAudioTime(
       effectiveAudioTime,
       this.anchorTime,
@@ -395,10 +444,8 @@ export class Scheduler {
       this.tempoRatio
     );
 
-    // 1. 若處於預備拍狀態
     if (this.state === PlaybackState.COUNT_IN) {
       if (rawBeat >= 0) {
-        // 進入正拍！
         this.hasCountedIn = true;
         this.setState(PlaybackState.PLAYING);
         if (typeof this.countInCallback === 'function') {
@@ -409,38 +456,31 @@ export class Scheduler {
       }
     }
 
-    // 2. 正拍高亮邏輯
     if (this.state === PlaybackState.PLAYING) {
       const totalBeats = this.totalMeasures * this.beatsPerMeasure;
-
       let targetBeat = rawBeat;
 
-      // 小節循環換算
       if (this.loopEnabled) {
         targetBeat = wrapLoopBeat(rawBeat, this.loopStartMeasure, this.loopEndMeasure, this.beatsPerMeasure);
 
-        // 若原始拍數超過循環邊界,自動擴充排程拍數陣列 (無縫循環)
         const loopEndBeat = this.loopEndMeasure * this.beatsPerMeasure;
         if (rawBeat >= loopEndBeat - 2) {
-          // 在循環快結束時，更新錨點將 rawBeat 繞回循環起點
           const loopStartBeat = (this.loopStartMeasure - 1) * this.beatsPerMeasure;
           const newAnchor = updateTempoAnchor(effectiveAudioTime, loopStartBeat, this.tempoRatio);
           this.anchorTime = newAnchor.anchorTime;
           this.anchorBeat = newAnchor.anchorBeat;
 
-          // 重新產生無預備拍的拍點序列
           this.scheduledBeatEvents = generateBeatSequence(this.totalMeasures, this.beatsPerMeasure, false);
           this.nextBeatIndex = 0;
+          this.scheduledNoteKeys.clear();
         }
       }
 
-      // 曲末檢查
       if (!this.loopEnabled && targetBeat >= totalBeats) {
         this.stop();
         return;
       }
 
-      // 搜尋當前拍數落在哪個音符 / 休止符
       if (this.song && Array.isArray(this.song.melody)) {
         const noteMatch = findActiveNoteAtBeat(
           this.song.melody,

@@ -170,8 +170,10 @@ test('5.2 拍數轉 VexFlow 時值', () => {
   assert.equal(durationToVexFlow(2), 'h');
   assert.equal(durationToVexFlow(1), 'q');
   assert.equal(durationToVexFlow(0.5), '8');
-  assert.equal(durationToVexFlow(1.5), 'qd');
-  assert.throws(() => durationToVexFlow(0.1234), /無法將/);
+  assert.equal(durationToVexFlow(0.3333), '8');
+  assert.equal(durationToVexFlow(0.1667), '16');
+  assert.throws(() => durationToVexFlow(0), /無法將/);
+  assert.throws(() => durationToVexFlow(-1), /無法將/);
 });
 
 console.log(`\n=== 測試完成: 通過 ${passed} / ${total} 項 ===\n`);
