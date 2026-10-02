@@ -58,9 +58,17 @@ function groupNotesByMeasure(melody, totalMeasures, beatsPerMeasure) {
   if (Array.isArray(melody)) {
     for (let i = 0; i < melody.length; i++) {
       const note = melody[i];
-      const mIdx = Math.floor(note.start / beatsPerMeasure);
+      // 浮點數容錯與對齊 (對齊至 1/24 拍)
+      const snappedStart = Math.round(note.start * 24) / 24;
+      const snappedDur = Math.round(note.dur * 24) / 24;
+      const mIdx = Math.floor(snappedStart / beatsPerMeasure);
       if (mIdx >= 0 && mIdx < totalMeasures) {
-        measures[mIdx].push({ ...note, globalIndex: i });
+        measures[mIdx].push({
+          ...note,
+          start: snappedStart,
+          dur: snappedDur,
+          globalIndex: i,
+        });
       }
     }
   }
