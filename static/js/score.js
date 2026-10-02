@@ -1,10 +1,5 @@
 /**
- * score.js -- VexFlow 譜面繪製、音符座標定位與高亮顯示
- *
- * 階段 3 擴充:
- * 1. 繪製音符時紀錄 SVG 節點與座標資訊
- * 2. 提供 highlightNoteByIndex(noteIndex) 高亮特定音符/休止符並移動游標
- * 3. 提供 clearHighlights() 清除高亮與游標
+ * score.js -- VexFlow 譜面繪製、音符座標定位、高亮顯示與標記顯示設定 (英文音名/數字簡譜)
  */
 
 import {
@@ -30,6 +25,35 @@ let resizeListenerBound = false;
 let renderedNotesCache = [];
 /** 當前高亮之音符索引 */
 let currentHighlightedIndex = -1;
+
+/** 標記顯示控制 (英文音名與數字簡譜) */
+let currentDisplayOptions = {
+  showNoteName: true,
+  showJianpu: true,
+};
+
+/**
+ * 設定標記顯示選項
+ * @param {Object} options - { showNoteName?: boolean, showJianpu?: boolean }
+ */
+export function setAnnotationDisplayOptions(options) {
+  if (options && typeof options === 'object') {
+    if (typeof options.showNoteName === 'boolean') {
+      currentDisplayOptions.showNoteName = options.showNoteName;
+    }
+    if (typeof options.showJianpu === 'boolean') {
+      currentDisplayOptions.showJianpu = options.showJianpu;
+    }
+  }
+}
+
+/**
+ * 取得當前標記顯示設定
+ * @returns {Object} { showNoteName: boolean, showJianpu: boolean }
+ */
+export function getAnnotationDisplayOptions() {
+  return { ...currentDisplayOptions };
+}
 
 /**
  * 防抖動函式 (Debounce)
@@ -93,11 +117,18 @@ function groupNotesByMeasure(melody, totalMeasures, beatsPerMeasure) {
  *
  * @param {Object} song - 曲目物件
  * @param {string | HTMLElement} [containerTarget='score-container'] - 放置譜面的 DOM 元素或 ID
+ * @param {Object} [options] - 可選的標記顯示選項 { showNoteName?: boolean, showJianpu?: boolean }
  */
-export function renderScore(song, containerTarget = 'score-container') {
+export function renderScore(song, containerTarget = 'score-container', options = null) {
   if (!song) {
     throw new Error('renderScore 需要有效的曲目物件');
   }
+
+  if (options) {
+    setAnnotationDisplayOptions(options);
+  }
+
+  const previousHighlightedIndex = currentHighlightedIndex;
 
   currentSongData = song;
   currentContainerTarget = containerTarget;
@@ -234,20 +265,34 @@ export function renderScore(song, containerTarget = 'score-container') {
           }
         }
 
-        let annotationText = '';
+        // 標記顯示控制邏輯 (英文音名 / 數字簡譜)
+        const showName = currentDisplayOptions.showNoteName;
+        const showJianpu = currentDisplayOptions.showJianpu;
+        const annotationParts = [];
+
         if (isRest) {
-          annotationText = 'R / 0';
+          if (showName) annotationParts.push('R');
+          if (showJianpu) annotationParts.push('0');
         } else {
-          const noteNameInfo = midiToNoteName(writtenMidi, writtenKey);
-          const jianpuInfo = midiToJianpu(writtenMidi, writtenKey);
-          annotationText = `${noteNameInfo.fullName} / ${jianpuInfo.text}`;
+          if (showName) {
+            const noteNameInfo = midiToNoteName(writtenMidi, writtenKey);
+            annotationParts.push(noteNameInfo.fullName);
+          }
+          if (showJianpu) {
+            const jianpuInfo = midiToJianpu(writtenMidi, writtenKey);
+            annotationParts.push(jianpuInfo.text);
+          }
         }
 
-        const annotation = new VF.Annotation(annotationText)
-          .setFont('sans-serif', 10, 'bold')
-          .setVerticalJustification(VF.Annotation.VerticalJustify.BOTTOM);
+        if (annotationParts.length > 0) {
+          const annotationText = annotationParts.join(' / ');
+          const annotation = new VF.Annotation(annotationText)
+            .setFont('sans-serif', 10, 'bold')
+            .setVerticalJustification(VF.Annotation.VerticalJustify.BOTTOM);
 
-        staveNote.addModifier(annotation, 0);
+          staveNote.addModifier(annotation, 0);
+        }
+
         vfNotes.push(staveNote);
       }
 
@@ -299,6 +344,10 @@ export function renderScore(song, containerTarget = 'score-container') {
       globalMeasureIndex++;
     });
   });
+
+  if (previousHighlightedIndex >= 0) {
+    highlightNoteByIndex(previousHighlightedIndex);
+  }
 }
 
 /**

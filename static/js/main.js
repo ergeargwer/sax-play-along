@@ -1,5 +1,5 @@
 /**
- * main.js -- 主進入點與事件綁定 (階段 4 多音軌合成與控制面板整合)
+ * main.js -- 主進入點與事件綁定 (標記顯示設定與多音軌合成)
  */
 
 import { fetchSongsList, fetchSongDetail } from './songLoader.js';
@@ -31,6 +31,8 @@ function bindControls() {
   const loopEnable = document.getElementById('loop-enable');
   const loopStart = document.getElementById('loop-start');
   const loopEnd = document.getElementById('loop-end');
+  const showNotenameCb = document.getElementById('show-notename');
+  const showJianpuCb = document.getElementById('show-jianpu');
 
   if (btnPlay) {
     btnPlay.addEventListener('click', () => scheduler.play());
@@ -73,6 +75,18 @@ function bindControls() {
   if (loopStart) loopStart.addEventListener('change', handleLoopChange);
   if (loopEnd) loopEnd.addEventListener('change', handleLoopChange);
 
+  // 譜面標記顯示切換 (英文音名 / 數字簡譜)
+  const handleAnnotationToggle = () => {
+    const showNoteName = showNotenameCb ? showNotenameCb.checked : true;
+    const showJianpu = showJianpuCb ? showJianpuCb.checked : true;
+    if (currentSong) {
+      renderScore(currentSong, 'score-container', { showNoteName, showJianpu });
+    }
+  };
+
+  if (showNotenameCb) showNotenameCb.addEventListener('change', handleAnnotationToggle);
+  if (showJianpuCb) showJianpuCb.addEventListener('change', handleAnnotationToggle);
+
   // Scheduler 回呼綁定
   scheduler.stateChangeCallback = (state) => {
     updatePlaybackButtons(state);
@@ -112,7 +126,14 @@ async function initApp() {
         }
 
         showPracticeView(`${currentSong.title} (${currentSong.composer})`);
-        renderScore(currentSong, 'score-container');
+
+        // 讀取標記顯示勾選狀態並渲染樂譜
+        const showNotenameCb = document.getElementById('show-notename');
+        const showJianpuCb = document.getElementById('show-jianpu');
+        const showNoteName = showNotenameCb ? showNotenameCb.checked : true;
+        const showJianpu = showJianpuCb ? showJianpuCb.checked : true;
+
+        renderScore(currentSong, 'score-container', { showNoteName, showJianpu });
         setupLoopSelects(currentSong.measures || 8);
 
         // 初始化 Scheduler 與 TrackManager
