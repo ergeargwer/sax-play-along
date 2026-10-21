@@ -1,0 +1,2023 @@
+{
+  "id": "taipei-tonight-trial",
+  "title": "台北今夜冷清清（MusicXML 試轉）",
+  "composer": "",
+  "license": "user-imported",
+  "keyConcert": "Db",
+  "timeSignature": [
+    4,
+    4
+  ],
+  "tempo": 80.0,
+  "measures": 21,
+  "melody": [
+    {
+      "midi": 0,
+      "start": 0.0,
+      "dur": 2.0,
+      "notation": {
+        "type": "half",
+        "dots": 0,
+        "stem": null,
+        "beams": []
+      }
+    },
+    {
+      "midi": 0,
+      "start": 2.0,
+      "dur": 1.0,
+      "notation": {
+        "type": "quarter",
+        "dots": 0,
+        "stem": null,
+        "beams": []
+      }
+    },
+    {
+      "midi": 65,
+      "start": 3.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 3.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 4.0,
+      "dur": 1.5,
+      "notation": {
+        "type": "quarter",
+        "dots": 1,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 66,
+      "start": 5.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "E",
+          "alter": -1,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 6.0,
+      "dur": 1.0,
+      "notation": {
+        "type": "quarter",
+        "dots": 0,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 61,
+      "start": 7.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "up",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "B",
+          "alter": -1,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 60,
+      "start": 7.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "up",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "A",
+          "alter": 0,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 58,
+      "start": 8.0,
+      "dur": 3.0,
+      "notation": {
+        "type": "half",
+        "dots": 1,
+        "stem": "up",
+        "beams": [],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 58,
+      "start": 11.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "up",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 60,
+      "start": 11.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "up",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "A",
+          "alter": 0,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 61,
+      "start": 12.0,
+      "dur": 1.5,
+      "notation": {
+        "type": "quarter",
+        "dots": 1,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "B",
+          "alter": -1,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 63,
+      "start": 13.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "C",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 14.0,
+      "dur": 1.0,
+      "notation": {
+        "type": "quarter",
+        "dots": 0,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 68,
+      "start": 15.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "F",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 66,
+      "start": 15.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "E",
+          "alter": -1,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 16.0,
+      "dur": 3.0,
+      "notation": {
+        "type": "half",
+        "dots": 1,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 0,
+      "start": 19.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": null,
+        "beams": []
+      }
+    },
+    {
+      "midi": 63,
+      "start": 19.5,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          },
+          {
+            "number": 2,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "C",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 19.75,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          },
+          {
+            "number": 2,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 66,
+      "start": 20.0,
+      "dur": 1.5,
+      "notation": {
+        "type": "quarter",
+        "dots": 1,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "E",
+          "alter": -1,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 21.5,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          },
+          {
+            "number": 2,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 66,
+      "start": 21.75,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          },
+          {
+            "number": 2,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "E",
+          "alter": -1,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 70,
+      "start": 22.0,
+      "dur": 1.5,
+      "notation": {
+        "type": "quarter",
+        "dots": 1,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 58,
+      "start": 23.5,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "up",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          },
+          {
+            "number": 2,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 60,
+      "start": 23.75,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "up",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          },
+          {
+            "number": 2,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "A",
+          "alter": 0,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 61,
+      "start": 24.0,
+      "dur": 1.5,
+      "notation": {
+        "type": "quarter",
+        "dots": 1,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "B",
+          "alter": -1,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 60,
+      "start": 25.5,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "up",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          },
+          {
+            "number": 2,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "A",
+          "alter": 0,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 61,
+      "start": 25.75,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "up",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          },
+          {
+            "number": 2,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "B",
+          "alter": -1,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 26.0,
+      "dur": 1.5,
+      "notation": {
+        "type": "quarter",
+        "dots": 1,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 53,
+      "start": 27.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "up",
+        "beams": [],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 63,
+      "start": 28.0,
+      "dur": 1.5,
+      "notation": {
+        "type": "quarter",
+        "dots": 1,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "C",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 61,
+      "start": 29.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "B",
+          "alter": -1,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 60,
+      "start": 30.0,
+      "dur": 1.0,
+      "notation": {
+        "type": "quarter",
+        "dots": 0,
+        "stem": "up",
+        "beams": [],
+        "writtenPitch": {
+          "step": "A",
+          "alter": 0,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 61,
+      "start": 31.0,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          },
+          {
+            "number": 2,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "B",
+          "alter": -1,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 63,
+      "start": 31.25,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "continue"
+          },
+          {
+            "number": 2,
+            "value": "continue"
+          }
+        ],
+        "writtenPitch": {
+          "step": "C",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 61,
+      "start": 31.5,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "continue"
+          },
+          {
+            "number": 2,
+            "value": "continue"
+          }
+        ],
+        "writtenPitch": {
+          "step": "B",
+          "alter": -1,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 60,
+      "start": 31.75,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          },
+          {
+            "number": 2,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "A",
+          "alter": 0,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 58,
+      "start": 32.0,
+      "dur": 4.0,
+      "notation": {
+        "type": "whole",
+        "dots": 0,
+        "stem": null,
+        "beams": [],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 61,
+      "start": 36.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "B",
+          "alter": -1,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 36.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 37.0,
+      "dur": 1.0,
+      "notation": {
+        "type": "quarter",
+        "dots": 0,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 61,
+      "start": 38.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "B",
+          "alter": -1,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 38.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 39.0,
+      "dur": 1.0,
+      "notation": {
+        "type": "quarter",
+        "dots": 0,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 40.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 66,
+      "start": 40.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "continue"
+          }
+        ],
+        "writtenPitch": {
+          "step": "E",
+          "alter": -1,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 41.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "continue"
+          }
+        ],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 61,
+      "start": 41.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "B",
+          "alter": -1,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 42.0,
+      "dur": 2.0,
+      "notation": {
+        "type": "half",
+        "dots": 0,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 66,
+      "start": 44.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "E",
+          "alter": -1,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 70,
+      "start": 44.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 70,
+      "start": 45.0,
+      "dur": 1.0,
+      "notation": {
+        "type": "quarter",
+        "dots": 0,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 66,
+      "start": 46.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "E",
+          "alter": -1,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 70,
+      "start": 46.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 70,
+      "start": 47.0,
+      "dur": 1.0,
+      "notation": {
+        "type": "quarter",
+        "dots": 0,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 72,
+      "start": 48.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "A",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 73,
+      "start": 48.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "continue"
+          }
+        ],
+        "writtenPitch": {
+          "step": "B",
+          "alter": -1,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 72,
+      "start": 49.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "continue"
+          }
+        ],
+        "writtenPitch": {
+          "step": "A",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 70,
+      "start": 49.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 72,
+      "start": 50.0,
+      "dur": 1.5,
+      "notation": {
+        "type": "quarter",
+        "dots": 1,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "A",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 70,
+      "start": 51.5,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          },
+          {
+            "number": 2,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 72,
+      "start": 51.75,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          },
+          {
+            "number": 2,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "A",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 73,
+      "start": 52.0,
+      "dur": 2.0,
+      "notation": {
+        "type": "half",
+        "dots": 0,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "B",
+          "alter": -1,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 0,
+      "start": 54.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": null,
+        "beams": []
+      }
+    },
+    {
+      "midi": 72,
+      "start": 54.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "A",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 70,
+      "start": 55.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "continue"
+          }
+        ],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 66,
+      "start": 55.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "E",
+          "alter": -1,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 56.0,
+      "dur": 3.0,
+      "notation": {
+        "type": "half",
+        "dots": 1,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 66,
+      "start": 59.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "E",
+          "alter": -1,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 70,
+      "start": 59.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 70,
+      "start": 60.0,
+      "dur": 2.0,
+      "notation": {
+        "type": "half",
+        "dots": 0,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 0,
+      "start": 62.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": null,
+        "beams": []
+      }
+    },
+    {
+      "midi": 70,
+      "start": 62.5,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          },
+          {
+            "number": 2,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 73,
+      "start": 62.75,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          },
+          {
+            "number": 2,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "B",
+          "alter": -1,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 72,
+      "start": 63.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "A",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 66,
+      "start": 63.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "E",
+          "alter": -1,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 64.0,
+      "dur": 4.0,
+      "notation": {
+        "type": "whole",
+        "dots": 0,
+        "stem": null,
+        "beams": [],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 58,
+      "start": 68.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "up",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 60,
+      "start": 68.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "up",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "A",
+          "alter": 0,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 61,
+      "start": 69.0,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "up",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          },
+          {
+            "number": 2,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "B",
+          "alter": -1,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 60,
+      "start": 69.25,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "up",
+        "beams": [
+          {
+            "number": 1,
+            "value": "continue"
+          },
+          {
+            "number": 2,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "A",
+          "alter": 0,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 58,
+      "start": 69.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "up",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 70.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 70.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 71.0,
+      "dur": 1.0,
+      "notation": {
+        "type": "quarter",
+        "dots": 0,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 61,
+      "start": 72.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "B",
+          "alter": -1,
+          "octave": 4
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 72.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "continue"
+          }
+        ],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 70,
+      "start": 73.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "continue"
+          }
+        ],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 66,
+      "start": 73.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "E",
+          "alter": -1,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 74.0,
+      "dur": 1.0,
+      "notation": {
+        "type": "quarter",
+        "dots": 0,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 65,
+      "start": 75.0,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          },
+          {
+            "number": 2,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "D",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 66,
+      "start": 75.25,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "continue"
+          },
+          {
+            "number": 2,
+            "value": "continue"
+          }
+        ],
+        "writtenPitch": {
+          "step": "E",
+          "alter": -1,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 70,
+      "start": 75.5,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "continue"
+          },
+          {
+            "number": 2,
+            "value": "continue"
+          }
+        ],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 72,
+      "start": 75.75,
+      "dur": 0.25,
+      "notation": {
+        "type": "16th",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          },
+          {
+            "number": 2,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "A",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 73,
+      "start": 76.0,
+      "dur": 3.0,
+      "notation": {
+        "type": "half",
+        "dots": 1,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "B",
+          "alter": -1,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 72,
+      "start": 79.0,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "begin"
+          }
+        ],
+        "writtenPitch": {
+          "step": "A",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 68,
+      "start": 79.5,
+      "dur": 0.5,
+      "notation": {
+        "type": "eighth",
+        "dots": 0,
+        "stem": "down",
+        "beams": [
+          {
+            "number": 1,
+            "value": "end"
+          }
+        ],
+        "writtenPitch": {
+          "step": "F",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 70,
+      "start": 80.0,
+      "dur": 3.0,
+      "notation": {
+        "type": "half",
+        "dots": 1,
+        "stem": "down",
+        "beams": [],
+        "writtenPitch": {
+          "step": "G",
+          "alter": 0,
+          "octave": 5
+        }
+      }
+    },
+    {
+      "midi": 0,
+      "start": 83.0,
+      "dur": 1.0,
+      "notation": {
+        "type": "quarter",
+        "dots": 0,
+        "stem": null,
+        "beams": []
+      }
+    }
+  ],
+  "tracks": [
+    {
+      "id": "melody-guide",
+      "name": "旋律導奏",
+      "type": "melody",
+      "volume": 0.6
+    },
+    {
+      "id": "metronome",
+      "name": "節拍",
+      "type": "click",
+      "volume": 0.7
+    }
+  ]
+}

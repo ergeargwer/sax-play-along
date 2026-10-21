@@ -1,0 +1,1278 @@
+[
+  {
+    "file": "Amazing Grace.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 32,
+        "meters": [
+          "3/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 0,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "Bengawan Solo 美麗的梭羅.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 29,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 15,
+        "ties": 14,
+        "harmonies": 0,
+        "repeat_markers": 8,
+        "duration_mismatches": [
+          {
+            "measure": "0",
+            "actual": "1",
+            "expected": "4",
+            "implicit": "yes"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "Beyond-不再猶豫.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 43,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "4"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 60,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "Dragon Ball Z Opening(七龍珠).musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 56,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "3"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 100,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": [
+          {
+            "measure": "2",
+            "actual": "9/2",
+            "expected": "4",
+            "implicit": null
+          },
+          {
+            "measure": "10",
+            "actual": "9/2",
+            "expected": "4",
+            "implicit": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "I Love You So(郭富城).musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 26,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "2"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 120,
+        "ties": 38,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": [
+          {
+            "measure": "3",
+            "actual": "7/2",
+            "expected": "4",
+            "implicit": null
+          },
+          {
+            "measure": "11",
+            "actual": "7/2",
+            "expected": "4",
+            "implicit": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "Janne Da Arc-月光花.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 27,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "5"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 4,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "KENNY 眼紅館 LIVE.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 15,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "2"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 16,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": [
+          {
+            "measure": "0",
+            "actual": "2",
+            "expected": "4",
+            "implicit": "yes"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "Kaori Kobayashi (小林香織) - Kira-Kira.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 33,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "-3"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 36,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "Kaori Kobayashi Sunshine 小林香織.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 24,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 44,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "Kenny Rogers - Carzy(只有一半版).musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 21,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "-3"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 40,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "Kobayashi Kaori (小林香織) - Heart of Mine.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 20,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "1"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 48,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "你著忍耐.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 22,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 2,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "可憐戀花再會吧.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 16,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "2"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 2,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "台北今夜冷清清.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 21,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "-2"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 0,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "安平追想曲.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 18,
+        "meters": [
+          "3/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 2,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "家後.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 37,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 20,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "思慕的人.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 24,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "-1"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 10,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "想厝的人.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 28,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "-1"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 12,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "愛拼才會贏.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 20,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "2"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 2,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": [
+          {
+            "measure": "0",
+            "actual": "1",
+            "expected": "4",
+            "implicit": "yes"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "望春風.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 15,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 0,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": [
+          {
+            "measure": "12",
+            "actual": "3",
+            "expected": "4",
+            "implicit": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "望月想愛人.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 25,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "2"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 22,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "查某人.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 65,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "1"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 64,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "歡喜就好薩克斯四重奏.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 180,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 10,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": [
+          {
+            "measure": "88",
+            "actual": "3",
+            "expected": "4",
+            "implicit": null
+          }
+        ]
+      },
+      {
+        "id": "P2",
+        "measures": 180,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 10,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": [
+          {
+            "measure": "16",
+            "actual": "3",
+            "expected": "4",
+            "implicit": null
+          },
+          {
+            "measure": "88",
+            "actual": "3",
+            "expected": "4",
+            "implicit": null
+          }
+        ]
+      },
+      {
+        "id": "P3",
+        "measures": 180,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 18,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": [
+          {
+            "measure": "88",
+            "actual": "3",
+            "expected": "4",
+            "implicit": null
+          }
+        ]
+      },
+      {
+        "id": "P4",
+        "measures": 180,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 74,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": [
+          {
+            "measure": "88",
+            "actual": "3",
+            "expected": "4",
+            "implicit": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "浪子心聲.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 34,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "1"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 4,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "海波浪.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 17,
+        "meters": [
+          "2/4",
+          "4/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 0,
+        "harmonies": 0,
+        "repeat_markers": 2,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "淡水暮色.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 16,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "1"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 0,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "炮仔聲.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 37,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "3"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 0,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": [
+          {
+            "measure": "6",
+            "actual": "9/2",
+            "expected": "4",
+            "implicit": null
+          },
+          {
+            "measure": "7",
+            "actual": "9/2",
+            "expected": "4",
+            "implicit": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "空笑夢.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 17,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 6,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "純情青春夢.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 32,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "1"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 8,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "舊情綿綿.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 16,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "-1"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 6,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "舞女.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 27,
+        "meters": [
+          "2/4",
+          "4/4"
+        ],
+        "keys": [
+          "1"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1",
+          "2"
+        ],
+        "tuplets": 0,
+        "ties": 6,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "苦海女神龍.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 11,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "1"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 6,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "落雨聲.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 34,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 30,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": [
+          {
+            "measure": "27",
+            "actual": "5",
+            "expected": "4",
+            "implicit": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "請你麥擱卡.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 36,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 42,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": [
+          {
+            "measure": "22",
+            "actual": "9/2",
+            "expected": "4",
+            "implicit": null
+          },
+          {
+            "measure": "30",
+            "actual": "5",
+            "expected": "4",
+            "implicit": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "鑼聲若響.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 12,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 0,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  },
+  {
+    "file": "黃昏的故鄉.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 17,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 6,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": [
+          {
+            "measure": "0",
+            "actual": "1",
+            "expected": "4",
+            "implicit": "yes"
+          },
+          {
+            "measure": "3",
+            "actual": "9/2",
+            "expected": "4",
+            "implicit": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "file": "黯淡的月.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 21,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "-1"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 14,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": []
+      }
+    ]
+  }
+]

@@ -135,6 +135,9 @@ async function initApp() {
 
         renderScore(currentSong, 'score-container', { showNoteName, showJianpu });
         setupLoopSelects(currentSong.measures || 8);
+        document.getElementById('loop-enable').checked = false;
+        document.getElementById('loop-start').disabled = true;
+        document.getElementById('loop-end').disabled = true;
 
         // 初始化 Scheduler 與 TrackManager
         scheduler.init(currentSong);

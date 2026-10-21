@@ -88,6 +88,7 @@ export class TrackManager {
     this.tracks = [];
     this.songMelody = [];
     this.audioCtx = null;
+    this.activeVoices = new Set();
   }
 
   /**
@@ -199,6 +200,14 @@ export class TrackManager {
    * @param {number} time - 預定發聲音訊時間 (秒)
    * @param {number} durationSec - 發聲持續時間 (秒)
    */
+  stopAll() {
+    for (const osc of this.activeVoices) {
+      try { osc.stop(); } catch (_) { /* 已結束 */ }
+      osc.disconnect();
+    }
+    this.activeVoices.clear();
+  }
+
   playNote(trackId, midiNotes, time, durationSec) {
     if (!this.audioCtx) return;
     const gainVal = this.getEffectiveGain(trackId);
@@ -245,6 +254,12 @@ export class TrackManager {
         osc.connect(gainNode);
         gainNode.connect(this.audioCtx.destination);
 
+        this.activeVoices.add(osc);
+        osc.onended = () => {
+          this.activeVoices.delete(osc);
+          osc.disconnect();
+          gainNode.disconnect();
+        };
         osc.start(time);
         osc.stop(time + dur + 0.01);
       } catch (err) {

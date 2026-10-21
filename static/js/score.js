@@ -241,25 +241,44 @@ export function renderScore(song, containerTarget = 'score-container', options =
       stave.setContext(context).draw();
 
       const vfNotes = [];
+      const beams = [];
+      let sourceBeamNotes = [];
 
       for (const item of measureNotes) {
         const writtenMidi = concertToWrittenMidi(item.midi);
         const isRest = writtenMidi === 0;
         let durStr = durationToVexFlow(item.dur);
+        const notation = item.notation;
+        const sourceDuration = { whole: 'w', half: 'h', quarter: 'q', eighth: '8',
+          '16th': '16', '32nd': '32', '64th': '64' }[notation?.type];
+        if (sourceDuration) durStr = sourceDuration;
 
         if (isRest) {
           durStr += 'r';
         }
 
-        const keyStr = isRest ? 'b/4' : midiToVexFlowKey(writtenMidi, writtenKey);
+        let keyStr = isRest ? 'b/4' : midiToVexFlowKey(writtenMidi, writtenKey);
+        const sourcePitch = notation?.writtenPitch;
+        if (!isRest && sourcePitch) {
+          const natural = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 }[sourcePitch.step];
+          if (12 * (sourcePitch.octave + 1) + natural + sourcePitch.alter === writtenMidi) {
+            const accidental = sourcePitch.alter > 0 ? '#'.repeat(sourcePitch.alter)
+              : 'b'.repeat(-sourcePitch.alter);
+            keyStr = `${sourcePitch.step.toLowerCase()}${accidental}/${sourcePitch.octave}`;
+          }
+        }
 
         const staveNote = new VF.StaveNote({
           clef: 'treble',
           keys: [keyStr],
           duration: durStr,
+          ...(notation?.stem === 'up' ? { stem_direction: 1 }
+            : notation?.stem === 'down' ? { stem_direction: -1 } : {}),
+          ...(sourceDuration ? { dots: notation.dots || 0 } : {}),
         });
 
-        if (durStr.includes('d') && (typeof staveNote.getModifiers !== 'function' || staveNote.getModifiers().length === 0)) {
+        const dotCount = sourceDuration ? notation.dots || 0 : durStr.includes('d') ? 1 : 0;
+        for (let dot = 0; dot < dotCount; dot++) {
           if (typeof VF.Dot?.buildAndAttach === 'function') {
             VF.Dot.buildAndAttach([staveNote]);
           }
@@ -276,7 +295,7 @@ export function renderScore(song, containerTarget = 'score-container', options =
         } else {
           if (showName) {
             const noteNameInfo = midiToNoteName(writtenMidi, writtenKey);
-            annotationParts.push(noteNameInfo.fullName);
+            annotationParts.push(noteNameInfo.name);
           }
           if (showJianpu) {
             const jianpuInfo = midiToJianpu(writtenMidi, writtenKey);
@@ -294,6 +313,14 @@ export function renderScore(song, containerTarget = 'score-container', options =
         }
 
         vfNotes.push(staveNote);
+        const primaryBeam = notation?.beams?.find(beam => beam.number === 1)?.value;
+        if (primaryBeam === 'begin') sourceBeamNotes = [staveNote];
+        else if (primaryBeam === 'continue' && sourceBeamNotes.length) sourceBeamNotes.push(staveNote);
+        else if (primaryBeam === 'end' && sourceBeamNotes.length) {
+          sourceBeamNotes.push(staveNote);
+          if (sourceBeamNotes.length > 1) beams.push(new VF.Beam(sourceBeamNotes));
+          sourceBeamNotes = [];
+        } else sourceBeamNotes = [];
       }
 
       try {
@@ -317,6 +344,7 @@ export function renderScore(song, containerTarget = 'score-container', options =
         formatter.format([voice], availableWidth);
 
         voice.draw(context, stave);
+        beams.forEach(beam => beam.setContext(context).draw());
 
         // 紀錄音符 SVG 節點與座標資訊
         vfNotes.forEach((staveNote, idx) => {

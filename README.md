@@ -1,5 +1,7 @@
 # 中音薩克斯風演奏練習與多音軌伴奏系統 (sax-play-along)
 
+開發接續請先閱讀 [開發進度與歷程](docs/DEVELOPMENT_PROGRESS.md)；四首 MusicXML 試轉的設定與啟動方式見 [試轉說明](data/trials/musicxml/README.md)。
+
 ![License](https://img.shields.io/badge/License-Public%20Domain-blue.svg)
 ![Python](https://img.shields.io/badge/Python-3.11+-green.svg)
 ![Flask](https://img.shields.io/badge/Flask-3.0+-blue.svg)
@@ -76,6 +78,9 @@ python3 app.py
 專案包含完整的後端與前端單元測試套件：
 
 ```bash
+# 執行全部前端測試（Node.js 18+，含播放循環回歸測試）
+npm test
+
 # 執行後端 API 與曲目 JSON 資料結構完整性驗證 (54 項測試)
 python3 test_phase1.py
 

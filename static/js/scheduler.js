@@ -111,6 +111,8 @@ export class Scheduler {
     this.loopStartMeasure = 1;
     this.loopEndMeasure = this.totalMeasures;
     this.hasCountedIn = false;
+    this.tempoRatio = 1;
+    this.loopEnabled = false;
     this.scheduledNoteKeys.clear();
 
     // 初始化音軌
@@ -164,6 +166,12 @@ export class Scheduler {
       osc.connect(gain);
       gain.connect(this.audioCtx.destination);
 
+      this.trackManager.activeVoices.add(osc);
+      osc.onended = () => {
+        this.trackManager.activeVoices.delete(osc);
+        osc.disconnect();
+        gain.disconnect();
+      };
       osc.start(time);
       osc.stop(time + 0.035);
     } catch (err) {
@@ -197,6 +205,7 @@ export class Scheduler {
       return;
     }
 
+    if (this.state !== PlaybackState.IDLE && this.state !== PlaybackState.PAUSED) return;
     const now = this.getCurrentAudioTime();
 
     if (this.state === PlaybackState.IDLE) {
@@ -220,7 +229,7 @@ export class Scheduler {
         this.setState(PlaybackState.PLAYING);
       }
 
-      this.nextBeatIndex = 0;
+      this.nextBeatIndex = needCountIn ? -this.beatsPerMeasure : 0;
       this.scheduledNoteKeys.clear();
     } else if (this.state === PlaybackState.PAUSED) {
       // 從暫停處繼續
@@ -243,6 +252,10 @@ export class Scheduler {
       this.anchorBeat = Math.max(0, currentBeat);
       this.anchorTime = now;
 
+      this.trackManager.stopAll();
+      this.scheduledNoteKeys.clear();
+      this.nextBeatIndex = Math.ceil(this.anchorBeat);
+      if (this.countInCallback) this.countInCallback(null);
       this.setState(PlaybackState.PAUSED);
       this.stopSchedulerLoop();
       this.stopAnimFrameLoop();
@@ -253,6 +266,7 @@ export class Scheduler {
    * 停止播放並重置
    */
   stop() {
+    this.trackManager.stopAll();
     this.setState(PlaybackState.IDLE);
     this.stopSchedulerLoop();
     this.stopAnimFrameLoop();
@@ -321,86 +335,55 @@ export class Scheduler {
    * 排程目前時間視窗內的音軌伴奏音符 (melody-guide, chords, bass)
    */
   scheduleTrackNotesInWindow(now, windowEnd) {
-    if (this.state !== PlaybackState.PLAYING) return;
-    if (!this.trackManager) return;
-
-    const windowStartBeat = calculateBeatFromAudioTime(now - 0.05, this.anchorTime, this.anchorBeat, this.baseBpm, this.tempoRatio);
-    const windowEndBeat = calculateBeatFromAudioTime(windowEnd, this.anchorTime, this.anchorBeat, this.baseBpm, this.tempoRatio);
-
-    const tracks = this.trackManager.getAllTracks();
-    const songMelody = this.song ? this.song.melody : [];
-
-    for (const track of tracks) {
-      if (track.type === 'click') continue;
-
-      const events = getEventsInBeatWindow(track, songMelody, windowStartBeat, windowEndBeat);
-
-      for (const ev of events) {
-        const key = `${track.id}_${ev.start}_${ev.midi.join(',')}`;
-        if (this.scheduledNoteKeys.has(key)) continue;
-
-        const scheduledTime = calculateAudioTimeForBeat(
-          ev.start,
-          this.anchorTime,
-          this.anchorBeat,
-          this.baseBpm,
-          this.tempoRatio
-        );
-
-        if (scheduledTime >= now - 0.05 && scheduledTime < windowEnd) {
-          const beatDurSec = bpmToBeatDuration(this.baseBpm * this.tempoRatio);
-          const noteDurSec = (ev.dur || 1) * beatDurSec;
-
-          this.trackManager.playNote(track.id, ev.midi, scheduledTime, noteDurSec);
+    const start = calculateBeatFromAudioTime(now, this.anchorTime, this.anchorBeat, this.baseBpm, this.tempoRatio);
+    const end = calculateBeatFromAudioTime(windowEnd, this.anchorTime, this.anchorBeat, this.baseBpm, this.tempoRatio);
+    const loopStart = (this.loopStartMeasure - 1) * this.beatsPerMeasure;
+    const loopEnd = this.loopEndMeasure * this.beatsPerMeasure;
+    const length = loopEnd - loopStart;
+    let cursor = Math.max(0, start);
+    while (cursor < end) {
+      const cycle = this.loopEnabled && cursor >= loopEnd ? Math.floor((cursor - loopStart) / length) : 0;
+      const offset = cycle * length;
+      const boundary = this.loopEnabled ? loopEnd + offset : this.totalMeasures * this.beatsPerMeasure;
+      const segmentEnd = Math.min(end, boundary);
+      if (segmentEnd <= cursor) break;
+      for (const track of this.trackManager.getAllTracks()) {
+        if (track.type === 'click') continue;
+        for (const ev of getEventsInBeatWindow(track, this.song.melody, cursor - offset, segmentEnd - offset)) {
+          const key = `${track.id}_${ev.start}_${ev.midi.join(',')}_${cycle}`;
+          if (this.scheduledNoteKeys.has(key)) continue;
+          const time = calculateAudioTimeForBeat(ev.start + offset, this.anchorTime, this.anchorBeat, this.baseBpm, this.tempoRatio);
+          const dur = Math.min(ev.dur, boundary - ev.start - offset) * bpmToBeatDuration(this.baseBpm * this.tempoRatio);
+          this.trackManager.playNote(track.id, ev.midi, time, dur);
           this.scheduledNoteKeys.add(key);
         }
       }
+      cursor = segmentEnd;
     }
   }
 
-  /**
-   * Lookahead 核心輪詢點 (每 ~25 ms 觸發一次)
-   */
   schedulerTick() {
-    if (this.state !== PlaybackState.PLAYING && this.state !== PlaybackState.COUNT_IN) {
-      return;
-    }
-
+    if (this.state !== PlaybackState.PLAYING && this.state !== PlaybackState.COUNT_IN) return;
     const now = this.getCurrentAudioTime();
     const windowEnd = now + this.scheduleAheadTime;
-
-    // 1. 處理 節拍點擊音與預備拍
-    while (this.nextBeatIndex < this.scheduledBeatEvents.length) {
-      const event = this.scheduledBeatEvents[this.nextBeatIndex];
-      const scheduledTime = calculateAudioTimeForBeat(
-        event.beatIndex,
-        this.anchorTime,
-        this.anchorBeat,
-        this.baseBpm,
-        this.tempoRatio
-      );
-
-      if (scheduledTime < windowEnd) {
-        if (scheduledTime >= now - 0.05) {
-          this.playClick(scheduledTime, event.isAccent);
-
-          if (event.isCountIn && typeof this.countInCallback === 'function') {
-            const countdownNumber = this.beatsPerMeasure - event.beatInMeasure + 1;
-            const delayMs = Math.max(0, (scheduledTime - now) * 1000);
-            setTimeout(() => {
-              if (this.state === PlaybackState.COUNT_IN) {
-                this.countInCallback(countdownNumber);
-              }
-            }, delayMs);
-          }
-        }
-        this.nextBeatIndex++;
-      } else {
-        break;
-      }
+    const currentBeat = calculateBeatFromAudioTime(now, this.anchorTime, this.anchorBeat, this.baseBpm, this.tempoRatio);
+    if (this.state === PlaybackState.COUNT_IN && currentBeat >= 0) {
+      this.hasCountedIn = true;
+      this.setState(PlaybackState.PLAYING);
+      if (this.countInCallback) this.countInCallback(null);
     }
-
-    // 2. 處理 伴奏音軌音符發聲
+    const total = this.totalMeasures * this.beatsPerMeasure;
+    while (this.loopEnabled || this.nextBeatIndex < total) {
+      const beat = this.nextBeatIndex;
+      const time = calculateAudioTimeForBeat(beat, this.anchorTime, this.anchorBeat, this.baseBpm, this.tempoRatio);
+      if (time >= windowEnd) break;
+      if (time >= now - 0.05) this.playClick(Math.max(now, time), beat % this.beatsPerMeasure === 0);
+      this.nextBeatIndex++;
+    }
+    if (this.state === PlaybackState.COUNT_IN && this.countInCallback) {
+      this.countInCallback(Math.max(1, Math.ceil(-currentBeat)));
+    }
+    // 預備拍結束前也預排歌曲第一個音，避免依賴動畫幀啟動音訊。
     this.scheduleTrackNotesInWindow(now, windowEnd);
   }
 
@@ -463,17 +446,7 @@ export class Scheduler {
       if (this.loopEnabled) {
         targetBeat = wrapLoopBeat(rawBeat, this.loopStartMeasure, this.loopEndMeasure, this.beatsPerMeasure);
 
-        const loopEndBeat = this.loopEndMeasure * this.beatsPerMeasure;
-        if (rawBeat >= loopEndBeat - 2) {
-          const loopStartBeat = (this.loopStartMeasure - 1) * this.beatsPerMeasure;
-          const newAnchor = updateTempoAnchor(effectiveAudioTime, loopStartBeat, this.tempoRatio);
-          this.anchorTime = newAnchor.anchorTime;
-          this.anchorBeat = newAnchor.anchorBeat;
 
-          this.scheduledBeatEvents = generateBeatSequence(this.totalMeasures, this.beatsPerMeasure, false);
-          this.nextBeatIndex = 0;
-          this.scheduledNoteKeys.clear();
-        }
       }
 
       if (!this.loopEnabled && targetBeat >= totalBeats) {
