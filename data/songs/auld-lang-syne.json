@@ -4,38 +4,153 @@
   "composer": "Scottish Traditional",
   "license": "public-domain",
   "keyConcert": "G",
-  "timeSignature": [4, 4],
+  "timeSignature": [
+    4,
+    4
+  ],
   "tempo": 100,
   "measures": 8,
   "melody": [
-    { "midi": 0, "start": 0, "dur": 3 },
-    { "midi": 62, "start": 3, "dur": 1 },
-    { "midi": 67, "start": 4, "dur": 1.5 },
-    { "midi": 67, "start": 5.5, "dur": 0.5 },
-    { "midi": 67, "start": 6, "dur": 1 },
-    { "midi": 71, "start": 7, "dur": 1 },
-    { "midi": 69, "start": 8, "dur": 1.5 },
-    { "midi": 69, "start": 9.5, "dur": 0.5 },
-    { "midi": 69, "start": 10, "dur": 1 },
-    { "midi": 67, "start": 11, "dur": 1 },
-    { "midi": 69, "start": 12, "dur": 1.5 },
-    { "midi": 71, "start": 13.5, "dur": 0.5 },
-    { "midi": 69, "start": 14, "dur": 1 },
-    { "midi": 0, "start": 15, "dur": 1 },
-    { "midi": 67, "start": 16, "dur": 1.5 },
-    { "midi": 67, "start": 17.5, "dur": 0.5 },
-    { "midi": 67, "start": 18, "dur": 1 },
-    { "midi": 71, "start": 19, "dur": 1 },
-    { "midi": 74, "start": 20, "dur": 1.5 },
-    { "midi": 74, "start": 21.5, "dur": 0.5 },
-    { "midi": 74, "start": 22, "dur": 1 },
-    { "midi": 71, "start": 23, "dur": 1 },
-    { "midi": 69, "start": 24, "dur": 1.5 },
-    { "midi": 69, "start": 25.5, "dur": 0.5 },
-    { "midi": 69, "start": 26, "dur": 1 },
-    { "midi": 67, "start": 27, "dur": 1 },
-    { "midi": 69, "start": 28, "dur": 2 },
-    { "midi": 0, "start": 30, "dur": 2 }
+    {
+      "midi": 0,
+      "start": 0,
+      "dur": 3
+    },
+    {
+      "midi": 62,
+      "start": 3,
+      "dur": 1
+    },
+    {
+      "midi": 67,
+      "start": 4,
+      "dur": 1.5
+    },
+    {
+      "midi": 67,
+      "start": 5.5,
+      "dur": 0.5
+    },
+    {
+      "midi": 67,
+      "start": 6,
+      "dur": 1
+    },
+    {
+      "midi": 71,
+      "start": 7,
+      "dur": 1
+    },
+    {
+      "midi": 69,
+      "start": 8,
+      "dur": 1.5
+    },
+    {
+      "midi": 69,
+      "start": 9.5,
+      "dur": 0.5
+    },
+    {
+      "midi": 69,
+      "start": 10,
+      "dur": 1
+    },
+    {
+      "midi": 67,
+      "start": 11,
+      "dur": 1
+    },
+    {
+      "midi": 69,
+      "start": 12,
+      "dur": 1.5
+    },
+    {
+      "midi": 71,
+      "start": 13.5,
+      "dur": 0.5
+    },
+    {
+      "midi": 69,
+      "start": 14,
+      "dur": 1
+    },
+    {
+      "midi": 0,
+      "start": 15,
+      "dur": 1
+    },
+    {
+      "midi": 67,
+      "start": 16,
+      "dur": 1.5
+    },
+    {
+      "midi": 67,
+      "start": 17.5,
+      "dur": 0.5
+    },
+    {
+      "midi": 67,
+      "start": 18,
+      "dur": 1
+    },
+    {
+      "midi": 71,
+      "start": 19,
+      "dur": 1
+    },
+    {
+      "midi": 74,
+      "start": 20,
+      "dur": 1.5
+    },
+    {
+      "midi": 74,
+      "start": 21.5,
+      "dur": 0.5
+    },
+    {
+      "midi": 74,
+      "start": 22,
+      "dur": 1
+    },
+    {
+      "midi": 71,
+      "start": 23,
+      "dur": 1
+    },
+    {
+      "midi": 69,
+      "start": 24,
+      "dur": 1.5
+    },
+    {
+      "midi": 69,
+      "start": 25.5,
+      "dur": 0.5
+    },
+    {
+      "midi": 69,
+      "start": 26,
+      "dur": 1
+    },
+    {
+      "midi": 67,
+      "start": 27,
+      "dur": 1
+    },
+    {
+      "midi": 69,
+      "start": 28,
+      "dur": 2
+    },
+    {
+      "midi": 0,
+      "start": 30,
+      "dur": 2
+    }
   ],
   "tracks": [
     {
@@ -50,20 +165,132 @@
       "type": "notes",
       "volume": 0.5,
       "notes": [
-        { "midi": [43, 47, 50], "start": 0, "dur": 4 },
-        { "midi": [43, 47, 50], "start": 4, "dur": 2 },
-        { "midi": [48, 52, 55], "start": 6, "dur": 2 },
-        { "midi": [38, 42, 45], "start": 8, "dur": 2 },
-        { "midi": [43, 47, 50], "start": 10, "dur": 2 },
-        { "midi": [43, 47, 50], "start": 12, "dur": 2 },
-        { "midi": [38, 42, 45], "start": 14, "dur": 2 },
-        { "midi": [43, 47, 50], "start": 16, "dur": 2 },
-        { "midi": [48, 52, 55], "start": 18, "dur": 2 },
-        { "midi": [38, 42, 45], "start": 20, "dur": 4 },
-        { "midi": [40, 43, 47], "start": 24, "dur": 2 },
-        { "midi": [48, 52, 55], "start": 26, "dur": 2 },
-        { "midi": [38, 42, 45], "start": 28, "dur": 2 },
-        { "midi": [43, 47, 50], "start": 30, "dur": 2 }
+        {
+          "midi": [
+            43,
+            47,
+            50
+          ],
+          "start": 0,
+          "dur": 4
+        },
+        {
+          "midi": [
+            43,
+            47,
+            50
+          ],
+          "start": 4,
+          "dur": 2
+        },
+        {
+          "midi": [
+            48,
+            52,
+            55
+          ],
+          "start": 6,
+          "dur": 2
+        },
+        {
+          "midi": [
+            38,
+            42,
+            45
+          ],
+          "start": 8,
+          "dur": 2
+        },
+        {
+          "midi": [
+            43,
+            47,
+            50
+          ],
+          "start": 10,
+          "dur": 2
+        },
+        {
+          "midi": [
+            43,
+            47,
+            50
+          ],
+          "start": 12,
+          "dur": 2
+        },
+        {
+          "midi": [
+            38,
+            42,
+            45
+          ],
+          "start": 14,
+          "dur": 2
+        },
+        {
+          "midi": [
+            43,
+            47,
+            50
+          ],
+          "start": 16,
+          "dur": 2
+        },
+        {
+          "midi": [
+            48,
+            52,
+            55
+          ],
+          "start": 18,
+          "dur": 2
+        },
+        {
+          "midi": [
+            38,
+            42,
+            45
+          ],
+          "start": 20,
+          "dur": 4
+        },
+        {
+          "midi": [
+            40,
+            43,
+            47
+          ],
+          "start": 24,
+          "dur": 2
+        },
+        {
+          "midi": [
+            48,
+            52,
+            55
+          ],
+          "start": 26,
+          "dur": 2
+        },
+        {
+          "midi": [
+            38,
+            42,
+            45
+          ],
+          "start": 28,
+          "dur": 2
+        },
+        {
+          "midi": [
+            43,
+            47,
+            50
+          ],
+          "start": 30,
+          "dur": 2
+        }
       ]
     },
     {
@@ -72,22 +299,86 @@
       "type": "notes",
       "volume": 0.6,
       "notes": [
-        { "midi": 43, "start": 0, "dur": 2 },
-        { "midi": 43, "start": 2, "dur": 2 },
-        { "midi": 43, "start": 4, "dur": 2 },
-        { "midi": 48, "start": 6, "dur": 2 },
-        { "midi": 50, "start": 8, "dur": 2 },
-        { "midi": 43, "start": 10, "dur": 2 },
-        { "midi": 43, "start": 12, "dur": 2 },
-        { "midi": 50, "start": 14, "dur": 2 },
-        { "midi": 43, "start": 16, "dur": 2 },
-        { "midi": 48, "start": 18, "dur": 2 },
-        { "midi": 50, "start": 20, "dur": 2 },
-        { "midi": 50, "start": 22, "dur": 2 },
-        { "midi": 40, "start": 24, "dur": 2 },
-        { "midi": 48, "start": 26, "dur": 2 },
-        { "midi": 50, "start": 28, "dur": 2 },
-        { "midi": 43, "start": 30, "dur": 2 }
+        {
+          "midi": 43,
+          "start": 0,
+          "dur": 2
+        },
+        {
+          "midi": 43,
+          "start": 2,
+          "dur": 2
+        },
+        {
+          "midi": 43,
+          "start": 4,
+          "dur": 2
+        },
+        {
+          "midi": 48,
+          "start": 6,
+          "dur": 2
+        },
+        {
+          "midi": 50,
+          "start": 8,
+          "dur": 2
+        },
+        {
+          "midi": 43,
+          "start": 10,
+          "dur": 2
+        },
+        {
+          "midi": 43,
+          "start": 12,
+          "dur": 2
+        },
+        {
+          "midi": 50,
+          "start": 14,
+          "dur": 2
+        },
+        {
+          "midi": 43,
+          "start": 16,
+          "dur": 2
+        },
+        {
+          "midi": 48,
+          "start": 18,
+          "dur": 2
+        },
+        {
+          "midi": 50,
+          "start": 20,
+          "dur": 2
+        },
+        {
+          "midi": 50,
+          "start": 22,
+          "dur": 2
+        },
+        {
+          "midi": 40,
+          "start": 24,
+          "dur": 2
+        },
+        {
+          "midi": 48,
+          "start": 26,
+          "dur": 2
+        },
+        {
+          "midi": 50,
+          "start": 28,
+          "dur": 2
+        },
+        {
+          "midi": 43,
+          "start": 30,
+          "dur": 2
+        }
       ]
     },
     {
@@ -95,6 +386,120 @@
       "name": "節拍",
       "type": "click",
       "volume": 0.7
+    }
+  ],
+  "chordSymbols": [
+    {
+      "symbol": "G",
+      "root": 7,
+      "quality": "",
+      "start": 0,
+      "dur": 4,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "G",
+      "root": 7,
+      "quality": "",
+      "start": 4,
+      "dur": 2,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "C",
+      "root": 0,
+      "quality": "",
+      "start": 6,
+      "dur": 2,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "D",
+      "root": 2,
+      "quality": "",
+      "start": 8,
+      "dur": 2,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "G",
+      "root": 7,
+      "quality": "",
+      "start": 10,
+      "dur": 2,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "G",
+      "root": 7,
+      "quality": "",
+      "start": 12,
+      "dur": 2,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "D",
+      "root": 2,
+      "quality": "",
+      "start": 14,
+      "dur": 2,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "G",
+      "root": 7,
+      "quality": "",
+      "start": 16,
+      "dur": 2,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "C",
+      "root": 0,
+      "quality": "",
+      "start": 18,
+      "dur": 2,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "D",
+      "root": 2,
+      "quality": "",
+      "start": 20,
+      "dur": 4,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Em",
+      "root": 4,
+      "quality": "m",
+      "start": 24,
+      "dur": 2,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "C",
+      "root": 0,
+      "quality": "",
+      "start": 26,
+      "dur": 2,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "D",
+      "root": 2,
+      "quality": "",
+      "start": 28,
+      "dur": 2,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "G",
+      "root": 7,
+      "quality": "",
+      "start": 30,
+      "dur": 2,
+      "source": "existing-notes"
     }
   ]
 }

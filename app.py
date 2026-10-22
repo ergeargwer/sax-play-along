@@ -14,6 +14,8 @@ from pathlib import Path
 
 from flask import Flask, jsonify, render_template, abort
 
+from harmonizer import harmonize_song, validate_chord_symbols
+
 # ---------------------------------------------------------------------------
 # 設定
 # ---------------------------------------------------------------------------
@@ -77,6 +79,13 @@ def validate_song(data: dict, filename: str) -> list[str]:
         max_beats = measures * beats_per_measure
     else:
         max_beats = None
+
+    # -- optional harmony events --
+    if "chordSymbols" in data and isinstance(max_beats, (int, float)):
+        try:
+            validate_chord_symbols(data["chordSymbols"], max_beats)
+        except ValueError as exc:
+            errors.append(str(exc))
 
     # -- melody 驗證 --
     melody = data.get("melody")
@@ -234,6 +243,11 @@ def load_songs() -> dict[str, dict]:
                 "\n  ".join(validation_errors),
             )
             continue
+
+        try:
+            data = harmonize_song(data)
+        except ValueError as exc:
+            logger.warning("略過自動和弦 [%s]: %s", filepath.name, exc)
 
         song_id = data["id"]
         if song_id in songs:

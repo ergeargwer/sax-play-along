@@ -1,3 +1,6 @@
+import { arrangeAccompaniment } from './accompaniment.js';
+import { InstrumentBank, makeRoomImpulse } from './instruments.js';
+
 /**
  * tracks.js -- 多音軌合成、靜音 (Mute)、獨奏 (Solo) 與音量控制
  */
@@ -61,6 +64,7 @@ export function getEventsInBeatWindow(track, songMelody, startBeat, endBeat) {
           midi: Array.isArray(item.midi) ? item.midi : [item.midi],
           start: item.start,
           dur: item.dur || 1,
+          velocity: item.velocity ?? .72,
         });
       }
     }
@@ -72,6 +76,7 @@ export function getEventsInBeatWindow(track, songMelody, startBeat, endBeat) {
           midi: Array.isArray(item.midi) ? item.midi : [item.midi],
           start: item.start,
           dur: item.dur || 1,
+          velocity: item.velocity ?? .72,
         });
       }
     }
@@ -89,6 +94,12 @@ export class TrackManager {
     this.songMelody = [];
     this.audioCtx = null;
     this.activeVoices = new Set();
+    this.bank = new InstrumentBank();
+    this.channels = new Map();
+    this.song = null;
+    this.master = null;
+    this.reverb = null;
+    this.roomImpulse = null;
   }
 
   /**
@@ -96,7 +107,28 @@ export class TrackManager {
    * @param {AudioContext} ctx
    */
   setAudioContext(ctx) {
+    if (this.audioCtx === ctx) return;
+    this.stopAll();
     this.audioCtx = ctx;
+    this.channels.clear();
+    this.master = ctx.createGain();
+    this.master.gain.value = 1.6;
+    const compressor = ctx.createDynamicsCompressor();
+    compressor.threshold.value = -14;
+    compressor.knee.value = 18;
+    compressor.ratio.value = 2.5;
+    compressor.attack.value = .006;
+    compressor.release.value = .22;
+    this.master.connect(compressor);
+    compressor.connect(ctx.destination);
+    this.roomImpulse = makeRoomImpulse(ctx);
+    this.reverb = ctx.createConvolver();
+    this.reverb.buffer = this.roomImpulse;
+    const roomReturn = ctx.createGain();
+    roomReturn.gain.value = .13;
+    this.reverb.connect(roomReturn);
+    roomReturn.connect(this.master);
+    this.refreshMix();
   }
 
   /**
@@ -104,6 +136,7 @@ export class TrackManager {
    * @param {Object} song - 曲目 JSON 物件
    */
   init(song) {
+    this.song = song;
     this.songMelody = (song && Array.isArray(song.melody)) ? song.melody : [];
 
     const defaultTracks = [
@@ -114,17 +147,63 @@ export class TrackManager {
     ];
 
     if (song && Array.isArray(song.tracks) && song.tracks.length > 0) {
-      this.tracks = song.tracks.map((t) => ({
+      this.tracks = arrangeAccompaniment(song).map((t) => ({
         id: t.id,
-        name: t.name || t.id,
+        name: t.id === 'chords' ? '和弦 · 柔和鋼琴' : t.id === 'bass' ? '貝斯 · 原聲貝斯' : t.name || t.id,
         type: t.type || 'notes',
         volume: typeof t.volume === 'number' ? t.volume : 0.6,
         notes: Array.isArray(t.notes) ? t.notes : [],
-        isMuted: false,
+        isMuted: Boolean(t.isMuted),
         isSolo: false,
       }));
     } else {
       this.tracks = defaultTracks;
+    }
+    this.refreshMix();
+  }
+
+  async prepareAudio() {
+    if (!this.audioCtx) throw new Error('AudioContext 尚未初始化');
+    await this.bank.load(this.audioCtx);
+  }
+
+  channelFor(trackId) {
+    if (this.channels.has(trackId)) return this.channels.get(trackId);
+    const ctx = this.audioCtx;
+    const input = ctx.createGain();
+    const highpass = ctx.createBiquadFilter();
+    highpass.type = 'highpass';
+    highpass.frequency.value = trackId === 'bass' ? 28 : trackId === 'guitar' ? 160 : trackId === 'chords' ? 120 : 80;
+    highpass.Q.value = .7;
+    const lowpass = ctx.createBiquadFilter();
+    lowpass.type = 'lowpass';
+    lowpass.frequency.value = trackId === 'bass' ? 1800 : trackId === 'guitar' ? 4200 : 5200;
+    lowpass.Q.value = .7;
+    const pan = ctx.createStereoPanner();
+    pan.pan.value = trackId === 'chords' ? -.12 : trackId === 'guitar' ? .24 : trackId === 'bass' ? .04 : .06;
+    input.connect(highpass); highpass.connect(lowpass); lowpass.connect(pan);
+    pan.connect(this.master);
+    const send = ctx.createGain();
+    send.gain.value = trackId === 'bass' ? .08 : trackId === 'guitar' ? .65 : trackId === 'metronome' ? 0 : 1;
+    pan.connect(send); send.connect(this.reverb);
+    this.channels.set(trackId, input);
+    return input;
+  }
+
+  refreshMix() {
+    if (!this.audioCtx || !this.master) return;
+    for (const [id, channel] of this.channels) {
+      if (!this.getTrack(id)) {
+        channel.gain.cancelScheduledValues(this.audioCtx.currentTime);
+        channel.gain.setTargetAtTime(0, this.audioCtx.currentTime, .012);
+      }
+    }
+    for (const track of this.tracks) {
+      const balance = track.id === 'bass' ? .7 : track.id === 'guitar' ? .75 : track.id === 'melody-guide' ? .55
+        : track.id === 'metronome' ? .22 : 1;
+      const parameter = this.channelFor(track.id).gain;
+      parameter.cancelScheduledValues(this.audioCtx.currentTime);
+      parameter.setTargetAtTime(this.getEffectiveGain(track.id) * balance, this.audioCtx.currentTime, .012);
     }
   }
 
@@ -154,6 +233,7 @@ export class TrackManager {
     const track = this.getTrack(trackId);
     if (track) {
       track.volume = Math.max(0, Math.min(1, volume));
+      this.refreshMix();
     }
   }
 
@@ -166,6 +246,7 @@ export class TrackManager {
     const track = this.getTrack(trackId);
     if (track) {
       track.isMuted = typeof isMuted === 'boolean' ? isMuted : !track.isMuted;
+      this.refreshMix();
     }
   }
 
@@ -178,6 +259,7 @@ export class TrackManager {
     const track = this.getTrack(trackId);
     if (track) {
       track.isSolo = typeof isSolo === 'boolean' ? isSolo : !track.isSolo;
+      this.refreshMix();
     }
   }
 
@@ -201,70 +283,55 @@ export class TrackManager {
    * @param {number} durationSec - 發聲持續時間 (秒)
    */
   stopAll() {
-    for (const osc of this.activeVoices) {
-      try { osc.stop(); } catch (_) { /* 已結束 */ }
-      osc.disconnect();
+    for (const source of this.activeVoices) {
+      try { source.stop(); } catch (_) { /* Already stopped. */ }
+      source.disconnect();
     }
     this.activeVoices.clear();
+    // Clear the room tail as well as direct sound on pause, stop and song change.
+    if (this.reverb) this.reverb.buffer = null;
   }
 
-  playNote(trackId, midiNotes, time, durationSec) {
-    if (!this.audioCtx) return;
-    const gainVal = this.getEffectiveGain(trackId);
-    if (gainVal <= 0.001) return;
-
-    const track = this.getTrack(trackId);
-    const type = track ? track.type : 'notes';
-    const notes = Array.isArray(midiNotes) ? midiNotes : [midiNotes];
-
-    for (const midi of notes) {
-      if (typeof midi !== 'number' || midi <= 0) continue;
-
-      const freq = midiToFrequency(midi);
-      if (freq <= 0) continue;
-
-      try {
-        const osc = this.audioCtx.createOscillator();
-        const gainNode = this.audioCtx.createGain();
-
-        // 依音軌類型選擇振盪器波形
-        if (trackId === 'melody-guide') {
-          osc.type = 'triangle';
-        } else if (trackId === 'bass') {
-          osc.type = 'sine';
-        } else if (type === 'notes') {
-          osc.type = 'sine';
-        } else {
-          osc.type = 'triangle';
-        }
-
-        osc.frequency.setValueAtTime(freq, time);
-
-        // 音量包絡線 (ADSR)
-        const peakGain = gainVal * 0.3;
-        const dur = Math.max(0.05, durationSec);
-        const attack = 0.01;
-        const release = 0.03;
-
-        gainNode.gain.setValueAtTime(0.0001, time);
-        gainNode.gain.exponentialRampToValueAtTime(Math.max(0.001, peakGain), time + attack);
-        gainNode.gain.setValueAtTime(Math.max(0.001, peakGain), time + dur - release);
-        gainNode.gain.exponentialRampToValueAtTime(0.0001, time + dur);
-
-        osc.connect(gainNode);
-        gainNode.connect(this.audioCtx.destination);
-
-        this.activeVoices.add(osc);
-        osc.onended = () => {
-          this.activeVoices.delete(osc);
-          osc.disconnect();
-          gainNode.disconnect();
-        };
-        osc.start(time);
-        osc.stop(time + dur + 0.01);
-      } catch (err) {
-        console.error(`音軌 ${trackId} 發聲失敗:`, err);
-      }
+  playNote(trackId, midiNotes, time, durationSec, velocity = .72) {
+    if (!this.audioCtx || this.getEffectiveGain(trackId) <= .001) return;
+    const instrument = trackId === 'bass' ? 'acoustic-bass' : trackId === 'guitar' ? 'nylon-guitar' : 'piano';
+    const notes = (Array.isArray(midiNotes) ? midiNotes : [midiNotes])
+      .filter(midi => Number.isFinite(midi) && midi > 0);
+    if (!notes.length || !Number.isFinite(durationSec) || durationSec <= 0) return;
+    if (this.reverb && !this.reverb.buffer) this.reverb.buffer = this.roomImpulse;
+    const ctx = this.audioCtx;
+    const duration = Math.max(.04, durationSec);
+    const start = Math.max(time, ctx.currentTime);
+    const release = trackId === 'bass' ? .09 : trackId === 'guitar' ? .16 : .20;
+    const strength = Math.max(.1, Math.min(1, velocity));
+    for (let i = 0; i < notes.length; i++) {
+      const midi = notes[i];
+      const sample = this.bank.select(instrument, midi, strength);
+      if (!sample) throw new Error(`音色尚未載入：${instrument}`);
+      const source = ctx.createBufferSource();
+      const envelope = ctx.createGain();
+      source.buffer = sample.buffer;
+      const rate = Math.pow(2, (midi - sample.root) / 12);
+      source.playbackRate.setValueAtTime(rate, start);
+      // A subtle 7ms piano spread softens the attack without changing beat anchors.
+      const spread = trackId === 'guitar' ? .018 : trackId === 'chords' ? .007 : 0;
+      const onset = start + Math.min(i * spread, duration * .15);
+      const noteOff = start + duration;
+      const peak = (trackId === 'bass' ? .70 : trackId === 'guitar' ? .46 : .56) * strength / Math.sqrt(notes.length);
+      envelope.gain.setValueAtTime(.0001, onset);
+      envelope.gain.linearRampToValueAtTime(peak, onset + Math.min(.006, duration * .12));
+      // The sample supplies the instrument's own decay; this envelope handles key release.
+      envelope.gain.setValueAtTime(peak, noteOff);
+      envelope.gain.exponentialRampToValueAtTime(.0001, noteOff + release);
+      source.connect(envelope);
+      envelope.connect(this.channelFor(trackId));
+      this.activeVoices.add(source);
+      source.onended = () => {
+        this.activeVoices.delete(source);
+        source.disconnect(); envelope.disconnect();
+      };
+      source.start(onset);
+      source.stop(Math.min(noteOff + release + .01, onset + sample.buffer.duration / rate));
     }
   }
 }

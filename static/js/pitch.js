@@ -301,6 +301,16 @@ export function midiToJianpu(midi, key) {
   return { text, degree, prefix, octaveDots };
 }
 
+/** Movable-do solfege: the key tonic is Do, matching the numbered notation. */
+export function midiToSolfege(midi, key) {
+  const info = midiToJianpu(midi, key);
+  if (info.degree === null) return { ...info, text: '休止', syllable: null };
+  const syllable = ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Si'][info.degree - 1];
+  const dots = info.octaveDots > 0 ? '\u0307'.repeat(info.octaveDots)
+    : '\u0323'.repeat(-info.octaveDots);
+  return { ...info, syllable, text: info.prefix + syllable + dots };
+}
+
 /**
  * 取得指定調的調號升降記號列表（給 VexFlow 用）。
  *

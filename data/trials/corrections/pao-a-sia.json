@@ -1,0 +1,16 @@
+[
+  {
+    "measure": "6",
+    "note": 5,
+    "expected": {"duration": "4", "type": "quarter"},
+    "replacement": {"duration": "2", "type": "eighth"},
+    "reason": "原始炮仔聲.pdf 第一行第六小節末音 G#4 有八分音符旗；MusicXML 誤辨為四分音符，造成多半拍。"
+  },
+  {
+    "measure": "7",
+    "note": 5,
+    "expected": {"duration": "4", "type": "quarter"},
+    "replacement": {"duration": "2", "type": "eighth"},
+    "reason": "原始炮仔聲.pdf 第一行第七小節末音 A4 有八分音符旗；MusicXML 誤辨為四分音符，造成多半拍。"
+  }
+]

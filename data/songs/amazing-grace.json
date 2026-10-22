@@ -4,26 +4,93 @@
   "composer": "Traditional",
   "license": "public-domain",
   "keyConcert": "G",
-  "timeSignature": [3, 4],
+  "timeSignature": [
+    3,
+    4
+  ],
   "tempo": 80,
   "measures": 9,
   "melody": [
-    { "midi": 0, "start": 0, "dur": 2 },
-    { "midi": 62, "start": 2, "dur": 1 },
-    { "midi": 67, "start": 3, "dur": 2 },
-    { "midi": 71, "start": 5, "dur": 1 },
-    { "midi": 71, "start": 6, "dur": 2 },
-    { "midi": 69, "start": 8, "dur": 1 },
-    { "midi": 67, "start": 9, "dur": 2 },
-    { "midi": 64, "start": 11, "dur": 1 },
-    { "midi": 62, "start": 12, "dur": 2 },
-    { "midi": 62, "start": 14, "dur": 1 },
-    { "midi": 67, "start": 15, "dur": 2 },
-    { "midi": 71, "start": 17, "dur": 1 },
-    { "midi": 71, "start": 18, "dur": 2 },
-    { "midi": 69, "start": 20, "dur": 1 },
-    { "midi": 74, "start": 21, "dur": 3 },
-    { "midi": 71, "start": 24, "dur": 3 }
+    {
+      "midi": 0,
+      "start": 0,
+      "dur": 2
+    },
+    {
+      "midi": 62,
+      "start": 2,
+      "dur": 1
+    },
+    {
+      "midi": 67,
+      "start": 3,
+      "dur": 2
+    },
+    {
+      "midi": 71,
+      "start": 5,
+      "dur": 1
+    },
+    {
+      "midi": 71,
+      "start": 6,
+      "dur": 2
+    },
+    {
+      "midi": 69,
+      "start": 8,
+      "dur": 1
+    },
+    {
+      "midi": 67,
+      "start": 9,
+      "dur": 2
+    },
+    {
+      "midi": 64,
+      "start": 11,
+      "dur": 1
+    },
+    {
+      "midi": 62,
+      "start": 12,
+      "dur": 2
+    },
+    {
+      "midi": 62,
+      "start": 14,
+      "dur": 1
+    },
+    {
+      "midi": 67,
+      "start": 15,
+      "dur": 2
+    },
+    {
+      "midi": 71,
+      "start": 17,
+      "dur": 1
+    },
+    {
+      "midi": 71,
+      "start": 18,
+      "dur": 2
+    },
+    {
+      "midi": 69,
+      "start": 20,
+      "dur": 1
+    },
+    {
+      "midi": 74,
+      "start": 21,
+      "dur": 3
+    },
+    {
+      "midi": 71,
+      "start": 24,
+      "dur": 3
+    }
   ],
   "tracks": [
     {
@@ -38,15 +105,87 @@
       "type": "notes",
       "volume": 0.5,
       "notes": [
-        { "midi": [43, 47, 50], "start": 0, "dur": 3 },
-        { "midi": [43, 47, 50], "start": 3, "dur": 3 },
-        { "midi": [48, 52, 55], "start": 6, "dur": 3 },
-        { "midi": [43, 47, 50], "start": 9, "dur": 3 },
-        { "midi": [40, 43, 47], "start": 12, "dur": 3 },
-        { "midi": [43, 47, 50], "start": 15, "dur": 3 },
-        { "midi": [48, 52, 55], "start": 18, "dur": 3 },
-        { "midi": [38, 42, 45], "start": 21, "dur": 3 },
-        { "midi": [43, 47, 50], "start": 24, "dur": 3 }
+        {
+          "midi": [
+            43,
+            47,
+            50
+          ],
+          "start": 0,
+          "dur": 3
+        },
+        {
+          "midi": [
+            43,
+            47,
+            50
+          ],
+          "start": 3,
+          "dur": 3
+        },
+        {
+          "midi": [
+            48,
+            52,
+            55
+          ],
+          "start": 6,
+          "dur": 3
+        },
+        {
+          "midi": [
+            43,
+            47,
+            50
+          ],
+          "start": 9,
+          "dur": 3
+        },
+        {
+          "midi": [
+            40,
+            43,
+            47
+          ],
+          "start": 12,
+          "dur": 3
+        },
+        {
+          "midi": [
+            43,
+            47,
+            50
+          ],
+          "start": 15,
+          "dur": 3
+        },
+        {
+          "midi": [
+            48,
+            52,
+            55
+          ],
+          "start": 18,
+          "dur": 3
+        },
+        {
+          "midi": [
+            38,
+            42,
+            45
+          ],
+          "start": 21,
+          "dur": 3
+        },
+        {
+          "midi": [
+            43,
+            47,
+            50
+          ],
+          "start": 24,
+          "dur": 3
+        }
       ]
     },
     {
@@ -55,15 +194,51 @@
       "type": "notes",
       "volume": 0.6,
       "notes": [
-        { "midi": 43, "start": 0, "dur": 3 },
-        { "midi": 43, "start": 3, "dur": 3 },
-        { "midi": 48, "start": 6, "dur": 3 },
-        { "midi": 43, "start": 9, "dur": 3 },
-        { "midi": 40, "start": 12, "dur": 3 },
-        { "midi": 43, "start": 15, "dur": 3 },
-        { "midi": 48, "start": 18, "dur": 3 },
-        { "midi": 50, "start": 21, "dur": 3 },
-        { "midi": 43, "start": 24, "dur": 3 }
+        {
+          "midi": 43,
+          "start": 0,
+          "dur": 3
+        },
+        {
+          "midi": 43,
+          "start": 3,
+          "dur": 3
+        },
+        {
+          "midi": 48,
+          "start": 6,
+          "dur": 3
+        },
+        {
+          "midi": 43,
+          "start": 9,
+          "dur": 3
+        },
+        {
+          "midi": 40,
+          "start": 12,
+          "dur": 3
+        },
+        {
+          "midi": 43,
+          "start": 15,
+          "dur": 3
+        },
+        {
+          "midi": 48,
+          "start": 18,
+          "dur": 3
+        },
+        {
+          "midi": 50,
+          "start": 21,
+          "dur": 3
+        },
+        {
+          "midi": 43,
+          "start": 24,
+          "dur": 3
+        }
       ]
     },
     {
@@ -71,6 +246,80 @@
       "name": "節拍",
       "type": "click",
       "volume": 0.7
+    }
+  ],
+  "chordSymbols": [
+    {
+      "symbol": "G",
+      "root": 7,
+      "quality": "",
+      "start": 0,
+      "dur": 3,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "G",
+      "root": 7,
+      "quality": "",
+      "start": 3,
+      "dur": 3,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "C",
+      "root": 0,
+      "quality": "",
+      "start": 6,
+      "dur": 3,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "G",
+      "root": 7,
+      "quality": "",
+      "start": 9,
+      "dur": 3,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Em",
+      "root": 4,
+      "quality": "m",
+      "start": 12,
+      "dur": 3,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "G",
+      "root": 7,
+      "quality": "",
+      "start": 15,
+      "dur": 3,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "C",
+      "root": 0,
+      "quality": "",
+      "start": 18,
+      "dur": 3,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "D",
+      "root": 2,
+      "quality": "",
+      "start": 21,
+      "dur": 3,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "G",
+      "root": 7,
+      "quality": "",
+      "start": 24,
+      "dur": 3,
+      "source": "existing-notes"
     }
   ]
 }

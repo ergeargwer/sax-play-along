@@ -73,6 +73,8 @@ export class Scheduler {
     // 回呼函式
     this.countInCallback = null;
     this.stateChangeCallback = null;
+    this.audioStatusCallback = null;
+    this.playRequest = 0;
   }
 
   /**
@@ -136,6 +138,9 @@ export class Scheduler {
     }
 
     this.trackManager.setAudioContext(this.audioCtx);
+    if (this.audioStatusCallback) this.audioStatusCallback('正在載入鋼琴、貝斯與木吉他音色…');
+    await this.trackManager.prepareAudio();
+    if (this.audioStatusCallback) this.audioStatusCallback('鋼琴、原聲貝斯與木吉他已就緒');
   }
 
   /**
@@ -158,13 +163,13 @@ export class Scheduler {
       osc.frequency.setValueAtTime(isAccent ? 1200 : 800, time);
 
       // 短包絡線 0.03 秒
-      const peakGain = (isAccent ? 0.4 : 0.25) * gainVal;
+      const peakGain = isAccent ? .22 : .13;
       gain.gain.setValueAtTime(0.001, time);
       gain.gain.exponentialRampToValueAtTime(Math.max(0.001, peakGain), time + 0.002);
       gain.gain.exponentialRampToValueAtTime(0.001, time + 0.03);
 
       osc.connect(gain);
-      gain.connect(this.audioCtx.destination);
+      gain.connect(this.trackManager.channelFor('metronome'));
 
       this.trackManager.activeVoices.add(osc);
       osc.onended = () => {
@@ -196,15 +201,19 @@ export class Scheduler {
    * 開始 / 繼續播放
    */
   async play() {
-    if (!this.song) return;
-
+    if (!this.song || ![PlaybackState.IDLE, PlaybackState.PAUSED].includes(this.state)) return;
+    const request = ++this.playRequest;
+    const song = this.song;
     try {
       await this.ensureAudioContext();
     } catch (err) {
+      if (request !== this.playRequest) return;
+      if (this.audioStatusCallback) this.audioStatusCallback('音色載入失敗，請重試播放');
       alert(`無法啟動音訊: ${err.message}`);
       return;
     }
 
+    if (request !== this.playRequest || song !== this.song) return;
     if (this.state !== PlaybackState.IDLE && this.state !== PlaybackState.PAUSED) return;
     const now = this.getCurrentAudioTime();
 
@@ -246,6 +255,7 @@ export class Scheduler {
    * 暫停播放
    */
   pause() {
+    ++this.playRequest;
     if (this.state === PlaybackState.PLAYING || this.state === PlaybackState.COUNT_IN) {
       const now = this.getCurrentAudioTime();
       const currentBeat = calculateBeatFromAudioTime(now, this.anchorTime, this.anchorBeat, this.baseBpm, this.tempoRatio);
@@ -266,6 +276,7 @@ export class Scheduler {
    * 停止播放並重置
    */
   stop() {
+    ++this.playRequest;
     this.trackManager.stopAll();
     this.setState(PlaybackState.IDLE);
     this.stopSchedulerLoop();
@@ -354,7 +365,7 @@ export class Scheduler {
           if (this.scheduledNoteKeys.has(key)) continue;
           const time = calculateAudioTimeForBeat(ev.start + offset, this.anchorTime, this.anchorBeat, this.baseBpm, this.tempoRatio);
           const dur = Math.min(ev.dur, boundary - ev.start - offset) * bpmToBeatDuration(this.baseBpm * this.tempoRatio);
-          this.trackManager.playNote(track.id, ev.midi, time, dur);
+          this.trackManager.playNote(track.id, ev.midi, time, dur, ev.velocity);
           this.scheduledNoteKeys.add(key);
         }
       }

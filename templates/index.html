@@ -33,11 +33,13 @@
         <span id="countin-number" class="countin-number">4</span>
       </div>
 
+      <p class="harmony-caption">和弦代號採中音薩克斯風寫定調；伴奏以實際音高播放。自動配和弦可作練習參考。</p>
       <!-- VexFlow 譜面繪製區 -->
       <div id="score-container" class="score-wrapper">
         <!-- 由 VexFlow 動態渲染 -->
       </div>
 
+      <p id="audio-status" class="audio-status" role="status" aria-live="polite">柔和伴奏加入輕柔木吉他，可在下方音軌面板調整音量或靜音。</p>
       <!-- 播放控制列 -->
       <div id="controls" class="controls-panel">
         <div class="control-group buttons-group">
@@ -74,8 +76,29 @@
             <input id="show-jianpu" type="checkbox" checked>
             數字簡譜
           </label>
+          <label class="checkbox-label" title="首調唱名：主音為 Do，與數字簡譜使用相同音級；升降與高低八度以記號表示。">
+            <input id="show-solfege" type="checkbox">
+            唱名 Do Re Mi（首調）
+          </label>
+          <label class="checkbox-label">
+            <input id="show-chords" type="checkbox" checked>
+            和弦名稱
+          </label>
         </div>
       </div>
+
+      <details id="audio-comparison" class="audio-comparison" hidden>
+        <summary>奇異恩典：修改前後試聽</summary>
+        <p>約 21 秒，僅伴奏、響度對齊；示範固定音量，練習時請使用上方播放控制。</p>
+        <div class="audio-comparison-grid">
+          <label>修改前：電子合成音
+            <audio id="preview-before" controls preload="none" src="/static/audio/previews/amazing-grace-before.mp3"></audio>
+          </label>
+          <label>修改後：鋼琴、貝斯與木吉他
+            <audio id="preview-after" controls preload="none" src="/static/audio/previews/amazing-grace-after.mp3"></audio>
+          </label>
+        </div>
+      </details>
 
       <div id="track-panel">
         <!-- 階段 4 音軌面板預留 -->
@@ -84,7 +107,7 @@
   </main>
 
   <footer id="app-footer">
-    <p>sax-play-along -- 中音薩克斯風演奏練習</p>
+    <p>sax-play-along -- 中音薩克斯風演奏練習 · <a href="/static/audio/instruments/LICENSE.txt" target="_blank" rel="noopener">音色來源與授權</a></p>
   </footer>
 
   <script src="/static/vendor/vexflow.js"></script>

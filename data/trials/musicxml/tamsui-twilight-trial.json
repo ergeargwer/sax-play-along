@@ -1365,6 +1365,456 @@
       "name": "節拍",
       "type": "click",
       "volume": 0.7
+    },
+    {
+      "id": "chords",
+      "name": "和弦",
+      "type": "notes",
+      "volume": 0.35,
+      "notes": [
+        {
+          "midi": [
+            58,
+            62,
+            65
+          ],
+          "start": 0,
+          "dur": 4
+        },
+        {
+          "midi": [
+            58,
+            62,
+            65
+          ],
+          "start": 4,
+          "dur": 4
+        },
+        {
+          "midi": [
+            58,
+            62,
+            65
+          ],
+          "start": 8,
+          "dur": 4
+        },
+        {
+          "midi": [
+            58,
+            62,
+            65
+          ],
+          "start": 12,
+          "dur": 4
+        },
+        {
+          "midi": [
+            58,
+            62,
+            65
+          ],
+          "start": 16,
+          "dur": 4
+        },
+        {
+          "midi": [
+            58,
+            62,
+            65
+          ],
+          "start": 20,
+          "dur": 4
+        },
+        {
+          "midi": [
+            55,
+            58,
+            62
+          ],
+          "start": 24,
+          "dur": 4
+        },
+        {
+          "midi": [
+            58,
+            62,
+            65
+          ],
+          "start": 28,
+          "dur": 4
+        },
+        {
+          "midi": [
+            48,
+            51,
+            55
+          ],
+          "start": 32,
+          "dur": 4
+        },
+        {
+          "midi": [
+            58,
+            62,
+            65
+          ],
+          "start": 36,
+          "dur": 4
+        },
+        {
+          "midi": [
+            58,
+            62,
+            65
+          ],
+          "start": 40,
+          "dur": 4
+        },
+        {
+          "midi": [
+            55,
+            58,
+            62
+          ],
+          "start": 44,
+          "dur": 4
+        },
+        {
+          "midi": [
+            55,
+            58,
+            62
+          ],
+          "start": 48,
+          "dur": 4
+        },
+        {
+          "midi": [
+            58,
+            62,
+            65
+          ],
+          "start": 52,
+          "dur": 4
+        },
+        {
+          "midi": [
+            55,
+            58,
+            62
+          ],
+          "start": 56,
+          "dur": 4
+        },
+        {
+          "midi": [
+            58,
+            62,
+            65
+          ],
+          "start": 60,
+          "dur": 4
+        }
+      ]
+    },
+    {
+      "id": "bass",
+      "name": "貝斯",
+      "type": "notes",
+      "volume": 0.4,
+      "notes": [
+        {
+          "midi": 46,
+          "start": 0,
+          "dur": 1
+        },
+        {
+          "midi": 41,
+          "start": 1,
+          "dur": 3
+        },
+        {
+          "midi": 46,
+          "start": 4,
+          "dur": 1
+        },
+        {
+          "midi": 41,
+          "start": 5,
+          "dur": 3
+        },
+        {
+          "midi": 46,
+          "start": 8,
+          "dur": 1
+        },
+        {
+          "midi": 41,
+          "start": 9,
+          "dur": 3
+        },
+        {
+          "midi": 46,
+          "start": 12,
+          "dur": 1
+        },
+        {
+          "midi": 41,
+          "start": 13,
+          "dur": 3
+        },
+        {
+          "midi": 46,
+          "start": 16,
+          "dur": 1
+        },
+        {
+          "midi": 41,
+          "start": 17,
+          "dur": 3
+        },
+        {
+          "midi": 46,
+          "start": 20,
+          "dur": 1
+        },
+        {
+          "midi": 41,
+          "start": 21,
+          "dur": 3
+        },
+        {
+          "midi": 43,
+          "start": 24,
+          "dur": 1
+        },
+        {
+          "midi": 38,
+          "start": 25,
+          "dur": 3
+        },
+        {
+          "midi": 46,
+          "start": 28,
+          "dur": 1
+        },
+        {
+          "midi": 41,
+          "start": 29,
+          "dur": 3
+        },
+        {
+          "midi": 36,
+          "start": 32,
+          "dur": 1
+        },
+        {
+          "midi": 43,
+          "start": 33,
+          "dur": 3
+        },
+        {
+          "midi": 46,
+          "start": 36,
+          "dur": 1
+        },
+        {
+          "midi": 41,
+          "start": 37,
+          "dur": 3
+        },
+        {
+          "midi": 46,
+          "start": 40,
+          "dur": 1
+        },
+        {
+          "midi": 41,
+          "start": 41,
+          "dur": 3
+        },
+        {
+          "midi": 43,
+          "start": 44,
+          "dur": 1
+        },
+        {
+          "midi": 38,
+          "start": 45,
+          "dur": 3
+        },
+        {
+          "midi": 43,
+          "start": 48,
+          "dur": 1
+        },
+        {
+          "midi": 38,
+          "start": 49,
+          "dur": 3
+        },
+        {
+          "midi": 46,
+          "start": 52,
+          "dur": 1
+        },
+        {
+          "midi": 41,
+          "start": 53,
+          "dur": 3
+        },
+        {
+          "midi": 43,
+          "start": 56,
+          "dur": 1
+        },
+        {
+          "midi": 38,
+          "start": 57,
+          "dur": 3
+        },
+        {
+          "midi": 46,
+          "start": 60,
+          "dur": 1
+        },
+        {
+          "midi": 41,
+          "start": 61,
+          "dur": 3
+        }
+      ]
+    }
+  ],
+  "chordSymbols": [
+    {
+      "symbol": "Bb",
+      "root": 10,
+      "quality": "",
+      "start": 0,
+      "dur": 4,
+      "source": "automatic"
+    },
+    {
+      "symbol": "Bb",
+      "root": 10,
+      "quality": "",
+      "start": 4,
+      "dur": 4,
+      "source": "automatic"
+    },
+    {
+      "symbol": "Bb",
+      "root": 10,
+      "quality": "",
+      "start": 8,
+      "dur": 4,
+      "source": "automatic"
+    },
+    {
+      "symbol": "Bb",
+      "root": 10,
+      "quality": "",
+      "start": 12,
+      "dur": 4,
+      "source": "automatic"
+    },
+    {
+      "symbol": "Bb",
+      "root": 10,
+      "quality": "",
+      "start": 16,
+      "dur": 4,
+      "source": "automatic"
+    },
+    {
+      "symbol": "Bb",
+      "root": 10,
+      "quality": "",
+      "start": 20,
+      "dur": 4,
+      "source": "automatic"
+    },
+    {
+      "symbol": "Gm",
+      "root": 7,
+      "quality": "m",
+      "start": 24,
+      "dur": 4,
+      "source": "automatic"
+    },
+    {
+      "symbol": "Bb",
+      "root": 10,
+      "quality": "",
+      "start": 28,
+      "dur": 4,
+      "source": "automatic"
+    },
+    {
+      "symbol": "Cm",
+      "root": 0,
+      "quality": "m",
+      "start": 32,
+      "dur": 4,
+      "source": "automatic"
+    },
+    {
+      "symbol": "Bb",
+      "root": 10,
+      "quality": "",
+      "start": 36,
+      "dur": 4,
+      "source": "automatic"
+    },
+    {
+      "symbol": "Bb",
+      "root": 10,
+      "quality": "",
+      "start": 40,
+      "dur": 4,
+      "source": "automatic"
+    },
+    {
+      "symbol": "Gm",
+      "root": 7,
+      "quality": "m",
+      "start": 44,
+      "dur": 4,
+      "source": "automatic"
+    },
+    {
+      "symbol": "Gm",
+      "root": 7,
+      "quality": "m",
+      "start": 48,
+      "dur": 4,
+      "source": "automatic"
+    },
+    {
+      "symbol": "Bb",
+      "root": 10,
+      "quality": "",
+      "start": 52,
+      "dur": 4,
+      "source": "automatic"
+    },
+    {
+      "symbol": "Gm",
+      "root": 7,
+      "quality": "m",
+      "start": 56,
+      "dur": 4,
+      "source": "automatic"
+    },
+    {
+      "symbol": "Bb",
+      "root": 10,
+      "quality": "",
+      "start": 60,
+      "dur": 4,
+      "source": "automatic"
     }
   ]
 }

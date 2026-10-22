@@ -1,0 +1,117 @@
+{
+  "source": "/home/sweet/樂譜/開源格式/炮仔聲.musicxml",
+  "sha256": "d555e4a29305a65c99eba16ee6de414550edf2a57e220bd11f5bd46dbaca814d",
+  "sourceAudit": {
+    "file": "炮仔聲.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 37,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [
+          "3"
+        ],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 0,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": [
+          {
+            "measure": "6",
+            "actual": "9/2",
+            "expected": "4",
+            "implicit": null
+          },
+          {
+            "measure": "7",
+            "actual": "9/2",
+            "expected": "4",
+            "implicit": null
+          }
+        ]
+      }
+    ]
+  },
+  "conversion": {
+    "id": "pao-a-sia-musicxml-trial",
+    "measures": 37,
+    "events": 174,
+    "rests": 4,
+    "timeSignature": [
+      4,
+      4
+    ],
+    "writtenKey": "A",
+    "keyConcert": "C",
+    "transpose": -9,
+    "practiceTempo": 80,
+    "pitchBasis": "Original PDF explicitly says For Eb Sax",
+    "chordSymbols": 37,
+    "durationBeats": 148.0,
+    "writtenMidiRange": [
+      62,
+      81
+    ]
+  },
+  "corrections": [
+    {
+      "measure": "6",
+      "note": 5,
+      "expected": {
+        "duration": "4",
+        "type": "quarter"
+      },
+      "replacement": {
+        "duration": "2",
+        "type": "eighth"
+      },
+      "reason": "原始炮仔聲.pdf 第一行第六小節末音 G#4 有八分音符旗；MusicXML 誤辨為四分音符，造成多半拍。"
+    },
+    {
+      "measure": "7",
+      "note": 5,
+      "expected": {
+        "duration": "4",
+        "type": "quarter"
+      },
+      "replacement": {
+        "duration": "2",
+        "type": "eighth"
+      },
+      "reason": "原始炮仔聲.pdf 第一行第七小節末音 A4 有八分音符旗；MusicXML 誤辨為四分音符，造成多半拍。"
+    }
+  ],
+  "verification": {
+    "browser": "Chromium",
+    "scoreEvents": 174,
+    "chordLabels": 37,
+    "desktopAndMobile": true,
+    "browserErrors": [],
+    "audio": {
+      "secondsIncludingTail": 111.7,
+      "peak": 0.48920515179634094,
+      "rms": 0.06123790856656609,
+      "finite": true,
+      "parts": [
+        "melody-guide",
+        "chords",
+        "bass",
+        "guitar"
+      ]
+    },
+    "pythonTests": 72,
+    "frontendTestFiles": 6
+  }
+}

@@ -47,3 +47,15 @@ test('暫停、停止取消發聲；換曲重設速度與循環', () => {
   assert.equal(s.tempoRatio, 1);
   assert.equal(s.loopEnabled, false);
 });
+
+test('音色載入期間停止或換曲，不會在載入完成後突然播放', async () => {
+  const { scheduler: s }=fixture();
+  s.state=PlaybackState.IDLE;
+  let ready;
+  s.ensureAudioContext=()=>new Promise(resolve=>{ready=resolve;});
+  let started=0;s.startSchedulerLoop=()=>{started++;};s.startAnimFrameLoop=()=>{};
+  const pending=s.play();s.stop();ready();await pending;
+  assert.equal(s.state,PlaybackState.IDLE);assert.equal(started,0);
+  const another=s.play();s.init({...s.song,id:'another-song'});ready();await another;
+  assert.equal(s.state,PlaybackState.IDLE);assert.equal(started,0);
+});

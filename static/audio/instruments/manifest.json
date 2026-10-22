@@ -1,0 +1,435 @@
+{
+  "version": 1,
+  "source": "FluidR3 GM",
+  "license": "MIT",
+  "sourceSha256": "74594e8f4250680adf590507a306655a299935343583256f3b722c48a1bc1cb0",
+  "sampleRate": 32000,
+  "instruments": {
+    "piano": [
+      {
+        "root": 42,
+        "velocity": 60,
+        "file": "piano-42-v60.mp3",
+        "sha256": "fe1ad1a9a0b654f4fa889c99812b768c407e2047af16159c60edecd568afdb00"
+      },
+      {
+        "root": 42,
+        "velocity": 88,
+        "file": "piano-42-v88.mp3",
+        "sha256": "f3090d5b4c3459b524749e320577169cf92995bb4568106bd465773166d99f7c"
+      },
+      {
+        "root": 45,
+        "velocity": 60,
+        "file": "piano-45-v60.mp3",
+        "sha256": "d087261f236e90b0db51e0e329128ffe850c0ef86ba5fd13680cf0d5cb60c848"
+      },
+      {
+        "root": 45,
+        "velocity": 88,
+        "file": "piano-45-v88.mp3",
+        "sha256": "b5cd266c6bef98987c3cd71a09e801b799c03bf768bfcc3eb06fc168d45c7ed1"
+      },
+      {
+        "root": 48,
+        "velocity": 60,
+        "file": "piano-48-v60.mp3",
+        "sha256": "698f75bf4904dc8b11652a6e2ded399a8c69c213b30d215152f44dc1fcc4bc65"
+      },
+      {
+        "root": 48,
+        "velocity": 88,
+        "file": "piano-48-v88.mp3",
+        "sha256": "4fd76ca2e339513b0a74f88961299573566ca9bc66ead5f8c412e014526a404e"
+      },
+      {
+        "root": 51,
+        "velocity": 60,
+        "file": "piano-51-v60.mp3",
+        "sha256": "ada493ee38db712579e3f454206b36a4047fa7800eddeadb5ba733773a1ff029"
+      },
+      {
+        "root": 51,
+        "velocity": 88,
+        "file": "piano-51-v88.mp3",
+        "sha256": "e302321a878fcc1ed8183d0f96b41a03f51e2d6f17f4a2f4f0ad434927828cf6"
+      },
+      {
+        "root": 54,
+        "velocity": 60,
+        "file": "piano-54-v60.mp3",
+        "sha256": "a97195fd2dc828640b85300ce1c593c023e44047fab4212fd42a21f515f6fd83"
+      },
+      {
+        "root": 54,
+        "velocity": 88,
+        "file": "piano-54-v88.mp3",
+        "sha256": "93f573ede93380087964a864e468e5f6a1d17afa34de8170622a8f10be20f4fc"
+      },
+      {
+        "root": 57,
+        "velocity": 60,
+        "file": "piano-57-v60.mp3",
+        "sha256": "c4473e7fe5d6cbe97a08638b2166f23f2a93f77bf906c9a63fe9d4fbb72ac73d"
+      },
+      {
+        "root": 57,
+        "velocity": 88,
+        "file": "piano-57-v88.mp3",
+        "sha256": "7f026d157c2acb7550e3cf6c7bf5af0c49deff1939bbe7c5af2ea90b69f6fcfd"
+      },
+      {
+        "root": 60,
+        "velocity": 60,
+        "file": "piano-60-v60.mp3",
+        "sha256": "09e3ac39c3931835f0ee7082de49bdb4e478644619d0b461837d7c5e8513418d"
+      },
+      {
+        "root": 60,
+        "velocity": 88,
+        "file": "piano-60-v88.mp3",
+        "sha256": "3289c40db4b992bab275474f1461adc7d546ab6d6ff1db87b8f5077c64e31539"
+      },
+      {
+        "root": 63,
+        "velocity": 60,
+        "file": "piano-63-v60.mp3",
+        "sha256": "14984fe481de6b3c16ccc58570a6c8f57254d006e615ca39c27ab1552239bb0c"
+      },
+      {
+        "root": 63,
+        "velocity": 88,
+        "file": "piano-63-v88.mp3",
+        "sha256": "c985e5750a5b3a94233e7b5dd5a7be6839da1fe0abf9a51f666373c5af3a5ab8"
+      },
+      {
+        "root": 66,
+        "velocity": 60,
+        "file": "piano-66-v60.mp3",
+        "sha256": "50e345d210060d7095de2bce2b2a0c9df61d2f5c77db620047f87d4614052187"
+      },
+      {
+        "root": 66,
+        "velocity": 88,
+        "file": "piano-66-v88.mp3",
+        "sha256": "a4cc8ca7fec181210f9192a1fbfcb90766782f4373c608c0356cd3557c2d46ed"
+      },
+      {
+        "root": 69,
+        "velocity": 60,
+        "file": "piano-69-v60.mp3",
+        "sha256": "1a5f3126cbf1f68d3fbba51e7398f4008b5bd82bc166437fcd670c7788f6080e"
+      },
+      {
+        "root": 69,
+        "velocity": 88,
+        "file": "piano-69-v88.mp3",
+        "sha256": "91deef053cae6ba9afd63935f6244612ce28b7a24f380c4da02af13c9d6e068b"
+      },
+      {
+        "root": 72,
+        "velocity": 60,
+        "file": "piano-72-v60.mp3",
+        "sha256": "63bc336732a2d3765dc3153fb8a59a349d4c638d96f06c87d64fb2104ce7aa4c"
+      },
+      {
+        "root": 72,
+        "velocity": 88,
+        "file": "piano-72-v88.mp3",
+        "sha256": "25b95ed59c2e01fe3f256637dd2dcfd1a39131cf7bc40c343edce59abb41a9aa"
+      },
+      {
+        "root": 75,
+        "velocity": 60,
+        "file": "piano-75-v60.mp3",
+        "sha256": "66b3ee201c68d8ef9bf29411805a80c2f31c04f67a6b719055e86b53891e9dba"
+      },
+      {
+        "root": 75,
+        "velocity": 88,
+        "file": "piano-75-v88.mp3",
+        "sha256": "540bba7c8c55ac9a3098dafcb8345960f1f9aa100c03c4df3cb8bff538cf124b"
+      },
+      {
+        "root": 78,
+        "velocity": 60,
+        "file": "piano-78-v60.mp3",
+        "sha256": "12c91d574f4bf02f2688dbff2b30c698e7575561ce4b2263476065eaa7592044"
+      },
+      {
+        "root": 78,
+        "velocity": 88,
+        "file": "piano-78-v88.mp3",
+        "sha256": "6213dd77e92220befc46a71574d65a2f2b6b30c8382a7f4d5216fdd2a95aff6f"
+      },
+      {
+        "root": 81,
+        "velocity": 60,
+        "file": "piano-81-v60.mp3",
+        "sha256": "2281039969ed741b3b268f20cf46deff0928c7f222cadd8134670dcd2fb54452"
+      },
+      {
+        "root": 81,
+        "velocity": 88,
+        "file": "piano-81-v88.mp3",
+        "sha256": "18ee4495a7036d8843a63860a27463a3b931da6ab704a90615b53c5e9014412d"
+      },
+      {
+        "root": 84,
+        "velocity": 60,
+        "file": "piano-84-v60.mp3",
+        "sha256": "4033c1dfbbad77501266069466f65328014138a4095c5dc2c4ff043ae58a8adb"
+      },
+      {
+        "root": 84,
+        "velocity": 88,
+        "file": "piano-84-v88.mp3",
+        "sha256": "33bf2778d8e9331a461430b244007dd197e44329da5548c207df1da748373677"
+      },
+      {
+        "root": 87,
+        "velocity": 60,
+        "file": "piano-87-v60.mp3",
+        "sha256": "76e79f167de1f7d766b98a9495c19261ac500f72c2f5dd04e97c3b52cd4fa707"
+      },
+      {
+        "root": 87,
+        "velocity": 88,
+        "file": "piano-87-v88.mp3",
+        "sha256": "b87fb882908be28d013cafc4d9cc93a0fb340e203d3b0bdb7eaacb7510b7d219"
+      },
+      {
+        "root": 90,
+        "velocity": 60,
+        "file": "piano-90-v60.mp3",
+        "sha256": "88d45e0e5454e00f82b37e4a03f18a59c1d73a3319ff75e1643401d7737f9731"
+      },
+      {
+        "root": 90,
+        "velocity": 88,
+        "file": "piano-90-v88.mp3",
+        "sha256": "1752d3facfb426c8bd43c01c9665ef76a597b2d0ffeda0c7e56012aec6d7962d"
+      }
+    ],
+    "acoustic-bass": [
+      {
+        "root": 28,
+        "velocity": 80,
+        "file": "acoustic-bass-28-v80.mp3",
+        "sha256": "516d39d80aefc828b90c4739aaad8bb1e50d7fe29bb55cff4eefa068d375e44b"
+      },
+      {
+        "root": 31,
+        "velocity": 80,
+        "file": "acoustic-bass-31-v80.mp3",
+        "sha256": "ccf0eb41fa598d82caa74ea32e5585d90fd4440e686c5a72d47e4acf42ea09f8"
+      },
+      {
+        "root": 34,
+        "velocity": 80,
+        "file": "acoustic-bass-34-v80.mp3",
+        "sha256": "c2dd5af7df113e8fe411053fb1aa7fadf4c39a96c1eae1d14f4c9dd169f60618"
+      },
+      {
+        "root": 37,
+        "velocity": 80,
+        "file": "acoustic-bass-37-v80.mp3",
+        "sha256": "d6c39d0af064a36aeb2b4cd148aeb8a75a9477369974729063a90fedb6a5dbd4"
+      },
+      {
+        "root": 40,
+        "velocity": 80,
+        "file": "acoustic-bass-40-v80.mp3",
+        "sha256": "d476fb7897e6734b7a4d8d436c7df33e38d9d86135b1df8fa0a00a95cd6fabf1"
+      },
+      {
+        "root": 43,
+        "velocity": 80,
+        "file": "acoustic-bass-43-v80.mp3",
+        "sha256": "dc9a9923890663f9425499233d520532c0cea46ce6a96cdb9b046acbedab6515"
+      },
+      {
+        "root": 46,
+        "velocity": 80,
+        "file": "acoustic-bass-46-v80.mp3",
+        "sha256": "d5c3762b1f1b751636750efbd80526e29c1f9e1c64693cee3b6cb99aee969704"
+      },
+      {
+        "root": 49,
+        "velocity": 80,
+        "file": "acoustic-bass-49-v80.mp3",
+        "sha256": "e95185000d3301c35f756787d39c760dab337b160a8f7fe83e75e2353b8b0d1e"
+      },
+      {
+        "root": 52,
+        "velocity": 80,
+        "file": "acoustic-bass-52-v80.mp3",
+        "sha256": "ba3dc374306a76c11fd4fc981e42fd3be6702cf182d0e51a2889397ffa5799f5"
+      },
+      {
+        "root": 55,
+        "velocity": 80,
+        "file": "acoustic-bass-55-v80.mp3",
+        "sha256": "bc9e3b138e214419a9d9c9e0b8b265c9fb4681049fbee876aa5de09c995fb56e"
+      }
+    ],
+    "nylon-guitar": [
+      {
+        "root": 45,
+        "velocity": 56,
+        "file": "nylon-guitar-45-v56.mp3",
+        "sha256": "88e42766c045495d4b17a8ad6a9aa76a8a0207ccbe7cce498704ab8d7fb3023b"
+      },
+      {
+        "root": 45,
+        "velocity": 80,
+        "file": "nylon-guitar-45-v80.mp3",
+        "sha256": "9529d7050345f57d6b6ea2d434edd51c494ca094bce67175f951750ea8fe846c"
+      },
+      {
+        "root": 48,
+        "velocity": 56,
+        "file": "nylon-guitar-48-v56.mp3",
+        "sha256": "9f1f3ad37a72ca145b29ff1943935d997c5f8a8b8e1f613d4f579b115b37eeda"
+      },
+      {
+        "root": 48,
+        "velocity": 80,
+        "file": "nylon-guitar-48-v80.mp3",
+        "sha256": "51dcf06956d59c02cfff5ae66ed9543511f1d9322e0ed710428dcdafafe1a96a"
+      },
+      {
+        "root": 51,
+        "velocity": 56,
+        "file": "nylon-guitar-51-v56.mp3",
+        "sha256": "5551956dec1e3c1a6f46a997797c23cfb3a99d4cd78d8e9524d49de8b2978a90"
+      },
+      {
+        "root": 51,
+        "velocity": 80,
+        "file": "nylon-guitar-51-v80.mp3",
+        "sha256": "af0864da26d386265535a8f189192053edcde913b871c965e571a4326e9eb4ff"
+      },
+      {
+        "root": 54,
+        "velocity": 56,
+        "file": "nylon-guitar-54-v56.mp3",
+        "sha256": "510983409b7ae33da88c01c25755eed5889f9d25841042a0e36ac7eb0e463859"
+      },
+      {
+        "root": 54,
+        "velocity": 80,
+        "file": "nylon-guitar-54-v80.mp3",
+        "sha256": "5892db5770a1e764e191b2480f737f57594eaea0f32644a942ce4221c9e609d5"
+      },
+      {
+        "root": 57,
+        "velocity": 56,
+        "file": "nylon-guitar-57-v56.mp3",
+        "sha256": "9753151225201a541adeed4578a75b2c105d9b93573c15242e3fc2e469763ce8"
+      },
+      {
+        "root": 57,
+        "velocity": 80,
+        "file": "nylon-guitar-57-v80.mp3",
+        "sha256": "ad629efe5e56fdcad1e9831c8c596b41e6049fb8687ae3ef3e36c120a279f541"
+      },
+      {
+        "root": 60,
+        "velocity": 56,
+        "file": "nylon-guitar-60-v56.mp3",
+        "sha256": "1ff776c9cc5ac1cc16dba499de299c8d06937783f15204c02ea12e8c8940e580"
+      },
+      {
+        "root": 60,
+        "velocity": 80,
+        "file": "nylon-guitar-60-v80.mp3",
+        "sha256": "6b6c3f3457ae2a53c0f3fe020a3caa795c0acce052234bc62d0ec92db7a36db6"
+      },
+      {
+        "root": 63,
+        "velocity": 56,
+        "file": "nylon-guitar-63-v56.mp3",
+        "sha256": "792f5ce32a14136f7552da7a49c0faa581cfb9c89695e80dcf303cacd1b8b21e"
+      },
+      {
+        "root": 63,
+        "velocity": 80,
+        "file": "nylon-guitar-63-v80.mp3",
+        "sha256": "76a561b1e7cf7101e2e31a891bd48167ad97c25cea6ddcb2a20d56c4153a2bf3"
+      },
+      {
+        "root": 66,
+        "velocity": 56,
+        "file": "nylon-guitar-66-v56.mp3",
+        "sha256": "9f6c2fd39c45e9aa7740f2a78bf8ff7d421484c6ea6cc0ec071249dddff694f0"
+      },
+      {
+        "root": 66,
+        "velocity": 80,
+        "file": "nylon-guitar-66-v80.mp3",
+        "sha256": "cefd47d5ba725da7404ae65409045225c810883f006eaab5bd093e637d05aa0b"
+      },
+      {
+        "root": 69,
+        "velocity": 56,
+        "file": "nylon-guitar-69-v56.mp3",
+        "sha256": "5529699dde458304c3f16ed4370d4beb9da10757068a0fb3ee230315f01ecb32"
+      },
+      {
+        "root": 69,
+        "velocity": 80,
+        "file": "nylon-guitar-69-v80.mp3",
+        "sha256": "6563b0f5df815bfc3cf7e8563af3530ed581b89c513b8c8a7400350c7c7bea22"
+      },
+      {
+        "root": 72,
+        "velocity": 56,
+        "file": "nylon-guitar-72-v56.mp3",
+        "sha256": "1b37f0188ce3114ae872d957c34e5116a5e2ebfe71afa33c1d0074142a75a1bb"
+      },
+      {
+        "root": 72,
+        "velocity": 80,
+        "file": "nylon-guitar-72-v80.mp3",
+        "sha256": "f3eb946c78f3e3fc125ffbcd5f5194596533fc384469cbef65cb022ad7cc81c6"
+      },
+      {
+        "root": 75,
+        "velocity": 56,
+        "file": "nylon-guitar-75-v56.mp3",
+        "sha256": "1ce909938ac671b493a3f422f67ccfbd85bdfcc3750ef3e7a59a2fc217aa9df0"
+      },
+      {
+        "root": 75,
+        "velocity": 80,
+        "file": "nylon-guitar-75-v80.mp3",
+        "sha256": "21d4fff1bb6f94c848682097e71a9dd3815b25c660a0ed2cfbb21abf224b43b6"
+      },
+      {
+        "root": 78,
+        "velocity": 56,
+        "file": "nylon-guitar-78-v56.mp3",
+        "sha256": "616c35c6879c5f0ac37cd8211fa819d88096bfdd111063c05091b3438be97a0c"
+      },
+      {
+        "root": 78,
+        "velocity": 80,
+        "file": "nylon-guitar-78-v80.mp3",
+        "sha256": "31e2c7d141f1f7bc9defe1791bc364b7dc5cd0416b98887e380b30e04d5ea541"
+      },
+      {
+        "root": 81,
+        "velocity": 56,
+        "file": "nylon-guitar-81-v56.mp3",
+        "sha256": "5383f8d12cbe30ca4069b5ab3efb798ee2935c2f6537f1c75d253f8fe7c2725f"
+      },
+      {
+        "root": 81,
+        "velocity": 80,
+        "file": "nylon-guitar-81-v80.mp3",
+        "sha256": "3d37b38dd82c1c62e80156b935e5ecdf7d26871b3239dbe3b391f5243fd53dc9"
+      }
+    ]
+  }
+}

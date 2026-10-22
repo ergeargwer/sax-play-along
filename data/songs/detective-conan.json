@@ -1323,5 +1323,247 @@
       "type": "click",
       "volume": 0.7
     }
+  ],
+  "chordSymbols": [
+    {
+      "symbol": "Fm",
+      "root": 5,
+      "quality": "m",
+      "start": 0,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Db",
+      "root": 1,
+      "quality": "",
+      "start": 4,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Ebaug",
+      "root": 3,
+      "quality": "aug",
+      "start": 8,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "C7",
+      "root": 0,
+      "quality": "7",
+      "start": 12,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Fm",
+      "root": 5,
+      "quality": "m",
+      "start": 16,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Db",
+      "root": 1,
+      "quality": "",
+      "start": 20,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Ebaug",
+      "root": 3,
+      "quality": "aug",
+      "start": 24,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "C7",
+      "root": 0,
+      "quality": "7",
+      "start": 28,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Fm",
+      "root": 5,
+      "quality": "m",
+      "start": 32,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Db",
+      "root": 1,
+      "quality": "",
+      "start": 36,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Ebaug",
+      "root": 3,
+      "quality": "aug",
+      "start": 40,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "C7",
+      "root": 0,
+      "quality": "7",
+      "start": 44,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Fm",
+      "root": 5,
+      "quality": "m",
+      "start": 48,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Db",
+      "root": 1,
+      "quality": "",
+      "start": 52,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Ebaug",
+      "root": 3,
+      "quality": "aug",
+      "start": 56,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "C7",
+      "root": 0,
+      "quality": "7",
+      "start": 60,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Fm",
+      "root": 5,
+      "quality": "m",
+      "start": 64,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Db",
+      "root": 1,
+      "quality": "",
+      "start": 68,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Ebaug",
+      "root": 3,
+      "quality": "aug",
+      "start": 72,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "C7",
+      "root": 0,
+      "quality": "7",
+      "start": 76,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Fm",
+      "root": 5,
+      "quality": "m",
+      "start": 80,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Db",
+      "root": 1,
+      "quality": "",
+      "start": 84,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Ebaug",
+      "root": 3,
+      "quality": "aug",
+      "start": 88,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "C7",
+      "root": 0,
+      "quality": "7",
+      "start": 92,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Fm",
+      "root": 5,
+      "quality": "m",
+      "start": 96,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Db",
+      "root": 1,
+      "quality": "",
+      "start": 100,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Ebaug",
+      "root": 3,
+      "quality": "aug",
+      "start": 104,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "C7",
+      "root": 0,
+      "quality": "7",
+      "start": 108,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Fm",
+      "root": 5,
+      "quality": "m",
+      "start": 112,
+      "dur": 4.0,
+      "source": "existing-notes"
+    },
+    {
+      "symbol": "Db",
+      "root": 1,
+      "quality": "",
+      "start": 116,
+      "dur": 4.0,
+      "source": "existing-notes"
+    }
   ]
 }

@@ -446,3 +446,16 @@ body {
   margin-top: 2rem;
   border-top: 1px solid #e0e0e0;
 }
+
+/* Chord labels above the Eb saxophone staff. */
+.chord-symbol { fill: #24364b; }
+.harmony-caption { color: #526070; font-size: 0.9rem; margin: 0 0 0.7rem; }
+
+.audio-status { color: #526070; font-size: .85rem; margin: .65rem 0; }
+
+.audio-comparison { margin: 1rem 0; padding: 1rem; border-radius: 10px; background: #fff; border: 1px solid #dce4eb; }
+.audio-comparison summary { cursor: pointer; font-weight: 600; color: #24364b; }
+.audio-comparison p { font-size: .85rem; color: #526070; }
+.audio-comparison-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
+.audio-comparison label { display: grid; gap: .5rem; max-width: 100%; }
+.audio-comparison audio { width: 300px; max-width: 100%; }

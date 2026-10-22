@@ -8,9 +8,11 @@ import {
   midiToNoteName,
   midiToVexFlowKey,
   midiToJianpu,
+  midiToSolfege,
   getVexFlowKeySignature,
   durationToVexFlow,
 } from './pitch.js';
+import { chordsInMeasure } from './harmony.js';
 
 /** 當前渲染的曲目資料快取 */
 let currentSongData = null;
@@ -26,15 +28,17 @@ let renderedNotesCache = [];
 /** 當前高亮之音符索引 */
 let currentHighlightedIndex = -1;
 
-/** 標記顯示控制 (英文音名與數字簡譜) */
+/** 標記顯示控制 (英文音名、數字簡譜、唱名與和弦名稱) */
 let currentDisplayOptions = {
   showNoteName: true,
   showJianpu: true,
+  showChords: true,
+  showSolfege: false,
 };
 
 /**
  * 設定標記顯示選項
- * @param {Object} options - { showNoteName?: boolean, showJianpu?: boolean }
+ * @param {Object} options - { showNoteName?: boolean, showJianpu?: boolean, showChords?: boolean, showSolfege?: boolean }
  */
 export function setAnnotationDisplayOptions(options) {
   if (options && typeof options === 'object') {
@@ -44,12 +48,18 @@ export function setAnnotationDisplayOptions(options) {
     if (typeof options.showJianpu === 'boolean') {
       currentDisplayOptions.showJianpu = options.showJianpu;
     }
+    if (typeof options.showSolfege === 'boolean') {
+      currentDisplayOptions.showSolfege = options.showSolfege;
+    }
+    if (typeof options.showChords === 'boolean') {
+      currentDisplayOptions.showChords = options.showChords;
+    }
   }
 }
 
 /**
  * 取得當前標記顯示設定
- * @returns {Object} { showNoteName: boolean, showJianpu: boolean }
+ * @returns {Object} { showNoteName: boolean, showJianpu: boolean, showChords: boolean, showSolfege: boolean }
  */
 export function getAnnotationDisplayOptions() {
   return { ...currentDisplayOptions };
@@ -117,7 +127,7 @@ function groupNotesByMeasure(melody, totalMeasures, beatsPerMeasure) {
  *
  * @param {Object} song - 曲目物件
  * @param {string | HTMLElement} [containerTarget='score-container'] - 放置譜面的 DOM 元素或 ID
- * @param {Object} [options] - 可選的標記顯示選項 { showNoteName?: boolean, showJianpu?: boolean }
+ * @param {Object} [options] - 可選的標記顯示選項 { showNoteName?: boolean, showJianpu?: boolean, showChords?: boolean, showSolfege?: boolean }
  */
 export function renderScore(song, containerTarget = 'score-container', options = null) {
   if (!song) {
@@ -189,7 +199,7 @@ export function renderScore(song, containerTarget = 'score-container', options =
     rows.push(measuresData.slice(i, i + measuresPerLine));
   }
 
-  const rowHeight = 140;
+  const rowHeight = 160;
   const totalHeight = rows.length * rowHeight + 30;
 
   // 建立 VexFlow Renderer (SVG 模式)
@@ -221,7 +231,7 @@ export function renderScore(song, containerTarget = 'score-container', options =
 
   rows.forEach((lineMeasures, rowIndex) => {
     const lineMeasureWidth = (containerWidth - 10) / lineMeasures.length;
-    const startY = 10 + rowIndex * rowHeight;
+    const startY = 34 + rowIndex * rowHeight;
 
     lineMeasures.forEach((measureNotes, colIndex) => {
       const startX = 5 + colIndex * lineMeasureWidth;
@@ -287,11 +297,13 @@ export function renderScore(song, containerTarget = 'score-container', options =
         // 標記顯示控制邏輯 (英文音名 / 數字簡譜)
         const showName = currentDisplayOptions.showNoteName;
         const showJianpu = currentDisplayOptions.showJianpu;
+        const showSolfege = currentDisplayOptions.showSolfege;
         const annotationParts = [];
 
         if (isRest) {
           if (showName) annotationParts.push('R');
           if (showJianpu) annotationParts.push('0');
+          if (showSolfege) annotationParts.push('休止');
         } else {
           if (showName) {
             const noteNameInfo = midiToNoteName(writtenMidi, writtenKey);
@@ -300,6 +312,9 @@ export function renderScore(song, containerTarget = 'score-container', options =
           if (showJianpu) {
             const jianpuInfo = midiToJianpu(writtenMidi, writtenKey);
             annotationParts.push(jianpuInfo.text);
+          }
+          if (showSolfege) {
+            annotationParts.push(midiToSolfege(writtenMidi, writtenKey).text);
           }
         }
 
@@ -369,6 +384,27 @@ export function renderScore(song, containerTarget = 'score-container', options =
         console.error(`小節 ${globalMeasureIndex + 1} 繪製失敗:`, err);
       }
 
+      // Independent SVG labels also work above rests and between melody onsets.
+      if (svgSvg && currentDisplayOptions.showChords) {
+        for (const chord of chordsInMeasure(song, globalMeasureIndex)) {
+          const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          const offset = (chord.displayBeat - globalMeasureIndex * beatsPerMeasure) / beatsPerMeasure;
+          const x = stave.getNoteStartX() + offset * Math.max(0, lineMeasureWidth
+            - (stave.getNoteStartX() - startX) - 16);
+          label.setAttribute('x', String(x));
+          label.setAttribute('y', String(stave.getYForLine(0) - 26));
+          label.setAttribute('class', 'chord-symbol');
+          label.setAttribute('fill', 'currentColor');
+          label.setAttribute('font-family', 'sans-serif');
+          label.setAttribute('font-size', '14');
+          label.setAttribute('font-weight', 'bold');
+          label.textContent = chord.writtenSymbol;
+          const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+          title.textContent = `實際音高：${chord.symbol}${chord.source === 'automatic' ? '（自動配和弦）' : ''}`;
+          label.appendChild(title);
+          svgSvg.appendChild(label);
+        }
+      }
       globalMeasureIndex++;
     });
   });
