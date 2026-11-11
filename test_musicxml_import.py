@@ -63,6 +63,54 @@ class MusicXMLImportTests(unittest.TestCase):
         self.assertNotEqual(result.returncode,0)
         self.assertFalse((output.parent/'escape.json').exists())
 
+    def test_same_pitch_tie_is_kept_for_notation(self):
+        tied = '''<score-partwise><part id="P1"><measure number="1"><attributes>
+<divisions>1</divisions><key><fifths>0</fifths></key><time><beats>4</beats><beat-type>4</beat-type></time>
+</attributes>
+<note><pitch><step>C</step><octave>4</octave></pitch><duration>2</duration><type>half</type><tie type="start"/></note>
+<note><pitch><step>C</step><octave>4</octave></pitch><duration>2</duration><type>half</type><tie type="stop"/></note>
+</measure></part></score-partwise>'''
+        self.path.write_text(tied)
+        song = convert(self.path, 'tie-trial', 80, 0)
+        self.assertEqual([n['notation'].get('tie') for n in song['melody']], ['start', 'stop'])
+        self.assertEqual([n['midi'] for n in song['melody']], [60, 60])
+        self.assertEqual(validate_song(song, 'tie-trial'), [])
+
+    def test_dangling_or_mismatched_tie_is_rejected(self):
+        dangling = '''<score-partwise><part id="P1"><measure number="1"><attributes>
+<divisions>1</divisions><key><fifths>0</fifths></key><time><beats>4</beats><beat-type>4</beat-type></time>
+</attributes>
+<note><pitch><step>C</step><octave>4</octave></pitch><duration>2</duration><type>half</type><tie type="start"/></note>
+<note><pitch><step>D</step><octave>4</octave></pitch><duration>2</duration><type>half</type></note>
+</measure></part></score-partwise>'''
+        self.path.write_text(dangling)
+        with self.assertRaisesRegex(ValueError, 'Dangling tie'):
+            convert(self.path, 'tie-trial', 80, 0)
+
+    def test_trailing_backup_without_another_voice_is_ignored(self):
+        xml = '''<score-partwise><part id="P1"><measure number="23"><attributes>
+<divisions>1</divisions><key><fifths>0</fifths></key><time><beats>4</beats><beat-type>4</beat-type></time>
+</attributes>
+<note><pitch><step>C</step><octave>4</octave></pitch><duration>4</duration><type>whole</type></note>
+<backup><duration>4</duration></backup>
+</measure></part></score-partwise>'''
+        self.path.write_text(xml)
+        song = convert(self.path, 'backup-trial', 80, 0)
+        self.assertEqual([(n['midi'], n['dur']) for n in song['melody']], [(60, 4)])
+        self.assertEqual(self.path.read_text(), xml)
+
+    def test_backup_followed_by_music_is_rejected(self):
+        xml = '''<score-partwise><part id="P1"><measure number="2"><attributes>
+<divisions>1</divisions><key><fifths>0</fifths></key><time><beats>4</beats><beat-type>4</beat-type></time>
+</attributes>
+<note><pitch><step>C</step><octave>4</octave></pitch><duration>4</duration><type>whole</type></note>
+<backup><duration>4</duration></backup>
+<note><pitch><step>E</step><octave>4</octave></pitch><duration>4</duration><type>whole</type></note>
+</measure></part></score-partwise>'''
+        self.path.write_text(xml)
+        with self.assertRaisesRegex(ValueError, 'backup is followed by more music'):
+            convert(self.path, 'backup-trial', 80, 0)
+
 
 if __name__=='__main__':
     unittest.main()

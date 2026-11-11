@@ -1,5 +1,6 @@
 /** Chord labels are stored at concert pitch; the Eb sax score sounds 9 semitones below its notation. */
 import { concertToWrittenKey, midiToNoteName } from './pitch.js';
+import { getMeasureStarts } from './meter.js';
 
 export function writtenChordSymbol(symbol, keyConcert) {
   if (typeof symbol !== 'string') return '';
@@ -15,9 +16,9 @@ export function writtenChordSymbol(symbol, keyConcert) {
 }
 
 export function chordsInMeasure(song, measureIndex) {
-  const beats = song.timeSignature?.[0] || 4;
-  const start = measureIndex * beats;
-  const stop = start + beats;
+  const starts = getMeasureStarts(song);
+  const start = starts[measureIndex] ?? measureIndex * (song.timeSignature?.[0] || 4);
+  const stop = starts[measureIndex + 1] ?? start + (song.timeSignature?.[0] || 4);
   return (song.chordSymbols || []).filter(chord => chord.start < stop - 1e-6
     && chord.start + chord.dur > start + 1e-6).map(chord => ({
       ...chord,

@@ -2,7 +2,9 @@
 
 來源：`/home/sweet/樂譜/開源格式/炮仔聲.musicxml`，由 Audiveris / ProxyMusic 辨識產生。原 PDF：`/home/sweet/樂譜/炮仔聲.pdf`。
 
-試轉檔：`data/trials/musicxml/pao-a-sia-musicxml-trial.json`。獨立預覽：http://127.0.0.1:5002 。原有正式曲庫預覽 http://127.0.0.1:5001 維持原狀；此次未將歌曲加入正式曲庫。
+試轉檔：`data/trials/musicxml/pao-a-sia-musicxml-trial.json`。獨立預覽：http://127.0.0.1:5002 。
+
+2026-10-22 已另複製到正式曲庫 `data/songs/pao-a-sia.json`（id `pao-a-sia`，標題「炮仔聲」）。試轉檔保留。
 
 ## 結構與音高
 

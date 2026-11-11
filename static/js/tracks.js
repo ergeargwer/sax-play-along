@@ -51,23 +51,40 @@ export function resolveTrackGain(track, allTracks) {
  * @param {number} endBeat - 區間結束拍 (不包含)
  * @returns {Array<Object>} 事件清單 [{ midi: number[], start: number, dur: number }]
  */
-export function getEventsInBeatWindow(track, songMelody, startBeat, endBeat) {
+const tieOf = item => item?.notation?.tie;
+const tiedFromPrevious = item => tieOf(item) === 'stop' || tieOf(item) === 'both';
+const tiedToNext = item => tieOf(item) === 'start' || tieOf(item) === 'both';
+
+/** Total sounding length of a tie chain starting at melody[index]. */
+function tiedDuration(melody, index) {
+  let dur = melody[index].dur || 1;
+  for (let i = index; tiedToNext(melody[i]) && i + 1 < melody.length; i++) {
+    const next = melody[i + 1];
+    if (next.midi !== melody[i].midi || Math.abs(next.start - (melody[i].start + melody[i].dur)) > 1e-6) break;
+    dur += next.dur || 1;
+  }
+  return dur;
+}
+
+export function getEventsInBeatWindow(track, songMelody, startBeat, endBeat, chainFloor = 0) {
   if (!track) return [];
 
   const events = [];
 
   if (track.type === 'melody') {
     const melodyList = Array.isArray(songMelody) ? songMelody : [];
-    for (const item of melodyList) {
+    melodyList.forEach((item, index) => {
       if (typeof item.start === 'number' && item.start >= startBeat && item.start < endBeat) {
+        // A tied continuation is already sounding unless playback begins right here (e.g. loop start).
+        if (tiedFromPrevious(item) && index > 0 && melodyList[index - 1].start >= chainFloor) return;
         events.push({
           midi: Array.isArray(item.midi) ? item.midi : [item.midi],
           start: item.start,
-          dur: item.dur || 1,
+          dur: tiedToNext(item) ? tiedDuration(melodyList, index) : item.dur || 1,
           velocity: item.velocity ?? .72,
         });
       }
-    }
+    });
   } else if (track.type === 'notes') {
     const noteList = Array.isArray(track.notes) ? track.notes : [];
     for (const item of noteList) {

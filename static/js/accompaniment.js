@@ -1,4 +1,5 @@
 /** Playback-only accompaniment: source harmony/notation and stored tracks stay intact. */
+import { getMeasureStarts, measureIndexAtBeat } from './meter.js';
 const EPS = 1e-6;
 const finite = value => typeof value === 'number' && Number.isFinite(value);
 const pitchClass = midi => ((midi % 12) + 12) % 12;
@@ -36,13 +37,13 @@ export function arrangeAccompaniment(song) {
   if (song.id === 'detective-conan') return addGuitarLayer(song, tracks);
   const chords = tracks.find(t => t.id === 'chords' && t.type === 'notes');
   if (!chords?.notes.length) return tracks;
-  const beats = song.timeSignature?.[0] || 4;
-  const total = (song.measures || 1) * beats;
+  const starts = getMeasureStarts(song);
+  const total = starts.at(-1);
   const melody = (song.melody || []).filter(n => n.midi > 0 && finite(n.start) && n.dur > 0);
   if (!melody.length) return tracks;
   const firstSound = Math.min(...melody.map(n => n.start));
   const lastSound = Math.min(total, Math.max(...melody.map(n => n.start + n.dur)));
-  const lastBar = Math.max(0, Math.ceil(lastSound / beats - EPS) - 1);
+  const lastBar = Math.max(0, measureIndexAtBeat(starts, lastSound - EPS));
   const piano = [], bass = [];
   let previous = [], previousBass;
   const source = [...chords.notes].sort((a, b) => a.start - b.start);
@@ -59,8 +60,9 @@ export function arrangeAccompaniment(song) {
     const bassRoot = bassPitch(root, previousBass);
     previousBass = bassRoot;
     const chordEnd = Math.min(total, chord.start + chord.dur, lastSound);
-    for (let bar = Math.floor(chord.start / beats); bar * beats < chordEnd - EPS; bar++) {
-      const barStart = bar * beats;
+    for (let bar = measureIndexAtBeat(starts, chord.start); bar < starts.length - 1 && starts[bar] < chordEnd - EPS; bar++) {
+      const barStart = starts[bar];
+      const beats = starts[bar + 1] - barStart;
       const start = Math.max(chord.start, barStart, firstSound);
       const end = Math.min(chordEnd, barStart + beats);
       if (end <= start + EPS) continue;
@@ -122,10 +124,10 @@ function addGuitarLayer(song, tracks) {
   const source = song.tracks?.find(t => t.id === 'chords' && t.type === 'notes');
   const melody = (song.melody || []).filter(n => n.midi > 0 && finite(n.start) && n.dur > 0);
   if (!source?.notes?.length || !melody.length) return tracks;
-  const beats = song.timeSignature[0];
+  const starts = getMeasureStarts(song);
   const firstSound = Math.min(...melody.map(n => n.start));
-  const lastSound = Math.min(song.measures * beats, Math.max(...melody.map(n => n.start + n.dur)));
-  const lastBar = Math.ceil(lastSound / beats - EPS) - 1;
+  const lastSound = Math.min(starts.at(-1), Math.max(...melody.map(n => n.start + n.dur)));
+  const lastBar = measureIndexAtBeat(starts, lastSound - EPS);
   const notes = [];
   let previous = [];
   for (const chord of [...source.notes].sort((a, b) => a.start - b.start)) {
@@ -134,9 +136,9 @@ function addGuitarLayer(song, tracks) {
     if (!voiced.length) continue;
     previous = voiced;
     const chordEnd = Math.min(chord.start + chord.dur, lastSound);
-    for (let bar = Math.floor(chord.start / beats); bar * beats < chordEnd - EPS; bar++) {
-      const start = Math.max(chord.start, bar * beats, firstSound);
-      const end = Math.min(chordEnd, (bar + 1) * beats);
+    for (let bar = measureIndexAtBeat(starts, chord.start); bar < starts.length - 1 && starts[bar] < chordEnd - EPS; bar++) {
+      const start = Math.max(chord.start, starts[bar], firstSound);
+      const end = Math.min(chordEnd, starts[bar + 1]);
       const sounding = melody.filter(n => n.start < end - EPS && n.start + n.dur > start + EPS);
       if (!sounding.length || end <= start + EPS) continue;
       const soundingEnd = Math.max(...sounding.map(n => Math.min(end, n.start + n.dur)));
@@ -155,7 +157,7 @@ function addGuitarLayer(song, tracks) {
       const order = [0, Math.min(2, voiced.length - 1), 1, Math.min(2, voiced.length - 1)];
       const step = song.id === 'detective-conan' ? 2 : 1;
       let index = 0;
-      for (let at = bar * beats + .5; at < limit - EPS; at += step) {
+      for (let at = starts[bar] + .5; at < limit - EPS; at += step) {
         if (at < start - EPS) continue;
         push([voiced[order[index % order.length]]], at, .70, index === 0 ? .54 : .46);
         index++;

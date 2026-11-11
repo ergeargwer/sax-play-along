@@ -1,0 +1,97 @@
+{
+  "source": "/home/sweet/樂譜/開源格式/你怎麼捨得我難過.musicxml",
+  "sha256": "b15dde7abf9ce632a6352b04a3208844cfbf892ba86f4ec023c53ba2631e96e6",
+  "sha256AfterImport": "b15dde7abf9ce632a6352b04a3208844cfbf892ba86f4ec023c53ba2631e96e6",
+  "pdf": "/home/sweet/樂譜/你怎麼捨得我難過.pdf",
+  "pdfSha256": "9e3ecd2bc2bb51edc7ab1a027b9089fa41c8395e691a005f385b0fa919b81c8a",
+  "sourceAudit": {
+    "file": "你怎麼捨得我難過.musicxml",
+    "software": [
+      "Audiveris 5.11.0",
+      "ProxyMusic 4.0.3"
+    ],
+    "parts": [
+      {
+        "id": "P1",
+        "measures": 25,
+        "meters": [
+          "4/4"
+        ],
+        "keys": [],
+        "transpose": [],
+        "tempos": [],
+        "metronomes": 0,
+        "voices": [
+          "1"
+        ],
+        "tuplets": 0,
+        "ties": 48,
+        "harmonies": 0,
+        "repeat_markers": 0,
+        "duration_mismatches": [],
+        "trailingBackup": {
+          "measure": "23",
+          "duration": "16",
+          "followedByNotes": false
+        }
+      }
+    ]
+  },
+  "conversion": {
+    "id": "shede-wo-nanguo-musicxml-trial",
+    "output": "data/trials/musicxml/shede-wo-nanguo-musicxml-trial.json",
+    "measures": 25,
+    "events": 172,
+    "rests": 6,
+    "timeSignature": [
+      4,
+      4
+    ],
+    "keyConcert": "C",
+    "mode": "minor",
+    "writtenKeyOnPage": "A",
+    "transpose": 0,
+    "practiceTempo": 80,
+    "durationBeats": 100,
+    "secondsAt80WithoutCountIn": 75,
+    "concertMidiRange": [
+      64,
+      77
+    ],
+    "writtenMidiRange": [
+      73,
+      86
+    ],
+    "writtenNotesAbove81": 56,
+    "writtenNotesOutside58to89": 0,
+    "tieMarkers": {
+      "start": 21,
+      "stop": 21,
+      "both": 3
+    },
+    "tieChains": 21,
+    "playbackAttacksAfterMergingTies": 142,
+    "chordSymbolsStored": 29,
+    "tracks": [
+      "melody-guide",
+      "metronome",
+      "chords",
+      "bass"
+    ],
+    "generatedThenRemoved": {
+      "tracks": [
+        "chords",
+        "bass"
+      ],
+      "chordSymbols": 25
+    }
+  },
+  "harmonyUpdate": {
+    "source": "manual",
+    "tonic": "A",
+    "mode": "minor",
+    "events": 29,
+    "rebuild": ".venv/bin/python tools/arrange_shede.py",
+    "browserAudioVerified": false
+  }
+}

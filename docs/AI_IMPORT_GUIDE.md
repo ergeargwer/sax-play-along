@@ -1,6 +1,6 @@
 # AI 樂譜匯入規範與交接指南
 
-版本：1.0，2026-10-22。適用專案：`sax-play-along`。
+版本：1.1，2026-10-22。適用專案：`sax-play-along`。
 
 本文件供 Codex、Claude、Gemini、ChatGPT 或其他 AI 在沒有先前聊天紀錄時接續匯入。程式若已更新，以當前實作與測試為準，並同步修訂本文件。這是專案格式與操作規範，不是特定 AI 的 skill，也不要求使用特定服務或修改全域 AI 設定。
 
@@ -8,8 +8,9 @@
 
 接手時依序閱讀：
 
-1. [主 README](../README.md) 與 [開發進度](DEVELOPMENT_PROGRESS.md)。
-2. 本文件、[可解析的歌曲 JSON 範例](examples/song-import-template.json)、[匯入報告範本](examples/import-report-template.md)。
+1. [階段板](AI_STAGE_BOARD.md)、[認領表](import-claims.md) 與 [單旋律工作清單](import-queue.md)。項目已是 `claimed` 或 `done` 就停止。未指定歌曲時，只從工作清單認領一列 `open`。
+2. [主 README](../README.md)，以及 [開發進度](DEVELOPMENT_PROGRESS.md) 開頭的「目前狀態」。「目前狀態」以下的舊段落不要當成現況。
+3. 本文件、[可解析的歌曲 JSON 範例](examples/song-import-template.json)、[匯入報告範本](examples/import-report-template.md)。
 3. 現有實作：`app.py`、`tools/trial_musicxml.py`、`tools/audit_musicxml.py`、`harmonizer.py`。
 4. 譜面／音高與播放：`static/js/pitch.js`、`score.js`、`harmony.js`、`accompaniment.js`、`tracks.js`。
 5. 有修正需求時參考 [炮仔聲案例](pao-a-sia-import-test.md)。
@@ -67,8 +68,10 @@ PY
 | 固定大調調號 | 支援；缺調號或 mode 不明須記錄假設 |
 | 休止、附點、一般連桿、符幹 | 支援；檢查來源時值與 notation 是否相符 |
 | 不足／超拍、真實弱起小節 | 轉換器拒絕；需要有來源依據的處理，不能任意補拍或裁音 |
-| `backup`、`forward`、`chord`、`grace` | 轉換器拒絕 |
-| `tie`、`time-modification` | 轉換器拒絕；不能刪掉標記假裝已支援 |
+| `forward`、`chord`、`grace` | 轉換器拒絕 |
+| `backup` | 小節末尾、後面沒有音符或 forward 的 backup 不構成第二聲部，可忽略且不改原檔；後面還有音符則拒絕 |
+| `tie` | 同音高且時間相接的 start／stop 保留在 `notation.tie`，譜面畫延音線，播放合併成一聲；懸空、異音或未知類型拒絕。不能刪標記假裝沒有延音 |
+| `time-modification` | 轉換器拒絕 |
 | `transpose`、`repeat`、`ending`、`harmony` | 轉換器拒絕；應另行擴充與驗證，或回報不支援 |
 | 變拍、多聲部、轉調、小調 | 不屬於目前完整支援流程；不能硬轉成 C 大調或 4/4 |
 | MIDI、MSCZ、PDF 直接匯入 | 沒有通用匯入器；PDF 可用於核對，MSCZ／MIDI 需先有經驗證的轉換流程 |
@@ -132,7 +135,7 @@ PY
 - MusicXML 的 `duration / divisions` 就是四分音符拍數；先用 Fraction 計算，再在輸出小數時保留合理精度（現工具為 6 位小數）。
 - 範例時值：quarter=1、eighth=0.5、16th=0.25、附點 quarter=1.5、附點 half=3。不要把 MusicXML duration 原始整數直接當拍數。
 - 6/8 在四分音符單位是每小節 3 拍，但現程式以拍號分子算邊界，**不能直接填 `[6,8]` 後宣稱支援**。
-- 跨小節長音／延音線、三連音、真實弱起需要完整的記譜與時間邊界支援；不要僅切音、刪 tie、改成一般八分音符或縮放整小節。
+- 同音高延音線保留為相鄰事件，並以 `notation.tie` 的 start／stop／both 連接；不要刪掉 tie、改成一般音符或縮放整小節。三連音、真實弱起與跨小節結構若沒有對應支援，仍要拒絕而不是切音湊拍。
 
 實音 MIDI 合法不代表薩克斯風音域合適。報告同時列實音與寫定音域；寫定 60–81 為本專案建議練習區間、58–89 為先前使用的較寬檢查區間，均不是自動移八度的理由。極高實音加 9 後也可能超出目前音名函式的範圍，需另外驗證。
 
@@ -207,7 +210,11 @@ notes 的 midi 可為整數或非空整數陣列，均為實音 MIDI 21–108；
 - 優先序為既有代號 → 既有和弦音符辨識 → 沒有和聲的整小節依旋律推定；同小節已有和聲區間就不另加競爭配法。
 - 自動候選 I、IV、V7、vi、ii，並非完整編曲／和聲分析；來源含 harmony 也不能由簡易 XML 匯入器直接處理，目前它會拒絕。
 
-建議在 Python 使用 `harmonize_song(song)` 後再驗證與寫出；它回傳副本，重複處理應不產生重複資料。`load_songs()` 的補和聲只作用於記憶體。批次持久化工具 `tools/add_harmony.py` 預設預覽，`--write` 才備份後改檔。
+**匯入完成必須確認伴奏交付。** 來源沒有和弦時，應交付明確標示為推定／人工設計的練習配法（和弦代號與可播放的 chords、bass），或明列為尚未完成。不能只因自動分析器不支援小調，就刪掉錯誤大調配法後將「只有旋律與節拍器」當成伴奏已完成。
+
+小調目前沒有自動配和弦；可依旋律另設計小調練習伴奏，使用 `source:manual`，記錄實際主音、樂句與終止式依據，保留 `mode:minor`，不得改標 major 來繞過限制。`keyConcert` 若暫用相對大調僅為現有調號顯示約定，須揭露畫面調名／唱名限制。這類歌曲不能用 `harmonize_song` 產生伴奏；直接保存和弦代號及實音 chords／bass 音符，沿用前端柔和編排生成木吉他，另驗證重跑不重複與載入後資料保留。範例：`tools/arrange_shede.py`。來源原有伴奏仍優先，不可無聲取代。若無法設計，須明列缺少伴奏與後續需求。
+
+建議對支援的大調歌曲在 Python 使用 `harmonize_song(song)` 後再驗證與寫出；它回傳副本，重複處理應不產生重複資料。`load_songs()` 的補和聲只作用於記憶體。批次持久化工具 `tools/add_harmony.py` 預設預覽，`--write` 才備份後改檔。
 
 ## 10. OMR 修正清單與禁止的捷徑
 
@@ -333,11 +340,14 @@ PY
 
 ## 14. 可直接交給任意 AI 的任務提示
 
+未指定歌曲時，整段使用 [通用處理指令](AI_WORKER_PROMPT.md)。不要依不同 AI 改寫規則。下面這段只在使用者已經指定一首時使用。
+
 ```text
 請在 sax-play-along 專案協助匯入以下歌曲。
 
 專案路徑：/home/sweet/.gemini/antigravity/scratch/sax-play-along
-先閱讀：README.md、docs/DEVELOPMENT_PROGRESS.md、docs/AI_IMPORT_GUIDE.md
+先閱讀：docs/AI_STAGE_BOARD.md、docs/import-claims.md、docs/import-queue.md、README.md、docs/DEVELOPMENT_PROGRESS.md 的「目前狀態」、docs/AI_IMPORT_GUIDE.md
+若認領表或工作清單已有同一項目的 claimed 或 done，停止並回報，不要重做。未指定歌曲時，只從 import-queue.md 認領一列 open，並把該列與認領表同時改成 claimed。一次只做這一首。
 來源 MusicXML：<絕對路徑>
 核對 PDF（若有）：<絕對路徑或無>
 指定 song id：<唯一 id>
@@ -349,10 +359,11 @@ PY
 請先唯讀分析，不要假設所有來源都要 -9 半音。
 輸出沿用現有 song JSON 格式，播放為實音、顯示由網頁移調。
 保留原檔與既有改動；修正須有依據、expected 原值檢查與紀錄。
-不支援的弱起／延音線／反覆／來源 harmony 等請明確回報，勿刪標記硬轉。
+同音高延音線可保留。不支援的弱起、三連音、反覆、來源 harmony，以及後面還有音符的 backup，請明確回報，勿刪標記硬轉。
 沿用現有和弦與鋼琴／貝斯／木吉他背景伴奏，不另寫合成器。
+來源無和弦也需交付練習配法及可播放伴奏；小調自動配法不支援時，另設計並標為 manual，不能假改大調。無法完成須明列伴奏缺項。
 完成資料與實際預覽驗證，明列做過／未做過的檢查，提供可重跑指令。
-最後更新本曲匯入報告及相關 README／開發歷程，不自行推送或部署。
+最後把認領列改成 done 或 blocked，更新本曲匯入報告。曲目數量有變時，只改開發進度開頭的「目前狀態」。限制有變時改階段板。不自行推送或部署。
 ```
 
 ## 15. AI 完成回覆與交接最小清單

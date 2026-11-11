@@ -75,7 +75,11 @@ def harmonize_song(song):
     if result.get('mode', 'major') != 'major' or result['timeSignature'][1] != 4:
         raise ValueError('Automatic harmony currently requires major mode and quarter-note meter')
     beats = result['timeSignature'][0]
-    total = beats * result['measures']
+    bar_beats = result.get('measureBeats') or [beats] * result['measures']
+    if (len(bar_beats) != result['measures']
+            or any(type(b) is not int or b <= 0 for b in bar_beats)):
+        raise ValueError('measureBeats must list one positive integer per measure')
+    total = sum(bar_beats)
     tracks = result['tracks']
     chord_track = next((t for t in tracks if t['id'] == 'chords'), None)
     bass_track = next((t for t in tracks if t['id'] == 'bass'), None)
@@ -111,8 +115,11 @@ def harmonize_song(song):
             generated_notes.append(dict(midi=[48 + symbol['root'] + i for i in QUALITIES[symbol['quality']]],
                                         start=symbol['start'], dur=symbol['dur']))
     previous = None
+    bar_start = 0
     for measure in range(result['measures']):
-        start = measure * beats
+        start = bar_start
+        beats = bar_beats[measure]
+        bar_start += beats
         # Even an unrecognized existing voicing is authoritative: do not add
         # a competing chord or label in that measure.
         if any(_overlap(start, beats, s['start'], s['dur']) for s in symbols + chord_notes):

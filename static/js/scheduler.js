@@ -22,6 +22,7 @@ import {
 
 import { highlightNoteByIndex, clearHighlights } from './score.js';
 import { TrackManager, getEventsInBeatWindow } from './tracks.js';
+import { getMeasureBeats, getMeasureStarts } from './meter.js';
 
 export const PlaybackState = {
   IDLE: 'IDLE',
@@ -110,6 +111,10 @@ export class Scheduler {
     this.baseBpm = song.tempo || 120;
     this.beatsPerMeasure = song.timeSignature ? song.timeSignature[0] : 4;
     this.totalMeasures = song.measures || 8;
+    this.measureBeats = getMeasureBeats({ ...song, measures: this.totalMeasures });
+    this.measureStarts = getMeasureStarts({ ...song, measures: this.totalMeasures });
+    this.measureStartSet = new Set(this.measureStarts);
+    this.totalBeats = this.measureStarts.at(-1);
     this.loopStartMeasure = 1;
     this.loopEndMeasure = this.totalMeasures;
     this.hasCountedIn = false;
@@ -220,7 +225,7 @@ export class Scheduler {
     if (this.state === PlaybackState.IDLE) {
       // 首次播放，進行預備拍（若尚未執行過）
       const needCountIn = !this.hasCountedIn;
-      this.scheduledBeatEvents = generateBeatSequence(this.totalMeasures, this.beatsPerMeasure, needCountIn);
+      this.scheduledBeatEvents = generateBeatSequence(this.totalMeasures, this.beatsPerMeasure, needCountIn, this.measureBeats);
 
       if (needCountIn) {
         // 預備拍起點：第一個預備拍定在 0.1s 後
@@ -348,19 +353,20 @@ export class Scheduler {
   scheduleTrackNotesInWindow(now, windowEnd) {
     const start = calculateBeatFromAudioTime(now, this.anchorTime, this.anchorBeat, this.baseBpm, this.tempoRatio);
     const end = calculateBeatFromAudioTime(windowEnd, this.anchorTime, this.anchorBeat, this.baseBpm, this.tempoRatio);
-    const loopStart = (this.loopStartMeasure - 1) * this.beatsPerMeasure;
-    const loopEnd = this.loopEndMeasure * this.beatsPerMeasure;
+    const loopStart = this.measureStarts[this.loopStartMeasure - 1];
+    const loopEnd = this.measureStarts[this.loopEndMeasure];
     const length = loopEnd - loopStart;
     let cursor = Math.max(0, start);
     while (cursor < end) {
       const cycle = this.loopEnabled && cursor >= loopEnd ? Math.floor((cursor - loopStart) / length) : 0;
       const offset = cycle * length;
-      const boundary = this.loopEnabled ? loopEnd + offset : this.totalMeasures * this.beatsPerMeasure;
+      const boundary = this.loopEnabled ? loopEnd + offset : this.totalBeats;
       const segmentEnd = Math.min(end, boundary);
       if (segmentEnd <= cursor) break;
       for (const track of this.trackManager.getAllTracks()) {
         if (track.type === 'click') continue;
-        for (const ev of getEventsInBeatWindow(track, this.song.melody, cursor - offset, segmentEnd - offset)) {
+        for (const ev of getEventsInBeatWindow(track, this.song.melody, cursor - offset, segmentEnd - offset,
+          this.loopEnabled ? loopStart : 0)) {
           const key = `${track.id}_${ev.start}_${ev.midi.join(',')}_${cycle}`;
           if (this.scheduledNoteKeys.has(key)) continue;
           const time = calculateAudioTimeForBeat(ev.start + offset, this.anchorTime, this.anchorBeat, this.baseBpm, this.tempoRatio);
@@ -383,12 +389,13 @@ export class Scheduler {
       this.setState(PlaybackState.PLAYING);
       if (this.countInCallback) this.countInCallback(null);
     }
-    const total = this.totalMeasures * this.beatsPerMeasure;
+    const total = this.totalBeats;
     while (this.loopEnabled || this.nextBeatIndex < total) {
       const beat = this.nextBeatIndex;
       const time = calculateAudioTimeForBeat(beat, this.anchorTime, this.anchorBeat, this.baseBpm, this.tempoRatio);
       if (time >= windowEnd) break;
-      if (time >= now - 0.05) this.playClick(Math.max(now, time), beat % this.beatsPerMeasure === 0);
+      const accent = beat < 0 ? beat % this.beatsPerMeasure === 0 : this.measureStartSet.has(beat);
+      if (time >= now - 0.05) this.playClick(Math.max(now, time), accent);
       this.nextBeatIndex++;
     }
     if (this.state === PlaybackState.COUNT_IN && this.countInCallback) {
@@ -451,11 +458,11 @@ export class Scheduler {
     }
 
     if (this.state === PlaybackState.PLAYING) {
-      const totalBeats = this.totalMeasures * this.beatsPerMeasure;
+      const totalBeats = this.totalBeats;
       let targetBeat = rawBeat;
 
       if (this.loopEnabled) {
-        targetBeat = wrapLoopBeat(rawBeat, this.loopStartMeasure, this.loopEndMeasure, this.beatsPerMeasure);
+        targetBeat = wrapLoopBeat(rawBeat, this.loopStartMeasure, this.loopEndMeasure, this.beatsPerMeasure, this.measureStarts);
 
 
       }
@@ -470,7 +477,8 @@ export class Scheduler {
           this.song.melody,
           targetBeat,
           this.totalMeasures,
-          this.beatsPerMeasure
+          this.beatsPerMeasure,
+          this.totalBeats
         );
 
         if (noteMatch) {

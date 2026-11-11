@@ -77,6 +77,14 @@ def validate_song(data: dict, filename: str) -> list[str]:
     if isinstance(ts, list) and len(ts) == 2 and isinstance(measures, int):
         beats_per_measure = ts[0]
         max_beats = measures * beats_per_measure
+        # 選用:逐小節拍數(變拍),單位為四分音符拍數,總長改以其總和計
+        if "measureBeats" in data:
+            mb = data["measureBeats"]
+            if (not isinstance(mb, list) or len(mb) != measures
+                    or any(type(b) is not int or b <= 0 for b in mb)):
+                errors.append("measureBeats 須為長度等於 measures 的正整數陣列")
+            else:
+                max_beats = sum(mb)
     else:
         max_beats = None
 

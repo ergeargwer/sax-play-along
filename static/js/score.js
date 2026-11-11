@@ -13,6 +13,7 @@ import {
   durationToVexFlow,
 } from './pitch.js';
 import { chordsInMeasure } from './harmony.js';
+import { getMeasureBeats, getMeasureStarts, measureIndexAtBeat } from './meter.js';
 
 /** 當前渲染的曲目資料快取 */
 let currentSongData = null;
@@ -86,8 +87,10 @@ function debounce(fn, delay = 200) {
  * @param {number} beatsPerMeasure - 每小節拍數
  * @returns {Array<Array>} 每小節的音符陣列 (含 globalIndex)
  */
-function groupNotesByMeasure(melody, totalMeasures, beatsPerMeasure) {
+function groupNotesByMeasure(melody, totalMeasures, beatsPerMeasure, starts = null) {
   const measures = Array.from({ length: totalMeasures }, () => []);
+  const startOf = i => (starts ? starts[i] : i * beatsPerMeasure);
+  const lengthOf = i => (starts ? starts[i + 1] - starts[i] : beatsPerMeasure);
 
   if (Array.isArray(melody)) {
     for (let i = 0; i < melody.length; i++) {
@@ -95,8 +98,8 @@ function groupNotesByMeasure(melody, totalMeasures, beatsPerMeasure) {
       // 浮點數容錯與對齊 (對齊至 1/24 拍)
       const snappedStart = Math.round(note.start * 24) / 24;
       const snappedDur = Math.round(note.dur * 24) / 24;
-      const mIdx = Math.floor(snappedStart / beatsPerMeasure);
-      if (mIdx >= 0 && mIdx < totalMeasures) {
+      const mIdx = starts ? measureIndexAtBeat(starts, snappedStart) : Math.floor(snappedStart / beatsPerMeasure);
+      if (mIdx >= 0 && mIdx < totalMeasures && snappedStart < (starts ? starts[totalMeasures] : totalMeasures * beatsPerMeasure)) {
         measures[mIdx].push({
           ...note,
           start: snappedStart,
@@ -111,8 +114,8 @@ function groupNotesByMeasure(melody, totalMeasures, beatsPerMeasure) {
   for (let i = 0; i < totalMeasures; i++) {
     if (measures[i].length === 0) {
       measures[i].push({
-        start: i * beatsPerMeasure,
-        dur: beatsPerMeasure,
+        start: startOf(i),
+        dur: lengthOf(i),
         midi: 0,
         globalIndex: -1,
       });
@@ -186,7 +189,10 @@ export function renderScore(song, containerTarget = 'score-container', options =
   const vexKeySig = getVexFlowKeySignature(writtenKey);
 
   // 依小節分組旋律
-  const measuresData = groupNotesByMeasure(song.melody, totalMeasures, beatsPerMeasure);
+  const measureStarts = getMeasureStarts({ ...song, measures: totalMeasures });
+  const measureBeatList = getMeasureBeats({ ...song, measures: totalMeasures });
+  const measuresData = groupNotesByMeasure(song.melody, totalMeasures, beatsPerMeasure, measureStarts);
+  const tieNotes = new Map();
 
   // 容器寬度計算
   const containerWidth = Math.max(340, container.clientWidth - 16);
@@ -239,13 +245,18 @@ export function renderScore(song, containerTarget = 'score-container', options =
       // 建立五線譜 Stave
       const stave = new VF.Stave(startX, startY, lineMeasureWidth);
 
+      const thisBeats = measureBeatList[globalMeasureIndex];
       // 第一個小節繪製高音譜號與調號
       if (colIndex === 0) {
         stave.addClef('treble');
         stave.addKeySignature(vexKeySig);
         if (rowIndex === 0) {
-          stave.addTimeSignature(`${beatsPerMeasure}/${beatValue}`);
+          stave.addTimeSignature(`${thisBeats}/${beatValue}`);
         }
+      }
+      // 變拍：拍數與前一小節不同時標示新拍號
+      if (globalMeasureIndex > 0 && thisBeats !== measureBeatList[globalMeasureIndex - 1]) {
+        stave.addTimeSignature(`${thisBeats}/${beatValue}`);
       }
 
       stave.setContext(context).draw();
@@ -340,7 +351,7 @@ export function renderScore(song, containerTarget = 'score-container', options =
 
       try {
         const voice = new VF.Voice({
-          num_beats: beatsPerMeasure,
+          num_beats: thisBeats,
           beat_value: beatValue,
         });
         voice.setStrict(false);
@@ -365,6 +376,7 @@ export function renderScore(song, containerTarget = 'score-container', options =
         vfNotes.forEach((staveNote, idx) => {
           const noteItem = measureNotes[idx];
           if (noteItem && noteItem.globalIndex >= 0) {
+            tieNotes.set(noteItem.globalIndex, { note: staveNote, row: rowIndex });
             const svgElem = staveNote.getSVGElement ? staveNote.getSVGElement() : null;
             const x = staveNote.getAbsoluteX();
             const yTop = stave.getYForLine(0) - 20;
@@ -388,7 +400,7 @@ export function renderScore(song, containerTarget = 'score-container', options =
       if (svgSvg && currentDisplayOptions.showChords) {
         for (const chord of chordsInMeasure(song, globalMeasureIndex)) {
           const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-          const offset = (chord.displayBeat - globalMeasureIndex * beatsPerMeasure) / beatsPerMeasure;
+          const offset = (chord.displayBeat - measureStarts[globalMeasureIndex]) / thisBeats;
           const x = stave.getNoteStartX() + offset * Math.max(0, lineMeasureWidth
             - (stave.getNoteStartX() - startX) - 16);
           label.setAttribute('x', String(x));
@@ -407,6 +419,30 @@ export function renderScore(song, containerTarget = 'score-container', options =
       }
       globalMeasureIndex++;
     });
+  });
+
+  // 延音線：notation.tie 為 start/both 的音符與下一個同音高音符相連；跨行時各畫半條弧線
+  (song.melody || []).forEach((item, index) => {
+    const tie = item?.notation?.tie;
+    if (tie !== 'start' && tie !== 'both') return;
+    const first = tieNotes.get(index);
+    const last = tieNotes.get(index + 1);
+    if (!first && !last) return;
+    try {
+      const sameRow = first && last && first.row === last.row;
+      // VexFlow 5 reads firstNote/lastNote and firstIndexes/lastIndexes.
+      const tieConfig = (firstNote, lastNote) => ({ firstNote, lastNote, firstIndexes: [0], lastIndexes: [0] });
+      const config = sameRow ? tieConfig(first.note, last.note)
+        : first && last ? null : tieConfig(first?.note ?? null, last?.note ?? null);
+      const draw = cfg => new VF.StaveTie(cfg).setContext(context).draw();
+      if (config) draw(config);
+      else {
+        draw(tieConfig(first.note, null));
+        draw(tieConfig(null, last.note));
+      }
+    } catch (err) {
+      console.error(`延音線 ${index + 1} 繪製失敗:`, err);
+    }
   });
 
   if (previousHighlightedIndex >= 0) {

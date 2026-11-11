@@ -54,24 +54,27 @@ def apply_note_corrections(part, corrections):
             element.text = str(value)
 
 
-def convert(path, song_id, tempo, transpose, corrections=None):
+def convert(path, song_id, tempo, transpose, corrections=None, part_id=None):
     root = ET.parse(path).getroot()
     for node in root.iter():
         node.tag = node.tag.rsplit('}', 1)[-1]
     parts = root.findall('part')
+    if part_id is not None:
+        parts = [p for p in parts if p.get('id') == part_id]
+        if len(parts) != 1:
+            raise ValueError(f'Part {part_id!r} not found')
     if len(parts) != 1:
-        raise ValueError('Trial converter requires one part')
+        raise ValueError('Trial converter requires one part (use --part to choose)')
     part = parts[0]
     if corrections is not None:
         apply_note_corrections(part, corrections)
-    for tag in ('backup', 'forward', 'chord', 'grace', 'tie', 'time-modification', 'transpose', 'repeat', 'ending', 'harmony'):
+    for tag in ('forward', 'chord', 'grace', 'time-modification', 'transpose', 'repeat', 'ending', 'harmony'):
         if part.find('.//' + tag) is not None:
             raise ValueError(f'Unsupported trial structure: {tag}')
     meters = {(int(t.findtext('beats')), int(t.findtext('beat-type'))) for t in part.findall('.//time')}
-    if len(meters) != 1:
-        raise ValueError('Requires one constant meter')
-    meter = next(iter(meters))
-    if meter[1] != 4:
+    if not meters:
+        raise ValueError('Missing time signature')
+    if any(beat_type != 4 for _, beat_type in meters):
         raise ValueError('Trial requires quarter-note meter')
     fifths = {int(k.text) for k in part.findall('.//key/fifths')}
     if len(fifths) > 1:
@@ -80,8 +83,27 @@ def convert(path, song_id, tempo, transpose, corrections=None):
     offset = Fraction(0)
     melody = []
     measures = part.findall('measure')
+    meter = None
+    measure_beats = []
     for measure in measures:
         divisions = int(measure.findtext('attributes/divisions', str(divisions)))
+        time = measure.find('attributes/time')
+        if time is not None:
+            meter = (int(time.findtext('beats')), int(time.findtext('beat-type')))
+        if meter is None:
+            raise ValueError('Time signature must precede the first measure')
+        # A trailing backup with no later notes does not add a voice. Backup that
+        # introduces more music is still rejected rather than flattened.
+        seen_backup = False
+        for child in measure:
+            if child.tag == 'backup':
+                seen_backup = True
+                continue
+            if seen_backup and child.tag in ('note', 'forward'):
+                raise ValueError(
+                    f'Measure {measure.get("number")}: backup is followed by more music; '
+                    'multi-voice import is unsupported')
+        measure_beats.append(meter[0])
         elapsed = Fraction(0)
         for note in measure.findall('note'):
             if note.findtext('voice', '1') != '1':
@@ -106,17 +128,36 @@ def convert(path, song_id, tempo, transpose, corrections=None):
                 notation['writtenPitch'] = dict(step=pitch.findtext('step'),
                                                alter=int(pitch.findtext('alter', '0')),
                                                octave=int(pitch.findtext('octave')))
+            ties = {t.get('type') for t in note.findall('tie')}
+            if ties - {'start', 'stop'}:
+                raise ValueError(f'Measure {measure.get("number")}: unsupported tie type')
+            if ties:
+                notation['tie'] = 'both' if len(ties) == 2 else ties.pop()
             melody.append(dict(midi=midi, start=round(float(offset + elapsed), 6),
                                dur=round(float(duration), 6), notation=notation))
             elapsed += duration
         if elapsed != meter[0]:
             raise ValueError(f'Measure {measure.get("number")}: {elapsed} != {meter[0]}')
         offset += elapsed
+    # Every tie must join two adjacent notes of the same pitch; never keep a dangling marker.
+    for i, note in enumerate(melody):
+        tie = note['notation'].get('tie')
+        if tie in ('start', 'both'):
+            nxt = melody[i + 1] if i + 1 < len(melody) else None
+            if (nxt is None or nxt['midi'] != note['midi'] or nxt['midi'] == 0
+                    or nxt['notation'].get('tie') not in ('stop', 'both')):
+                raise ValueError(f'Dangling tie at melody event {i}')
+        if tie in ('stop', 'both') and (i == 0 or melody[i - 1]['notation'].get('tie') not in ('start', 'both')):
+            raise ValueError(f'Tie stop without start at melody event {i}')
+    beat_counts = [b for b in measure_beats]
+    common = max(set(beat_counts), key=beat_counts.count)
     song = dict(id=song_id, title=path.stem + '（MusicXML 試轉）', composer='',
                 license='user-imported', keyConcert=KEYS[(7 * next(iter(fifths), 0) + transpose) % 12],
-                timeSignature=list(meter), tempo=tempo, measures=len(measures), melody=melody,
+                timeSignature=[common, 4], tempo=tempo, measures=len(measures), melody=melody,
                 tracks=[dict(id='melody-guide', name='旋律導奏', type='melody', volume=0.6),
                         dict(id='metronome', name='節拍', type='click', volume=0.7)])
+    if len(set(beat_counts)) > 1:
+        song['measureBeats'] = beat_counts
     if corrections:
         song['importInfo'] = {'source': path.name, 'noteCorrections': corrections}
     return harmonize_song(song)
@@ -130,6 +171,7 @@ def main():
     parser.add_argument('--corrections', type=Path, help='Explicit PDF-checked note corrections (single-file mode only)')
     parser.add_argument('--tempo', type=float, required=True)
     parser.add_argument('--transpose', type=int, required=True)
+    parser.add_argument('--part', help='MusicXML part id to import when the source has several parts (single-file mode only)')
     args = parser.parse_args()
     if args.tempo <= 0:
         parser.error('tempo must be positive')
@@ -137,7 +179,7 @@ def main():
         if not args.song_id or any(c not in 'abcdefghijklmnopqrstuvwxyz0123456789-_' for c in args.song_id):
             parser.error('Single-file import requires --song-id with lowercase letters, digits, hyphens or underscores')
         corrections = json.loads(args.corrections.read_text(encoding='utf-8')) if args.corrections else None
-        songs = [convert(args.source, args.song_id, args.tempo, args.transpose, corrections)]
+        songs = [convert(args.source, args.song_id, args.tempo, args.transpose, corrections, args.part)]
     else:
         if args.song_id or args.corrections:
             parser.error('--song-id and --corrections require a single source file')

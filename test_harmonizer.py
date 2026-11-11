@@ -118,6 +118,13 @@ class HarmonyTests(unittest.TestCase):
         root = Path(__file__).parent
         for path in (root / 'data/songs').glob('*.json'):
             source = json.loads(path.read_text())
+            if source.get('mode', 'major') != 'major':
+                self.assertEqual(app.validate_song(source, path.name), [])
+                self.assertTrue(source.get('chordSymbols'))
+                self.assertTrue(any(t['id'] == 'chords' and t.get('notes') for t in source['tracks']))
+                with self.assertRaises(ValueError):
+                    harmonize_song(source)
+                continue
             result = harmonize_song(source)
             for track in source['tracks']:
                 if track['id'] in ('chords','bass') and track.get('notes'):

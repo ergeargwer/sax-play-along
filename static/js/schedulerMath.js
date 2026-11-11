@@ -86,8 +86,8 @@ export function updateTempoAnchor(currentTime, currentBeat, newTempoRatio) {
  * @param {number} beatsPerMeasure - 每小節拍數
  * @returns {{ noteIndex: number, note: Object, startBeat: number, endBeat: number, isRest: boolean } | null}
  */
-export function findActiveNoteAtBeat(melody, beatPosition, totalMeasures, beatsPerMeasure) {
-  const totalBeats = totalMeasures * beatsPerMeasure;
+export function findActiveNoteAtBeat(melody, beatPosition, totalMeasures, beatsPerMeasure, totalBeatsOverride = null) {
+  const totalBeats = totalBeatsOverride ?? totalMeasures * beatsPerMeasure;
 
   if (beatPosition < 0 || beatPosition >= totalBeats) {
     return null;
@@ -126,9 +126,9 @@ export function findActiveNoteAtBeat(melody, beatPosition, totalMeasures, beatsP
  * @param {number} beatsPerMeasure - 每小節拍數
  * @returns {number} 於循環區間內換算後的實際歌曲拍數
  */
-export function wrapLoopBeat(rawBeat, startMeasure, endMeasure, beatsPerMeasure) {
-  const loopStartBeat = (startMeasure - 1) * beatsPerMeasure;
-  const loopEndBeat = endMeasure * beatsPerMeasure;
+export function wrapLoopBeat(rawBeat, startMeasure, endMeasure, beatsPerMeasure, measureStarts = null) {
+  const loopStartBeat = measureStarts ? measureStarts[startMeasure - 1] : (startMeasure - 1) * beatsPerMeasure;
+  const loopEndBeat = measureStarts ? measureStarts[endMeasure] : endMeasure * beatsPerMeasure;
   const loopLength = loopEndBeat - loopStartBeat;
 
   if (loopLength <= 0 || rawBeat < loopStartBeat) {
@@ -147,7 +147,7 @@ export function wrapLoopBeat(rawBeat, startMeasure, endMeasure, beatsPerMeasure)
  * @param {boolean} [includeCountIn=true] - 是否包含 1 小節預備拍
  * @returns {Array<{ beatIndex: number, measure: number, beatInMeasure: number, isAccent: boolean, isCountIn: boolean }>}
  */
-export function generateBeatSequence(totalMeasures, beatsPerMeasure, includeCountIn = true) {
+export function generateBeatSequence(totalMeasures, beatsPerMeasure, includeCountIn = true, measureBeats = null) {
   const sequence = [];
 
   // 1. 預備拍 (Count-in): 小節編號 0, beatIndex 為負值 (-beatsPerMeasure 到 -1)
@@ -165,19 +165,20 @@ export function generateBeatSequence(totalMeasures, beatsPerMeasure, includeCoun
     }
   }
 
-  // 2. 歌曲正拍: beatIndex 0 到 (totalMeasures * beatsPerMeasure - 1)
-  const totalBeats = totalMeasures * beatsPerMeasure;
-  for (let b = 0; b < totalBeats; b++) {
-    const measure = Math.floor(b / beatsPerMeasure) + 1;
-    const beatInMeasure = (b % beatsPerMeasure) + 1;
-    sequence.push({
-      beatIndex: b,
-      measure,
-      beatInMeasure,
-      isAccent: beatInMeasure === 1,
-      isCountIn: false,
-    });
-  }
+  // 2. 歌曲正拍: 依每小節拍數（變拍）逐小節展開；缺省時為固定拍號
+  const sizes = measureBeats || Array.from({ length: totalMeasures }, () => beatsPerMeasure);
+  let b = 0;
+  sizes.forEach((size, m) => {
+    for (let beatInMeasure = 1; beatInMeasure <= size; beatInMeasure++, b++) {
+      sequence.push({
+        beatIndex: b,
+        measure: m + 1,
+        beatInMeasure,
+        isAccent: beatInMeasure === 1,
+        isCountIn: false,
+      });
+    }
+  });
 
   return sequence;
 }
