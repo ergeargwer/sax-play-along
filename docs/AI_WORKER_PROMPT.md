@@ -27,7 +27,7 @@ PDF 若存在：/home/sweet/樂譜/<與 MusicXML 同名的 .pdf>
 
 轉換：
 - 來源檔使用該列的檔名，路徑在來源目錄。不要改 MusicXML 或 PDF。
-- 輸出只寫 data/trials/musicxml/<id>.json。不要寫入 data/songs/。
+- 先寫 data/trials/musicxml/<id>.json 做驗證；轉換成功、驗證通過後，依「收尾」直接加入正式曲庫 data/songs/。轉換失敗（blocked）絕不寫入 data/songs/。
 - id 用該列建議值。若格子是「認領時另訂」，自訂小寫英數與連字號，後綴 -musicxml-trial；先確認正式曲庫、試轉曲庫、認領表和工作清單都沒有這個 id。
 - 用單檔命令並帶 --song-id。不要執行整目錄的 trial_musicxml.py。
 - 工作清單的 transpose 0 只是結構掃描。PDF 明確寫 For Eb Sax 才使用 --transpose -9。否則依這份譜的樂器、調號與音域決定一個半音數，把證據寫進報告。Audiveris 的 Voice 或 Voice Oohs 不是證據。不要因為舊曲用過 -9 就沿用。
@@ -44,8 +44,9 @@ PDF 若存在：/home/sweet/樂譜/<與 MusicXML 同名的 .pdf>
 
 收尾：
 - 成功：工作清單與認領表都改成 done，寫上輸出路徑。新增 docs/<id>-import-test.md，包含重建命令、移調證據、做過與未做的檢查。
+- 成功後直接加入正式曲庫（使用者 2026-11-13 的長期指示）：把試轉 JSON 複製成 data/songs/<正式 id>.json。正式 id 是試轉 id 去掉 -musicxml-trial 或 -trial 後綴；先確認 data/songs/ 沒有同名檔或同 id，也不與認領表、工作清單衝突。複製後 JSON 的 id 改成正式 id，title 去掉「（MusicXML 試轉）」，其餘（旋律、和弦、mode、notation）一字不改。試轉檔保留不刪；網頁載入時會因旋律相同而只顯示正式版。認領表輸出欄寫兩個路徑，報告寫明正式 id。
 - 失敗：兩處都改成 blocked，寫上已試做法，以及下一手不可再試的做法。刪除不合格的歌曲 JSON，避免半成品被載入。
-- 試轉曲數有變時，只改 DEVELOPMENT_PROGRESS.md 開頭的「目前狀態」。不要改寫下面的舊歷程。
+- 曲數有變時，只改 DEVELOPMENT_PROGRESS.md 開頭「目前狀態」的曲數（正式曲庫、試轉曲庫各幾首）。不要改寫下面的舊歷程。
 - 不要推送、部署，也不要還原別人未提交的修改。
 
 回覆只寫：來源檔、song id、移調半音數與證據、done 或 blocked、預覽網址、未做的檢查。

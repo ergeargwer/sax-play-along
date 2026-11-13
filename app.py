@@ -9,6 +9,7 @@ sax-play-along -- Flask 入口與 API
 import json
 import logging
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -21,6 +22,7 @@ from harmonizer import harmonize_song, validate_chord_symbols
 # ---------------------------------------------------------------------------
 
 SONGS_DIR = Path(__file__).resolve().parent / "data" / "songs"
+TRIALS_DIR = Path(__file__).resolve().parent / "data" / "trials" / "musicxml"
 
 app = Flask(__name__)
 
@@ -222,15 +224,16 @@ def validate_song(data: dict, filename: str) -> list[str]:
 # 曲目載入
 # ---------------------------------------------------------------------------
 
-def load_songs() -> dict[str, dict]:
-    """掃描 data/songs/ 並載入通過驗證的曲目。"""
+def load_songs(directory: Path | None = None) -> dict[str, dict]:
+    """掃描曲目目錄（預設 data/songs/）並載入通過驗證的曲目。"""
     songs: dict[str, dict] = {}
+    directory = directory or SONGS_DIR
 
-    if not SONGS_DIR.is_dir():
-        logger.warning("曲目目錄不存在: %s", SONGS_DIR)
+    if not directory.is_dir():
+        logger.warning("曲目目錄不存在: %s", directory)
         return songs
 
-    for filepath in sorted(SONGS_DIR.glob("*.json")):
+    for filepath in sorted(directory.glob("*.json")):
         if filepath.name == "index.json":
             continue
         try:
@@ -271,6 +274,35 @@ def load_songs() -> dict[str, dict]:
     return songs
 
 
+_TRIAL_SUFFIX = re.compile(r"\s*[（(]\s*MusicXML\s*試轉\s*[）)]\s*$")
+
+
+def load_all_songs() -> dict[str, dict]:
+    """合併正式曲庫與 MusicXML 試轉曲庫，供單一介面使用。
+
+    不複製、不改動任何檔案。依使用者要求，介面上全部列為正式：標題去掉
+    「（MusicXML 試轉）」，source 一律為 official。檔案仍留在原目錄，JSON 的
+    title 不變。試轉曲若 id 與正式曲相同，或旋律與某首正式曲完全相同（例如
+    已複製進正式曲庫的炮仔聲、妳怎麼捨得我難過），視為重複，只保留正式版。
+    """
+    merged: dict[str, dict] = {}
+    official_melodies = []
+    for song_id, song in load_songs(SONGS_DIR).items():
+        merged[song_id] = {**song, "source": "official"}
+        official_melodies.append(song["melody"])
+
+    for song_id, song in load_songs(TRIALS_DIR).items():
+        if song_id in merged or song["melody"] in official_melodies:
+            logger.info("略過與正式曲重複的試轉曲: %s", song_id)
+            continue
+        merged[song_id] = {
+            **song,
+            "title": _TRIAL_SUFFIX.sub("", song["title"]),
+            "source": "official",
+        }
+    return merged
+
+
 # ---------------------------------------------------------------------------
 # 路由
 # ---------------------------------------------------------------------------
@@ -293,6 +325,7 @@ def api_songs_list():
             "tempo": song["tempo"],
             "timeSignature": song["timeSignature"],
             "composer": song["composer"],
+            "source": song.get("source", "official"),
         })
     return jsonify(result)
 
@@ -321,7 +354,7 @@ def internal_error(error):
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    _songs = load_songs()
+    _songs = load_all_songs()
     if not _songs:
         logger.warning("沒有載入任何曲目,請確認 data/songs/ 目錄內容")
     else:

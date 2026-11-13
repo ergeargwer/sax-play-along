@@ -11,7 +11,7 @@
 1. 重讀本檔與 [認領表](import-claims.md)。只選一列 `open`。
 2. 把該列改成 `claimed`，填認領日期與確定的 song id。建議 id 若寫「認領時另訂」，不可沿用別人的 id。
 3. 在認領表加一列 `claimed`，項目用來源檔名。
-4. 依 [階段板](AI_STAGE_BOARD.md) 試轉到 `data/trials/musicxml/`。本次清單沒有授權加入正式曲庫。
+4. 依 [階段板](AI_STAGE_BOARD.md) 先轉到 `data/trials/musicxml/` 驗證；成功後依 [通用處理指令](AI_WORKER_PROMPT.md)「收尾」直接加入正式曲庫 `data/songs/`（使用者 2026-11-13 的長期指示）。
 5. 結束時把本列與認領表改成 `done` 或 `blocked`，寫上輸出路徑與未做的檢查。
 6. 兩處狀態衝突時，以認領表為準，不要再開始該檔。
 
@@ -23,7 +23,7 @@
 | done | `All By Myself.musicxml` | 24 | 3 | 4/4 | `all-by-myself-musicxml-trial` | 2026-11-05 | data/trials/musicxml/all-by-myself-musicxml-trial.json |
 | done | `All By Myself2.musicxml` | 24 | 2 | 4/4 | `all-by-myself2-musicxml-trial` | 2026-11-05 | data/trials/musicxml/all-by-myself2-musicxml-trial.json |
 | done | `Ana I Love You So.musicxml` | 40 | -1 | 4/4 | `ana-i-love-you-so-musicxml-trial` | 2026-11-05 | data/trials/musicxml/ana-i-love-you-so-musicxml-trial.json |
-| claimed | `Are You Lonesome Tonight.musicxml` | 32 | 1 | 3/4 | `are-you-lonesome-tonight-musicxml-trial` | 2026-11-05 |  |
+| done | `Are You Lonesome Tonight.musicxml` | 32 | 1 | 3/4 | `are-you-lonesome-tonight-musicxml-trial` | 2026-11-05 | data/trials/musicxml/are-you-lonesome-tonight-musicxml-trial.json |
 | open | `Beasame Mucho.musicxml` | 40 | 3 | 4/4 | `beasame-mucho-musicxml-trial` |  |  |
 | open | `Becutiful Sunday.musicxml` | 32 | 1 | 4/4 | `becutiful-sunday-musicxml-trial` |  |  |
 | open | `Beyond-不再猶豫.musicxml` | 43 | 4 | 4/4 | `認領時另訂` |  |  |

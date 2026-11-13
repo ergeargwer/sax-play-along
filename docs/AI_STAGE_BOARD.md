@@ -58,7 +58,7 @@
 
 ## 下一輪可認領的轉換
 
-[import-queue.md](import-queue.md) 列出 137 份有調號、拍號穩定的單旋律。3 份已是 `done`，134 份是 `open`。下一手只認領其中一列，試轉到 `data/trials/musicxml/`，不要整批轉換，也不要加入正式曲庫。清單裡的 `transpose 0` 只是結構掃描，每首仍要單獨判斷音高。貼給任何 AI 的文字用 [通用處理指令](AI_WORKER_PROMPT.md)，不要各寫一份。
+[import-queue.md](import-queue.md) 列出 137 份有調號、拍號穩定的單旋律。下一手只認領其中一列，先轉到 `data/trials/musicxml/` 驗證，成功後依 [通用處理指令](AI_WORKER_PROMPT.md)「收尾」直接加入正式曲庫 `data/songs/`（2026-11-13 起的長期指示）。不要整批轉換。清單裡的 `transpose 0` 只是結構掃描，每首仍要單獨判斷音高。貼給任何 AI 的文字用 [通用處理指令](AI_WORKER_PROMPT.md)，不要各寫一份。
 
 ## 已完成，不要重做
 
@@ -80,7 +80,7 @@
 2. 狀態是 `blocked` 時，先讀原因。用同一種刪標記、改拍或改調的方法重試，視同重複錯誤。
 3. 開始前先加一列 `claimed`。一次只認領一首歌，或一項匯入器功能，不要兩件一起做，也不要認領整個資料夾。
 4. 結束時把該列改成 `done` 或 `blocked`，寫上輸出路徑與驗證範圍。沒寫進認領表，就等於沒完成。
-5. 歌曲只進 `data/trials/musicxml/`。使用者沒有在本次任務寫「加入正式曲庫」時，不要複製到 `data/songs/`。
+5. 歌曲先寫 `data/trials/musicxml/` 驗證。2026-11-13 起，使用者長期指示：處理成功（`done`）的歌曲直接複製進 `data/songs/`，規則見 [通用處理指令](AI_WORKER_PROMPT.md)「收尾」。`blocked` 的歌曲絕不寫入 `data/songs/`。2026-11-13 前完成的 trial 曲已由網頁載入器一併顯示為正式（`load_all_songs()`），檔案仍在試轉目錄。
 6. 不要執行會重寫原四首的整目錄批次命令，除非任務明確點名那四首。單檔命令要帶 `--song-id`。
 7. 不要把稽核 JSON、修正清單放進 `data/songs/` 或 `data/trials/musicxml/`。
 8. 不要推送、部署，也不要還原別人未提交的改動。

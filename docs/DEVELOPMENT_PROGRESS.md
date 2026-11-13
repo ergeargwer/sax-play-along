@@ -6,7 +6,7 @@
 
 ## 目前狀態
 
-正式曲庫有 6 首，MusicXML 試轉曲庫有 10 首，兩者分開儲存。已完成自動和弦、離線鋼琴／貝斯／木吉他伴奏、四種標記開關，以及《炮仔聲》《妳怎麼捨得我難過》的試轉。2026-10-22 這兩首已各複製進正式曲庫，id 為 `pao-a-sia`、`shede-wo-nanguo`；試轉檔保留。後者帶 29 個人工設計的 A 小調練習和弦（待聆聽校對）。同日另試轉 `a-time-for-us-musicxml-trial`：實音、transpose 0、`mode=minor`、104 個旋律事件、35 個 manual D 小調練習和弦（待聆聽校對），未加入正式曲庫。2026-11-05 另試轉 `all-by-myself-musicxml-trial`：大調、transpose -9（依音域推定，PDF 未標 For Eb Sax）、136 個旋律事件、23 個自動和弦、速度 80 為暫定，未加入正式曲庫，未逐音校對或聆聽。同日另試轉 `all-by-myself2-musicxml-trial`：大調、transpose -9（PDF 標 Alto-Sax／Eb 調樂器）、141 個旋律事件、24 個自動和弦、速度 80 為暫定，未加入正式曲庫，未逐音校對或聆聽。同日另試轉 `ana-i-love-you-so-musicxml-trial`：大調、transpose -9（依音域推定，PDF 未標樂器）、149 個旋律事件、40 個自動和弦、速度 80 為暫定，未加入正式曲庫，未逐音校對或聆聽。
+正式曲庫有 6 首，MusicXML 試轉曲庫有 11 首，兩者分開儲存。已完成自動和弦、離線鋼琴／貝斯／木吉他伴奏、四種標記開關，以及《炮仔聲》《妳怎麼捨得我難過》的試轉。2026-10-22 這兩首已各複製進正式曲庫，id 為 `pao-a-sia`、`shede-wo-nanguo`；試轉檔保留。後者帶 29 個人工設計的 A 小調練習和弦（待聆聽校對）。同日另試轉 `a-time-for-us-musicxml-trial`：實音、transpose 0、`mode=minor`、104 個旋律事件、35 個 manual D 小調練習和弦（待聆聽校對），未加入正式曲庫。2026-11-05 另試轉 `all-by-myself-musicxml-trial`：大調、transpose -9（依音域推定，PDF 未標 For Eb Sax）、136 個旋律事件、23 個自動和弦、速度 80 為暫定，未加入正式曲庫，未逐音校對或聆聽。同日另試轉 `all-by-myself2-musicxml-trial`：大調、transpose -9（PDF 標 Alto-Sax／Eb 調樂器）、141 個旋律事件、24 個自動和弦、速度 80 為暫定，未加入正式曲庫，未逐音校對或聆聽。同日另試轉 `ana-i-love-you-so-musicxml-trial`：大調、transpose -9（依音域推定，PDF 未標樂器）、149 個旋律事件、40 個自動和弦、速度 80 為暫定，未加入正式曲庫，未逐音校對或聆聽。同日另試轉 `are-you-lonesome-tonight-musicxml-trial`：3/4、大調、transpose -9（依音域推定，PDF 未標樂器）、92 個旋律事件、32 個自動和弦、速度 80 為暫定，未加入正式曲庫，未逐音校對或聆聽。
 
 交接紀錄在四份文件，不依賴聊天：階段板、認領表（7 列 `done`，沒有 `claimed` 或 `blocked`）、工作清單（137 份有調號且拍號穩定的單旋律；3 份 `done`、134 份 `open`）、通用處理指令。清單上的 `transpose 0` 只是結構掃描。
 
