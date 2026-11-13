@@ -19,7 +19,7 @@ export class InstrumentBank {
   }
 
   async loadAll(context) {
-    const base = '/static/audio/instruments/';
+    const base = 'static/audio/instruments/';
     const response = await this.fetcher(base + 'manifest.json');
     if (!response.ok) throw new Error('無法載入鋼琴／貝斯／吉他音色清單');
     const manifest = await response.json();

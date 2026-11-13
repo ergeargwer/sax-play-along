@@ -20,3 +20,6 @@ data/songs/user/
 
 # Local backups made before harmony backfill
 .backups/
+
+# 靜態網站建置輸出
+site/

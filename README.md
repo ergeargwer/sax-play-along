@@ -39,6 +39,16 @@
 
 《妳怎麼捨得我難過》為 25 小節、4/4、172 個事件。PDF 未標 Eb 薩克斯風，暫按實音匯入；旋律證據較接近 A 自然小調，現已另設計 29 個 A 小調練習和弦及鋼琴／貝斯，播放時生成木吉他（非原譜和弦，待聆聽校對）。同音高延音線保留。原始 MusicXML 不變。[完整匯入測試報告](docs/shede-wo-nanguo-import-test.md)
 
+## 線上版（GitHub Pages）
+
+網站可作為純靜態網頁執行，不需要伺服器：播放、取樣與譜面都在瀏覽器內完成。
+
+- 網址：https://ergeargwer.github.io/sax-play-along/
+- 首次啟用：到 GitHub 專案 **Settings → Pages**，把 **Source** 設為 **GitHub Actions**。之後每次推送到 `master`，[工作流程](.github/workflows/pages.yml)會先跑 Python 與前端測試，通過才建置並發布。
+- 本機建置：`.venv/bin/python tools/build_static.py site`，輸出到 `site/`（已列入 `.gitignore`）。內容與本機 Flask 版相同（含合併曲庫與補和弦），靜態曲目在 `site/api/`。
+- 所有網址都是相對路徑，可放在 `/sax-play-along/` 子路徑。靜態模式由首頁的 `<meta name="song-api" content="static">` 開啟，Flask 版不受影響。
+- 線上版會公開 `data/songs/` 與 `data/trials/musicxml/` 內的全部曲目。這些曲目來自使用者匯入，授權依各 JSON 的 `license` 欄位（`user-imported` 不視為公有領域）。公開前請自行確認可以發布。
+
 ## 安裝與啟動
 
 需求：Python 3.11+、Node.js 18+（執行前端測試時使用）、支援 Web Audio 的瀏覽器。
