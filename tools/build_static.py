@@ -22,13 +22,20 @@ import app as sax_app  # noqa: E402
 
 META = '<meta name="song-api" content="static">'
 
+# 線上版不公開的曲目 id（本機 Flask 版仍顯示，資料檔不動）。
+# 用在合併、去重之後，所以被去重略過的試轉副本不會補上來。
+EXCLUDE_ONLINE = {"pao-a-sia", "pao-a-sia-musicxml-trial"}
+
 
 def build(out: Path) -> int:
     if out.exists():
         shutil.rmtree(out)
     (out / "api" / "songs").mkdir(parents=True)
 
-    sax_app._songs = sax_app.load_all_songs()
+    sax_app._songs = {
+        sid: song for sid, song in sax_app.load_all_songs().items()
+        if sid not in EXCLUDE_ONLINE
+    }
     if not sax_app._songs:
         raise SystemExit("沒有可用的曲目，停止建置")
     client = sax_app.app.test_client()

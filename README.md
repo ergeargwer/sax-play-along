@@ -47,7 +47,7 @@
 - 首次啟用：到 GitHub 專案 **Settings → Pages**，把 **Source** 設為 **GitHub Actions**。之後每次推送到 `master`，[工作流程](.github/workflows/pages.yml)會先跑 Python 與前端測試，通過才建置並發布。
 - 本機建置：`.venv/bin/python tools/build_static.py site`，輸出到 `site/`（已列入 `.gitignore`）。內容與本機 Flask 版相同（含合併曲庫與補和弦），靜態曲目在 `site/api/`。
 - 所有網址都是相對路徑，可放在 `/sax-play-along/` 子路徑。靜態模式由首頁的 `<meta name="song-api" content="static">` 開啟，Flask 版不受影響。
-- 線上版會公開 `data/songs/` 與 `data/trials/musicxml/` 內的全部曲目。這些曲目來自使用者匯入，授權依各 JSON 的 `license` 欄位（`user-imported` 不視為公有領域）。公開前請自行確認可以發布。
+- 線上版會公開 `data/songs/` 與 `data/trials/musicxml/` 內的曲目，但 `tools/build_static.py` 的 `EXCLUDE_ONLINE` 內的 id 不公開（目前排除炮仔聲；本機版仍顯示）。這些曲目來自使用者匯入，授權依各 JSON 的 `license` 欄位（`user-imported` 不視為公有領域）。公開前請自行確認可以發布。
 
 ## 安裝與啟動
 
